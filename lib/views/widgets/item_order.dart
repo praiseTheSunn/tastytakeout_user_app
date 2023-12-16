@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tastytakeout_user_app/models/dto/OrderModel.dart';
+import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/item_food.dart';
 import 'package:tastytakeout_user_app/helper/format_helper.dart'
     as formatHelper;
