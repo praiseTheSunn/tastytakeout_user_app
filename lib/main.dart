@@ -105,7 +105,7 @@ class HomePage extends GetView<HomeController> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'MainHome',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.star),
@@ -127,6 +127,7 @@ class HomePage extends GetView<HomeController> {
             currentIndex: controller.currentIndex.value,
             selectedItemColor: Colors.pink,
             unselectedItemColor: Colors.grey,
+            showUnselectedLabels: true,
             onTap: controller.changePage),
       ),
     );
