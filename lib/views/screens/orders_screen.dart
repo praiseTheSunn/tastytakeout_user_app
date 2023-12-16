@@ -33,7 +33,8 @@ class _OrdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => Text(Get.find<OrdersController>().title.value)),
+        title: Obx(() => Text(Get.find<OrdersController>().title.value,
+            textAlign: TextAlign.center)),
       ),
       body: Column(
         children: [
@@ -56,6 +57,7 @@ class _OrdersPageState extends State<OrdersPage> {
               )),
           Expanded(
             child: ListView.builder(
+              padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
               itemCount: _listOrdersViewModel
                   .getOrdersByStatus(selectedTypes.first)
                   .length,

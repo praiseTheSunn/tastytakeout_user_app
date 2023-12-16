@@ -27,7 +27,13 @@ final List<OrderModel> orders = [
       storeId: "s2",
       storeName: "Store 3",
       status: Prepare,
-      foods: foods.sublist(0, 3))
+      foods: foods.sublist(0, 3)),
+  OrderModel(
+      orderId: "id2",
+      storeId: "s2",
+      storeName: "Store 4",
+      status: Prepare,
+      foods: foods.sublist(0, 1))
 ];
 
 final List<FoodModel> foods = [
