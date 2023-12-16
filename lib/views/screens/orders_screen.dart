@@ -32,12 +32,16 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Obx(() => Text(Get.find<OrdersController>().title.value,
-            textAlign: TextAlign.center)),
-      ),
       body: Column(
         children: [
+          AppBar(
+            title: Container(
+              margin: EdgeInsets.only(top: 8.0),
+              child: Text('Orders'),
+            ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+          ),
           Container(
               padding: EdgeInsets.all(8.0),
               margin: EdgeInsets.all(8.0),
