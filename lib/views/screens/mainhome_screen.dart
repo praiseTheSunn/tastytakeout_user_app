@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/view_models/MainHomeViewModel.dart';
+import 'package:tastytakeout_user_app/views/widgets/custom_app_bar.dart';
+import 'package:tastytakeout_user_app/views/widgets/home_image_slider.dart';
+import 'package:tastytakeout_user_app/views/widgets/horizontal_image_list.dart';
 
 class MainHomeController extends GetxController {
   final title = 'MainHome'.obs;
@@ -18,46 +22,44 @@ class MainHomePage extends StatelessWidget {
     final viewModel = MainHomeViewModel();
 
     return Scaffold(
-      appBar: AppBar(title: Text('MainHomePage')),
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          CustomAppBar(
+            title: 'Trang chủ',
+            onMenuPressed: () {
+              // Open drawer or perform other actions
+            },
+            onSearchPressed: () {
+              // Perform search function
+            },
+            onNotificationPressed: () {
+              // Perform notification action
+            },
+            onUserPressed: () {
+              // Open user profile or perform other user-related actions
+            },
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ImageSliderWidget(viewModel: viewModel),
             ),
           ),
+          SizedBox(height: 16),
+          Container(
+            height: 100,
+            child: HorizontalImageList(images: viewModel.images),
+          ),
+          SizedBox(height: 16),
+          Container(
+            height: 100,
+            child: HorizontalImageList(images: viewModel.images),
+          ),
+          
         ],
       ),
-    );
-  }
-}
-
-class MainHomeViewModel {
-  final List<String> images = [
-    'lib/resources/sale1.jpg',
-    'lib/resources/sale2.png',
-    // Add your image URLs here
-  ];
-}
-
-class ImageSliderWidget extends StatelessWidget {
-  final MainHomeViewModel viewModel;
-
-  ImageSliderWidget({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-
-    return PageView.builder(
-      itemCount: viewModel.images.length,
-      itemBuilder: (context, index) {
-        return Image.asset(
-          viewModel.images[index],
-          fit: BoxFit.fitWidth,
-        );
-      },
     );
   }
 }
