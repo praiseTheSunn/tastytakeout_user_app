@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
-import 'package:tastytakeout_user_app/view_models/OrdersListViewModel.dart';
+import 'package:tastytakeout_user_app/view_models/ListOrdersViewModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/item_order.dart';
 
 class OrdersController extends GetxController {
@@ -17,15 +17,15 @@ class OrdersBinding extends Bindings {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  late ListOrdersViewModel _listOrdersViewModel;
+  final _listOrdersViewModel = Get.find<ListOrdersViewModel>();
+  final _ordersController = Get.find<OrdersController>();
 
   final List<String> types = [data.Prepare, data.Pending, data.Completed];
-  List<String> selectedTypes = [data.Prepare];
+  final selectedTypes = [data.Prepare].obs;
 
   @override
   void initState() {
     super.initState();
-    _listOrdersViewModel = Get.find<ListOrdersViewModel>();
     _listOrdersViewModel.fetchOrders();
   }
 
@@ -36,10 +36,10 @@ class _OrdersPageState extends State<OrdersPage> {
       body: Column(
         children: [
           AppBar(
-            title: Container(
-              margin: EdgeInsets.only(top: 8.0),
-              child: Text('Orders'),
-            ),
+            title: Obx(() => Container(
+                  margin: EdgeInsets.only(top: 8.0),
+                  child: Text(_ordersController.title.value),
+                )),
             centerTitle: true,
             automaticallyImplyLeading: false,
           ),
@@ -49,28 +49,26 @@ class _OrdersPageState extends State<OrdersPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: types
-                    .map((type) => FilterChip(
+                    .map((type) => Obx(() => FilterChip(
                         selected: selectedTypes.contains(type),
                         label: Text(type),
                         onSelected: (selected) {
-                          setState(() {
-                            selectedTypes.clear();
-                            selectedTypes.add(type);
-                          });
-                        }))
+                          selectedTypes.clear();
+                          selectedTypes.add(type);
+                        })))
                     .toList(),
               )),
           Expanded(
-            child: GetBuilder<ListOrdersViewModel>(
-              builder: (controller) => ListView.builder(
+            child: Obx(
+              () => ListView.builder(
                 padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
                 itemCount: _listOrdersViewModel
-                    .getOrdersByStatus(selectedTypes.first)
+                    .getOrdersByStatus(selectedTypes.value.first)
                     .length,
                 itemBuilder: (context, index) {
                   return OrderItemWidget(
                       order: _listOrdersViewModel
-                          .getOrdersByStatus(selectedTypes.first)[index]);
+                          .getOrdersByStatus(selectedTypes.value.first)[index]);
                 },
               ),
             ),

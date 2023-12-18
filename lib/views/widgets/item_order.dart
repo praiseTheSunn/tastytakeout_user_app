@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
+import 'package:tastytakeout_user_app/view_models/OrderViewModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/item_food.dart';
 import 'package:tastytakeout_user_app/helper/format_helper.dart'
     as formatHelper;
 
-class OrderItemWidget extends StatelessWidget {
-  final OrderModel order;
+class OrderItemWidget extends GetWidget {
+  final OrderViewModel order;
 
   OrderItemWidget({required this.order});
 
