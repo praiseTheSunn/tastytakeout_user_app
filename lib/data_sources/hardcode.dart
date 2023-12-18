@@ -38,25 +38,25 @@ final List<OrderModel> orders = [
 
 final List<FoodModel> foods = [
   FoodModel(
-    name: 'Chicken Burger',
+    name: 'Chicken Burger1',
     cost: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   ),
   FoodModel(
-    name: 'Chicken Burger',
+    name: 'Chicken Burger2',
     cost: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   ),
   FoodModel(
-    name: 'Chicken Burger',
+    name: 'Chicken Burger3',
     cost: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   ),
   FoodModel(
-    name: 'Chicken Burger',
+    name: 'Chicken Burger4',
     cost: 10000,
     quantity: 1,
     imageUrl: imageUrl,

@@ -17,9 +17,3 @@ class ListOrdersViewModel extends ChangeNotifier {
     return this._orders.where((order) => order.status == status).toList();
   }
 }
-
-class OrderViewModel extends ChangeNotifier {
-  final OrderModel _order;
-
-  OrderViewModel(this._order);
-}

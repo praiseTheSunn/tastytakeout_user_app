@@ -32,6 +32,7 @@ class _OrdersPageState extends State<OrdersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: Column(
         children: [
           AppBar(
@@ -61,7 +62,7 @@ class _OrdersPageState extends State<OrdersPage> {
               )),
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+              padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
               itemCount: _listOrdersViewModel
                   .getOrdersByStatus(selectedTypes.first)
                   .length,
