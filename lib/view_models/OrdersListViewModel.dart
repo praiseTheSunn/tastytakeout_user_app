@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import '/models/DTO/OrderModel.dart';
 import '/data_sources/hardcode.dart' as data;
 
-class ListOrdersViewModel extends ChangeNotifier {
-  List<OrderModel> _orders = [];
+class ListOrdersViewModel extends GetxController {
+  List<OrderModel> _orders = <OrderModel>[].obs;
 
   List<OrderModel> get orders {
     return this._orders;

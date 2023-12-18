@@ -61,16 +61,18 @@ class _OrdersPageState extends State<OrdersPage> {
                     .toList(),
               )),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
-              itemCount: _listOrdersViewModel
-                  .getOrdersByStatus(selectedTypes.first)
-                  .length,
-              itemBuilder: (context, index) {
-                return OrderItemWidget(
-                    order: _listOrdersViewModel
-                        .getOrdersByStatus(selectedTypes.first)[index]);
-              },
+            child: GetBuilder<ListOrdersViewModel>(
+              builder: (controller) => ListView.builder(
+                padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
+                itemCount: _listOrdersViewModel
+                    .getOrdersByStatus(selectedTypes.first)
+                    .length,
+                itemBuilder: (context, index) {
+                  return OrderItemWidget(
+                      order: _listOrdersViewModel
+                          .getOrdersByStatus(selectedTypes.first)[index]);
+                },
+              ),
             ),
           ),
         ],
