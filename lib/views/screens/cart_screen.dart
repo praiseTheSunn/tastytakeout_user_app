@@ -26,7 +26,7 @@ class CartPage extends StatelessWidget {
             Container(
               child: Text(Get.find<CartController>().title.value),
             ),
-            FoodItemView(
+            FoodItemWidget(
                 topText: "Food name",
                 bottomText: "price",
                 quantity: 1,

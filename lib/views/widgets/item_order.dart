@@ -38,7 +38,7 @@ class OrderItemWidget extends GetWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: order.foods.length,
               itemBuilder: (context, index) {
-                return FoodItemView(
+                return FoodItemWidget(
                   topText: order.foods[index].name,
                   quantity: order.foods[index].quantity,
                   bottomText: formatHelper.formatMoney(order.foods[index].cost),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/helper/snackbar_helper.dart' as snackbarHelper;
 
-class FoodItemView extends StatelessWidget {
+class FoodItemWidget extends StatelessWidget {
   final String topText;
   final String bottomText;
   final String imageUrl;
@@ -12,7 +12,7 @@ class FoodItemView extends StatelessWidget {
     this.isChoose = value;
   }
 
-  FoodItemView({
+  FoodItemWidget({
     required this.topText,
     required this.quantity,
     required this.bottomText,
