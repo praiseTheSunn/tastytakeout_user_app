@@ -1,20 +1,17 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final Function() onMenuPressed;
-  final Function() onSearchPressed;
-  final Function() onNotificationPressed;
-  final Function() onUserPressed;
+  final Function() onSearchPressed = (){
+    Get.to(SearchScreen());
+  };
+  final Function() onNotificationPressed = (){};
+  final Function() onUserPressed = (){};
 
   CustomAppBar({
     required this.title,
-    required this.onMenuPressed,
-    required this.onSearchPressed,
-    required this.onNotificationPressed,
-    required this.onUserPressed,
   });
 
   @override
@@ -25,12 +22,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             Row(
               children: [
                 IconButton(
                   icon: Icon(Icons.menu),
-                  onPressed: onMenuPressed,
+                  onPressed: (){Scaffold.of(context).openDrawer();},
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
@@ -38,7 +34,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            Text(title),
+            Text(
+              title,
+              style: TextStyle(fontSize: 22),
+            ),
             Row(
               children: [
                 IconButton(

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_drawer.dart';
 
 class FoodPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Food Page')), body: Container());
+      appBar: AppBar(
+        title: Text('Food Page'),
+        automaticallyImplyLeading: true,
+      ),
+    );
   }
 }

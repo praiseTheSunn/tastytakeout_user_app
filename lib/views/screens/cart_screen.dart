@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '/views/widgets/item_food.dart';
+
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_drawer.dart';
 import '/views/screens/foodpage_screen.dart';
+import '/views/widgets/item_food.dart';
 
 class CartController extends GetxController {
   final title = 'Cart'.obs;
@@ -18,7 +21,10 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: Text('Settings')),
+      appBar: CustomAppBar(
+        title: 'Cart',
+      ),
+      drawer: CustomDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
