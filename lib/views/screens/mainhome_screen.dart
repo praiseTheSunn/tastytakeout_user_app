@@ -44,7 +44,7 @@ class MainHomePage extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ImageSliderWidget(viewModel: viewModel),
+              child: ImageSliderWidget(images: viewModel.images),
             ),
           ),
           SizedBox(height: 16),
