@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
-import 'package:tastytakeout_user_app/view_models/OrdersListViewModel.dart';
+import 'package:tastytakeout_user_app/view_models/ListOrdersViewModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/custom_app_bar.dart';
 import 'package:tastytakeout_user_app/views/widgets/custom_drawer.dart';
-import 'package:tastytakeout_user_app/views/widgets/item_order.dart';
+import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
 
 class OrdersController extends GetxController {
   final title = 'Orders'.obs;
@@ -53,21 +53,20 @@ class _OrdersPageState extends State<OrdersPage> {
                           setState(() {
                             selectedTypes.clear();
                             selectedTypes.add(type);
+                            _listOrdersViewModel.filterOrdersByStatus(type);
                           });
                         }))
                     .toList(),
               )),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-              itemCount: _listOrdersViewModel
-                  .getOrdersByStatus(selectedTypes.first)
-                  .length,
-              itemBuilder: (context, index) {
-                return OrderItemWidget(
-                    order: _listOrdersViewModel
-                        .getOrdersByStatus(selectedTypes.first)[index]);
-              },
+            child: Obx(
+              () => ListView.builder(
+                padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                itemCount: _listOrdersViewModel.filteredOrderList.length,
+                itemBuilder: (context, index) {
+                  return OrderItemWidget(index: index);
+                },
+              ),
             ),
           ),
         ],
