@@ -12,18 +12,6 @@ class AdvertisementPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Advertisement',
-        onMenuPressed: () {
-              // Open drawer or perform other actions
-            },
-            onSearchPressed: () {
-              // Perform search function
-            },
-            onNotificationPressed: () {
-              // Perform notification action
-            },
-            onUserPressed: () {
-              // Open user profile or perform other user-related actions
-            },
         // Add necessary onPressed callbacks for the app bar icons
       ),
       body: SingleChildScrollView(

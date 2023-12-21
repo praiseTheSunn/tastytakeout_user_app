@@ -39,18 +39,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Yêu thích',
-        onMenuPressed: () {
-          // Open drawer or perform other actions
-        },
-        onSearchPressed: () {
-          // Perform search function
-        },
-        onNotificationPressed: () {
-          // Perform notification action
-        },
-        onUserPressed: () {
-          // Open user profile or perform other user-related actions
-        },
         // Add necessary onPressed callbacks for the app bar icons
       ), // Replace with your custom app bar implementation
       body: ListView.builder(
