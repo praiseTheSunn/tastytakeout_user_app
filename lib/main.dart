@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/views/screens/favorites_screen.dart';
 import '/views/screens/mainhome_screen.dart';
-import '/views/screens/favourites_screen.dart';
+import 'views/screens/favorites_screen.dart';
 import '/views/screens/cart_screen.dart';
 import '/views/screens/orders_screen.dart';
 import '/views/screens/chat_screen.dart';
@@ -59,8 +60,8 @@ class HomeController extends GetxController {
     if (settings.name == '/favourites') {
       return GetPageRoute(
         settings: settings,
-        page: () => FavouritesPage(),
-        binding: FavouritesBinding(),
+        page: () => FavoritesScreen(),
+        binding: FavoritesScreenBinding(),
       );
     }
 
@@ -87,8 +88,20 @@ class HomeController extends GetxController {
         binding: ChatBinding(),
       );
     }
+
+    // if (settings.name == 'popular') {
+    //   return GetPageRoute(
+    //     settings: settings,
+    //     page: () => PopularPage(),
+    //     binding: PopularBinding(),
+    //   );
+    // }
     return null;
   }
+  
+}        
+
+PopularPage() {
 }
 
 class HomePage extends GetView<HomeController> {
