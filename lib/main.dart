@@ -87,8 +87,20 @@ class HomeController extends GetxController {
         binding: ChatBinding(),
       );
     }
+
+    // if (settings.name == 'popular') {
+    //   return GetPageRoute(
+    //     settings: settings,
+    //     page: () => PopularPage(),
+    //     binding: PopularBinding(),
+    //   );
+    // }
     return null;
   }
+  
+}        
+
+PopularPage() {
 }
 
 class HomePage extends GetView<HomeController> {

@@ -20,7 +20,6 @@ class _ImageSliderWidgetState extends State<ImageSliderWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         // Pass the image URL to AdvertisementPage when the image is pressed
@@ -34,47 +33,15 @@ class _ImageSliderWidgetState extends State<ImageSliderWidget> {
           });
         },
         itemBuilder: (context, index) {
-          return Image.asset(
-            widget.images[index],
-            fit: BoxFit.fitWidth,
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(10), // Set the border radius
+            child: Image.asset(
+              widget.images[index],
+              fit: BoxFit.fitWidth,
+            ),
           );
         },
       ),
     );
   }
 }
-
-// class ImageSliderWidget extends StatelessWidget {
-//   final MainHomeViewModel viewModel;
-
-//   ImageSliderWidget({required this.viewModel});
-
-//   @override
-//   Widget build(BuildContext context) {
-
-//     // return PageView.builder(
-//     //   itemCount: viewModel.images.length,
-//     //   itemBuilder: (context, index) {
-//     //     return Image.asset(
-//     //       viewModel.images[index],
-//     //       fit: BoxFit.fitWidth,
-//     //     );
-//     //   },
-//     // );
-//     return GestureDetector(
-//       onTap: () {
-//         // Navigate to AdvertisementPage when the image is pressed
-//         Get.to(() => AdvertisementPage(imageUrl: viewModel.images[index]));
-//       },
-//       child: PageView.builder(
-//         itemCount: viewModel.images.length,
-//         itemBuilder: (context, index) {
-//           return Image.asset(
-//             viewModel.images[index],
-//             fit: BoxFit.fitWidth,
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
