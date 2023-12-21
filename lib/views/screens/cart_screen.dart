@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
+import 'package:tastytakeout_user_app/views/widgets/cart_item.dart';
+import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
+import '../../view_models/ListOrdersViewModel.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
-import '/views/screens/foodpage_screen.dart';
-import '/views/widgets/item_food.dart';
+import '../widgets/order_confirm_bottom_sheet.dart';
 
 class CartController extends GetxController {
   final title = 'Cart'.obs;
@@ -13,40 +15,49 @@ class CartController extends GetxController {
 class CartBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut(() => ListOrdersViewModel());
     Get.lazyPut(() => CartController());
   }
 }
 
-class CartPage extends StatelessWidget {
+class _CartPageState extends State<CartPage> {
+  final _listCartViewModel = Get.find<ListOrdersViewModel>();
+  final _cartController = Get.find<CartController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _listCartViewModel.fetchCart();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: CustomAppBar(
-        title: 'Cart',
+        title: "Cart",
       ),
       drawer: CustomDrawer(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: Text(Get.find<CartController>().title.value),
-            ),
-            FoodItemView(
-                topText: "Food name",
-                bottomText: "price",
-                quantity: 1,
-                imageUrl:
-                    "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg"),
-            ElevatedButton(
-              child: Text('Cart Flow Page'),
-              onPressed: () {
-                Get.to(FoodPage());
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
+              itemCount: _listCartViewModel.cartList.length,
+              itemBuilder: (context, cartIndex) {
+                return CartItemWidget(index: cartIndex, clickable: true);
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+}
+
+class CartPage extends StatefulWidget {
+  const CartPage({Key? key}) : super(key: key);
+
+  @override
+  State<CartPage> createState() => _CartPageState();
 }

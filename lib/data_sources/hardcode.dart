@@ -14,13 +14,13 @@ final List<OrderModel> orders = [
       orderId: "id1",
       storeId: "s1",
       storeName: "Store 1",
-      status: Prepare,
-      foods: foods.sublist(0, 2)),
+      status: Completed,
+      foods: foods.sublist(0, 1)),
   OrderModel(
       orderId: "id2",
       storeId: "s2",
       storeName: "Store 2",
-      status: Completed,
+      status: Prepare,
       foods: foods.sublist(0, 2)),
   OrderModel(
       orderId: "id2",
@@ -33,31 +33,31 @@ final List<OrderModel> orders = [
       storeId: "s2",
       storeName: "Store 4",
       status: Prepare,
-      foods: foods.sublist(0, 1))
+      foods: foods.sublist(0, 4))
 ];
 
 final List<FoodModel> foods = [
   FoodModel(
     name: 'Chicken Burger',
-    cost: 10000,
+    price: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   ),
   FoodModel(
     name: 'Chicken Burger',
-    cost: 10000,
+    price: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   ),
   FoodModel(
     name: 'Chicken Burger',
-    cost: 10000,
+    price: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   ),
   FoodModel(
     name: 'Chicken Burger',
-    cost: 10000,
+    price: 10000,
     quantity: 1,
     imageUrl: imageUrl,
   )
