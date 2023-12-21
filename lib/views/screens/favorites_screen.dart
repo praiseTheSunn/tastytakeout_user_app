@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:tastytakeout_user_app/viewmodels/popular_screen_viewmodel.dart';
 // import 'package:tastytakeout_user_app/views/screens/food_details_screen.dart';
 import 'package:tastytakeout_user_app/views/widgets/custom_app_bar.dart';
 import 'package:tastytakeout_user_app/views/widgets/item_food_extra.dart';
-import 'package:tastytakeout_user_app/view_models/NearbyScreenViewModel.dart';
+import 'package:tastytakeout_user_app/view_models/FavoritesScreenViewModel.dart';
 
-class NearbyScreen extends StatefulWidget {
-  @override
-  _NearbyScreenState createState() => _NearbyScreenState();
+
+
+
+class FavoritesScreenController extends GetxController {
+  // Add your controller logic here
 }
 
-class _NearbyScreenState extends State<NearbyScreen> {
-  late NearbyScreenViewModel _nearbyViewModel;
+class FavoritesScreenBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<FavoritesScreenController>(() => FavoritesScreenController());
+  }
+}
+
+class FavoritesScreen extends StatefulWidget {
+  @override
+  _FavoritesScreenState createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  late FavoritesScreenViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    _nearbyViewModel = NearbyScreenViewModel(); // Replace with your viewmodel implementation
-    _nearbyViewModel.fetchData(); // Fetch data from somewhere
+    _viewModel = FavoritesScreenViewModel(); // Replace with your viewmodel implementation
+    _viewModel.fetchData(); // Fetch data from somewhere
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Gần đây',
+        title: 'Yêu thích',
         onMenuPressed: () {
           // Open drawer or perform other actions
         },
@@ -41,16 +54,15 @@ class _NearbyScreenState extends State<NearbyScreen> {
         // Add necessary onPressed callbacks for the app bar icons
       ), // Replace with your custom app bar implementation
       body: ListView.builder(
-        itemCount: _nearbyViewModel.foodList.length,
+        itemCount: _viewModel.foodList.length,
         itemBuilder: (context, index) {
-          final food = _nearbyViewModel.foodList[index];
+          final food = _viewModel.foodList[index];
           return FoodCard(
             foodName: food.name,
             // description: food.description,
             imagePath: food.imageUrl,
             price: food.price.toString(),
             shopName: food.shopName, // Pass shopName to FoodCard
-            distance: food.distance,
             onTap: () {
               print("Tapped on ${food.name}");
             },

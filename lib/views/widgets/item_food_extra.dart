@@ -22,31 +22,34 @@ class FoodCard extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  foodName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    foodName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  '$price ₫${distance.isNotEmpty ? ' | $distance' : ''}',
-                  style: TextStyle(
-                    fontSize: 14,
+                  SizedBox(height: 4),
+                  Text(
+                    '$price ₫${distance.isNotEmpty ? ' | $distance' : ''}',
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  shopName,
-                  style: TextStyle(
-                    fontSize: 14,
+                  SizedBox(height: 4),
+                  Text(
+                    shopName,
+                    style: TextStyle(
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           SizedBox(width: 8),
