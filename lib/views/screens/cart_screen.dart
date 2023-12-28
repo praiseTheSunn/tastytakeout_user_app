@@ -41,12 +41,14 @@ class _CartPageState extends State<CartPage> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
-              itemCount: _listCartViewModel.cartList.length,
-              itemBuilder: (context, cartIndex) {
-                return CartItemWidget(index: cartIndex, clickable: true);
-              },
+            child: Obx(
+              () => ListView.builder(
+                padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
+                itemCount: _listCartViewModel.cartList.length,
+                itemBuilder: (context, cartIndex) {
+                  return CartItemWidget(index: cartIndex, clickable: true);
+                },
+              ),
             ),
           ),
         ],

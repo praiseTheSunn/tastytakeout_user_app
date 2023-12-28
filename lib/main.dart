@@ -98,11 +98,9 @@ class HomeController extends GetxController {
     // }
     return null;
   }
-  
-}        
-
-PopularPage() {
 }
+
+PopularPage() {}
 
 class HomePage extends GetView<HomeController> {
   @override

@@ -74,7 +74,6 @@ class OrderPreviewBottomSheet extends StatelessWidget {
                     listOrdersViewModel.cartList[orderIndex].foods[i]
                         .setQuantity(quantityListObs[i].value);
                   }
-
                   Get.to(() => OrderPaymentPage(index: orderIndex));
                   Navigator.pop(context);
                 },
