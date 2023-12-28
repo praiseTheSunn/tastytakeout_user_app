@@ -2,9 +2,9 @@ import '/models/DTO/FoodModel.dart';
 import '/models/DTO/OrderModel.dart';
 
 /// Const variable
-final String Prepare = 'Chuẩn bị';
-final String Pending = 'Đang giao';
-final String Completed = 'Đã giao';
+const String Prepare = 'Chuẩn bị';
+const String Pending = 'Đang giao';
+const String Completed = 'Đã giao';
 
 final String imageUrl =
     'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg';
@@ -21,22 +21,22 @@ final List<OrderModel> orders = [
       storeId: "s2",
       storeName: "Store 2",
       status: Prepare,
-      foods: foods.sublist(0, 2)),
+      foods: foods.sublist(1, 2)),
   OrderModel(
       orderId: "id2",
       storeId: "s2",
       storeName: "Store 3",
       status: Prepare,
-      foods: foods.sublist(0, 3)),
+      foods: foods.sublist(2, 3)),
   OrderModel(
       orderId: "id2",
       storeId: "s2",
       storeName: "Store 4",
       status: Prepare,
-      foods: foods.sublist(0, 4))
+      foods: foods.sublist(3, 4))
 ];
 
-final List<FoodModel> foods = [
+List<FoodModel> foods = [
   FoodModel(
     name: 'Chicken Burger',
     price: 10000,
