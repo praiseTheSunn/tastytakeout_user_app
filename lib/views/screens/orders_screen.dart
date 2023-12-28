@@ -29,6 +29,7 @@ class _OrdersPageState extends State<OrdersPage> {
     super.initState();
     _listOrdersViewModel = Get.find<ListOrdersViewModel>();
     _listOrdersViewModel.fetchOrders();
+    _listOrdersViewModel.filterOrdersByStatus(selectedTypes.first);
   }
 
   @override
