@@ -10,24 +10,23 @@ class ListOrdersViewModel extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
   }
 
   Future<void> fetchOrders() async {
-    var orders = data.orders;
+    List<OrderModel> orders = data.orders;
 
-    if (orders != null) {
+    if (orderList.value.isEmpty) {
       orderList.value = orders;
       filteredOrderList.value = [];
     }
   }
 
   Future<void> fetchCart() async {
-    var orders = data.orders;
+    List<OrderModel> carts = data.carts;
 
-    if (orders != null) {
-      cartList.value = orders;
+    if (cartList.value.isEmpty) {
+      cartList.value = carts;
     }
   }
 
@@ -42,5 +41,13 @@ class ListOrdersViewModel extends GetxController {
 
   void clearCart() {
     cartList.clear();
+  }
+
+  void exportFromCartToOrder(int cartIndex) {
+    cartList[cartIndex].status = data.Prepare;
+
+    orderList.add(cartList[cartIndex]);
+    filterOrdersByStatus(data.Prepare);
+    cartList.removeAt(cartIndex);
   }
 }

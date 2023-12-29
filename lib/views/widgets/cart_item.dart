@@ -5,26 +5,23 @@ import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/food_item.dart';
 import 'package:tastytakeout_user_app/helper/format_helper.dart'
     as formatHelper;
-import 'package:tastytakeout_user_app/views/widgets/order_confirm_bottom_sheet.dart';
+import 'package:tastytakeout_user_app/views/widgets/cart_confirm_bottom_sheet.dart';
 import '../../view_models/ListOrdersViewModel.dart';
 import '../screens/order_detail_screen.dart';
 
 class CartItemWidget extends GetWidget {
-  int index;
+  int cartIndex;
   bool clickable = true;
   late ListOrdersViewModel _listOrdersViewModel =
       Get.find<ListOrdersViewModel>();
-  late OrderModel order;
 
-  CartItemWidget({required this.index, required this.clickable}) {
-    order = _listOrdersViewModel.cartList[index];
-  }
+  CartItemWidget({required this.cartIndex, required this.clickable});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (clickable) showOrderPreviewBottomSheet(context, index);
+        if (clickable) showCartPreviewBottomSheet(context, cartIndex);
       },
       child: Card(
         elevation: 4.0,
@@ -37,22 +34,29 @@ class CartItemWidget extends GetWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                '${order.storeName} - ${formatHelper.formatMoney(order.calculatePrice())}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  color: Colors.black,
+              Obx(
+                () => Text(
+                  '${_listOrdersViewModel.cartList[cartIndex].storeName} - ${formatHelper.formatMoney(_listOrdersViewModel.cartList[cartIndex].calculatePrice())}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               SizedBox(height: 12.0),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: order.foods.length,
-                itemBuilder: (context, index) {
-                  return FoodItemWidget(food: order.foods[index]);
-                },
+              Obx(
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount:
+                      _listOrdersViewModel.cartList[cartIndex].foods.length,
+                  itemBuilder: (context, foodIndex) {
+                    return FoodItemWidget(
+                        food: _listOrdersViewModel
+                            .cartList[cartIndex].foods[foodIndex]);
+                  },
+                ),
               ),
             ],
           ),

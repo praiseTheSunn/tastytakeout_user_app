@@ -13,6 +13,11 @@ class HorizontalImageList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // loop through images
+    print(title);
+    for (var image in images) {
+      print(image);
+    }
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +60,7 @@ class HorizontalImageList extends StatelessWidget {
                     padding: const EdgeInsets.all(12.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
+                      child: Image.network(
                         images[index],
                         height: 100,
                         width: 100,
