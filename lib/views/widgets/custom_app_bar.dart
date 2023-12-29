@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
 
+import '../screens/user_infomation_screen.dart';
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final Function() onSearchPressed = (){
+  final Function() onSearchPressed = () {
     Get.to(SearchScreen());
   };
-  final Function() onNotificationPressed = (){};
-  final Function() onUserPressed = (){};
+  final Function() onNotificationPressed = () {};
+  final Function() onUserPressed = () {
+    if (Get.currentRoute != '/UserInfoPage') {
+      Get.to(UserInfoPage());
+    } else
+      Get.back();
+  };
 
   CustomAppBar({
     required this.title,
@@ -26,7 +33,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 IconButton(
                   icon: Icon(Icons.menu),
-                  onPressed: (){Scaffold.of(context).openDrawer();},
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
