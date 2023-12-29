@@ -10,4 +10,5 @@ class ChatModel {
     required this.user_image,
     required this.messages,
   });
+
 }

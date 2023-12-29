@@ -1,4 +1,5 @@
 import '/models/DTO/FoodModel.dart';
+import '/data_sources/hardcode.dart' as data;
 
 class OrderModel {
   late final String orderId;
@@ -6,7 +7,7 @@ class OrderModel {
   late final String storeName;
   late final List<FoodModel> foods;
   late int price;
-  late final String status; // Prepare, Pending, Completed
+  late String status; // Prepare, Pending, Completed
 
   OrderModel({
     this.orderId = '',
@@ -14,22 +15,8 @@ class OrderModel {
     this.storeName = '',
     this.foods = const [],
     this.price = 0,
-    this.status = 'Pending',
+    this.status = data.Prepare,
   });
-
-  void decreaseFoodQuantity(FoodModel food) {
-    if (this.foods.contains(food)) {
-      food.quantity--;
-      this.price -= food.price;
-    }
-  }
-
-  void increaseFoodQuantity(FoodModel food) {
-    if (this.foods.contains(food)) {
-      food.quantity++;
-      this.price += food.price;
-    }
-  }
 
   int calculatePrice() {
     int totalPrice = 0;
