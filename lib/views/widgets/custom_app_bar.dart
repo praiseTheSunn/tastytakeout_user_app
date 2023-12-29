@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
+import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -8,7 +9,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     Get.to(SearchScreen());
   };
   final Function() onNotificationPressed = (){};
-  final Function() onUserPressed = (){};
+  final Function() onUserPressed = (){
+    Get.to(() => SignInPage());
+  };
 
   CustomAppBar({
     required this.title,

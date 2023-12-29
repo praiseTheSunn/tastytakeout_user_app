@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+
 import 'package:tastytakeout_user_app/view_models/MainHomeViewModel.dart';
 import 'package:tastytakeout_user_app/views/screens/nearby_screen.dart';
 import 'package:tastytakeout_user_app/views/screens/popular_screen.dart';
@@ -20,39 +22,125 @@ class MainHomeBinding extends Bindings {
   }
 }
 
-class MainHomePage extends StatelessWidget {
+class MainHomePage extends StatefulWidget {
+  @override
+  _MainHomePageState createState() => _MainHomePageState();
+}
+
+class _MainHomePageState extends State<MainHomePage> {
+  final MainHomeViewModel mainHomeViewModel = Get.put(MainHomeViewModel());
+
+  @override
+  void initState() {
+    super.initState();
+    mainHomeViewModel.fetchPopularFoodImagesUrls();
+    // fetchData();
+  }
+
+  // Future<void> fetchData() async {
+  //   try {
+  //     await mainHomeViewModel.fetchPopularFoodImagesUrls();
+  //   } catch (e) {
+  //     // Handle errors or exceptions here
+  //     print('Error in fetchData: $e');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final viewModel = MainHomeViewModel();
-
+    // final mainHomeViewModel = Provider.of<MainHomeViewModel>(context);
     return Scaffold(
       appBar: CustomAppBar(
         title: "Trang chủ",
       ),
       drawer: CustomDrawer(),
       body: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ImageSliderWidget(images: viewModel.images),
+              child: ImageSliderWidget(images: mainHomeViewModel.images),
             ),
           ),
-          
-          /// Renders a list of horizontal image lists.
-          /// Each horizontal image list contains a title and a horizontal list of images.
-          HorizontalImageList(title: "Phổ biến", images: viewModel.images, onPressed: () {
-            // Get.toNamed('/popular');
-            Get.to(() => PopularScreen());
-          }),
-          HorizontalImageList(title: "Gần đây", images: viewModel.images, onPressed: () {
-            // Get.toNamed('/nearby');
-            Get.to(() => NearbyScreen());
-          }),
+          Obx(() => HorizontalImageList(
+                  title: "Phổ biến",
+                  images: mainHomeViewModel.popularFoodImagesUrls.value,
+                  onPressed: () {
+                    Get.to(() => PopularScreen());
+                  },
+                )
+              ),
+          // HorizontalImageList(
+          //   title: "Phổ biến",
+          //   images: mainHomeViewModel.popularFoodImagesUrls,
+          //   onPressed: () {
+          //     Get.to(() => PopularScreen());
+          //   },
+          // ),
+          HorizontalImageList(
+            title: "Gần đây",
+            images: mainHomeViewModel.images,
+            onPressed: () {
+              Get.to(() => NearbyScreen());
+            },
+          ),
         ],
       ),
     );
   }
 }
+
+// class MainHomePage extends StatelessWidget {
+//   // final MainHomeViewModel mainHomeViewModel = MainHomeViewModel();
+
+//   // Future<void> fetchData() async {
+//   //   try {
+//   //     await mainHomeViewModel.fetchPopularFoodImagesUrls();
+//   //   } catch (e) {
+//   //     // Handle errors or exceptions here
+//   //     print('Error in fetchData: $e');
+//   //   }
+//   // }
+
+//   // void initState() {
+//   //   Provider.of<MainHomeViewModel>(context, listen: false).fetchPopularFoodImagesUrls();
+//   // }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // fetchData();
+//     final mainHomeViewModel = Provider.of<MainHomeViewModel>(context);
+//     // mainHomeViewModel.fetchPopularFoodImagesUrls();
+
+//     return Scaffold(
+//       appBar: CustomAppBar(
+//         title: "Trang chủ",
+//       ),
+//       drawer: CustomDrawer(),
+//       body: Column(
+//         // mainAxisAlignment: MainAxisAlignment.start,
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Expanded(
+//             child: Padding(
+//               padding: const EdgeInsets.all(8.0),
+//               child: ImageSliderWidget(images: mainHomeViewModel.images),
+//             ),
+//           ),
+          
+//           /// Renders a list of horizontal image lists.
+//           /// Each horizontal image list contains a title and a horizontal list of images.
+//           HorizontalImageList(title: "Phổ biến", images: mainHomeViewModel.popularFoodImagesUrls, onPressed: () {
+//             // Get.toNamed('/popular');
+//             Get.to(() => PopularScreen());
+//           }),
+//           HorizontalImageList(title: "Gần đây", images: mainHomeViewModel.images, onPressed: () {
+//             // Get.toNamed('/nearby');
+//             Get.to(() => NearbyScreen());
+//           }),
+//         ],
+//       ),
+//     );
+//   }
+// }
