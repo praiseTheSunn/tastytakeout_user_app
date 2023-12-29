@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomSearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomSearchAppBar({super.key});
@@ -24,9 +25,17 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
               hintText: 'Search',
               onTap: () {
                 controller.openView();
+                print("SearchBar onTap");
               },
               onChanged: (String value) {
                 controller.openView();
+                print("SearchBar onChanged");
+              },
+              onSubmitted: (String value) {
+                controller.closeView("what ");
+                print("SearchBar onSubmitted");
+
+                // Get.to(() => SearchScreen());
               },
             );
           },

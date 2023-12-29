@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
+import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
 
 import '../screens/user_infomation_screen.dart';
 
