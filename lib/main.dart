@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/views/screens/favorites_screen.dart';
 import '/views/screens/mainhome_screen.dart';
@@ -9,7 +10,13 @@ import '/views/screens/chat_screen.dart';
 import '/views/screens/foodpage_screen.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+    statusBarColor: Colors.white,
+    statusBarIconBrightness: Brightness.dark,
+  ));
+
   runApp(GetMaterialApp(
+    title: 'Tasty Takeout',
     debugShowCheckedModeBanner: false,
     initialRoute: '/home',
     defaultTransition: Transition.fadeIn,

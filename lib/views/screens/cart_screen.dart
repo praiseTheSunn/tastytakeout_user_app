@@ -6,7 +6,7 @@ import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
 import '../../view_models/ListOrdersViewModel.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
-import '../widgets/order_confirm_bottom_sheet.dart';
+import '../widgets/cart_confirm_bottom_sheet.dart';
 
 class CartController extends GetxController {
   final title = 'Cart'.obs;
@@ -33,7 +33,6 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       appBar: CustomAppBar(
         title: "Cart",
       ),
@@ -46,7 +45,7 @@ class _CartPageState extends State<CartPage> {
                 padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
                 itemCount: _listCartViewModel.cartList.length,
                 itemBuilder: (context, cartIndex) {
-                  return CartItemWidget(index: cartIndex, clickable: true);
+                  return CartItemWidget(cartIndex: cartIndex, clickable: true);
                 },
               ),
             ),

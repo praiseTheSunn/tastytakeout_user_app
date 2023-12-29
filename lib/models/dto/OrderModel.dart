@@ -7,7 +7,7 @@ class OrderModel {
   late final String storeName;
   late final List<FoodModel> foods;
   late int price;
-  late final String status; // Prepare, Pending, Completed
+  late String status; // Prepare, Pending, Completed
 
   OrderModel({
     this.orderId = '',

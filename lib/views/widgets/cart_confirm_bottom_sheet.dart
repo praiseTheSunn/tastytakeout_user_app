@@ -10,28 +10,28 @@ import 'order_item.dart';
 
 List<RxInt> quantityListObs = <RxInt>[];
 
-void showOrderPreviewBottomSheet(BuildContext context, int index) {
+void showCartPreviewBottomSheet(BuildContext context, int index) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => OrderPreviewBottomSheet(orderIndex: index),
+    builder: (context) => CartPreviewBottomSheet(cartIndex: index),
   );
 }
 
-class OrderPreviewBottomSheet extends StatelessWidget {
-  late final int orderIndex;
+class CartPreviewBottomSheet extends StatelessWidget {
+  late final int cartIndex;
   ListOrdersViewModel listOrdersViewModel = Get.find<ListOrdersViewModel>();
 
-  OrderPreviewBottomSheet({required this.orderIndex});
+  CartPreviewBottomSheet({required this.cartIndex});
 
   @override
   Widget build(BuildContext context) {
     quantityListObs.clear();
 
     for (var i = 0;
-        i < listOrdersViewModel.cartList[orderIndex].foods.length;
+        i < listOrdersViewModel.cartList[cartIndex].foods.length;
         i++) {
       quantityListObs.add(
-          RxInt(listOrdersViewModel.cartList[orderIndex].foods[i].quantity));
+          RxInt(listOrdersViewModel.cartList[cartIndex].foods[i].quantity));
       print("Quantity: " + quantityListObs[i].value.toString());
     }
 
@@ -40,19 +40,19 @@ class OrderPreviewBottomSheet extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          SizedBox(height: 20.0),
           Expanded(
             child: SingleChildScrollView(
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount:
-                    listOrdersViewModel.cartList[orderIndex].foods.length,
+                itemCount: listOrdersViewModel.cartList[cartIndex].foods.length,
                 itemBuilder: (context, foodIndex) {
                   return Column(
                     children: [
                       FoodItemPreviewWidget(
                         food: listOrdersViewModel
-                            .cartList[orderIndex].foods[foodIndex],
+                            .cartList[cartIndex].foods[foodIndex],
                         foodIndex: foodIndex,
                       ),
                       SizedBox(height: 20.0),
@@ -69,12 +69,12 @@ class OrderPreviewBottomSheet extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   for (var i = 0;
-                      i < listOrdersViewModel.cartList[orderIndex].foods.length;
+                      i < listOrdersViewModel.cartList[cartIndex].foods.length;
                       i++) {
-                    listOrdersViewModel.cartList[orderIndex].foods[i]
+                    listOrdersViewModel.cartList[cartIndex].foods[i]
                         .setQuantity(quantityListObs[i].value);
                   }
-                  Get.to(() => OrderPaymentPage(index: orderIndex));
+                  Get.to(() => OrderPaymentPage(cartIndex: cartIndex));
                   Navigator.pop(context);
                 },
                 child: Text('Confirm'),

@@ -1,29 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_drawer.dart';
+
 class PaymentSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        title: "Thanh toán",
+      ),
+      drawer: CustomDrawer(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          SizedBox(height: 100),
           Container(
             width: double.infinity,
-            height: 200,
-            child: Image.network(
-              'https://c8.alamy.com/comp/2ABNAN7/green-check-mark-icon-in-a-circle-tick-symbol-in-green-color-2ABNAN7.jpg',
+            height: 150,
+            child: Image.asset(
+              "lib/resources/payment_info/success.png",
               fit: BoxFit.contain,
             ),
           ),
           SizedBox(height: 20),
           Text(
-            'Text View 1',
+            'Thanh toán thành công!',
             style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
           ),
           Text(
-            'Text View 2',
+            'Hãy cập nhật trạng thái đơn hàng của bạn thường xuyên nhé',
             style: TextStyle(fontSize: 20),
+            textAlign: TextAlign.center,
           ),
           SizedBox(height: 50),
           ElevatedButton(
