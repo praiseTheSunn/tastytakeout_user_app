@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
 
+import '../data_sources/order_source.dart';
+
 class ListOrdersViewModel extends GetxController {
   var orderList = <OrderModel>[].obs;
   var filteredOrderList = <OrderModel>[].obs;
@@ -14,12 +16,10 @@ class ListOrdersViewModel extends GetxController {
   }
 
   Future<void> fetchOrders() async {
-    List<OrderModel> orders = data.orders;
+    //List<OrderModel> orders = data.orders;
 
-    if (orderList.value.isEmpty) {
-      orderList.value = orders;
-      filteredOrderList.value = [];
-    }
+    orderList.value = await OrdersSource().fetchOrders();
+    filteredOrderList.value = [];
   }
 
   Future<void> fetchCart() async {
@@ -33,14 +33,6 @@ class ListOrdersViewModel extends GetxController {
   void filterOrdersByStatus(String status) {
     filteredOrderList.value =
         orderList.where((order) => order.status == status).toList();
-  }
-
-  void addToCart(OrderModel item) {
-    cartList.add(item);
-  }
-
-  void clearCart() {
-    cartList.clear();
   }
 
   void exportFromCartToOrder(int cartIndex) {

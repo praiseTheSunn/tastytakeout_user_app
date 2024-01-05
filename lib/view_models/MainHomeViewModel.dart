@@ -3,23 +3,10 @@ import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
 
 class MainHomeViewModel extends GetxController {
-
   final FoodSource _popularFoodSource = FoodSource();
   RxList<String> popularFoodImagesUrls = <String>[].obs;
 
-  final List<String> images = [
-    'lib/resources/sale1.jpg',
-    'lib/resources/sale2.png',
-        'lib/resources/sale1.jpg',
-    'lib/resources/sale2.png',
-        'lib/resources/sale1.jpg',
-    'lib/resources/sale2.png',
-        'lib/resources/sale1.jpg',
-    'lib/resources/sale2.png',
-        'lib/resources/sale1.jpg',
-    'lib/resources/sale2.png',
-    // Add your image URLs here
-  ];
+  final List<String> images = [];
 
   Future<void> fetchPopularFoodImages() async {
     try {
@@ -37,11 +24,9 @@ class MainHomeViewModel extends GetxController {
       for (var imageUrl in imageUrls) {
         popularFoodImagesUrls.add(imageUrl);
       }
-
     } catch (e) {
       // Handle errors or exceptions here
       print('Error in fetchPopularFoodImagesUrls: $e');
     }
   }
-
 }

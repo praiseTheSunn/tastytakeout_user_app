@@ -9,12 +9,23 @@ import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
 class OrdersController extends GetxController {
   final title = 'Orders'.obs;
   final ListOrdersViewModel listOrdersViewModel = Get.find();
+  final List<String> OrderStatus = [data.Prepare, data.Pending, data.Completed];
+  List<String> selectedStatus = [data.Prepare];
 
   @override
   void onInit() {
     super.onInit();
+    selectedStatus = [data.Prepare];
     listOrdersViewModel.fetchOrders();
-    listOrdersViewModel.filterOrdersByStatus(data.Prepare);
+    listOrdersViewModel.filterOrdersByStatus(selectedStatus[0]);
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    selectedStatus = [data.Prepare];
+    listOrdersViewModel.fetchOrders();
+    listOrdersViewModel.filterOrdersByStatus(selectedStatus[0]);
   }
 }
 
@@ -45,15 +56,16 @@ class OrdersView extends StatefulWidget {
 }
 
 class _OrdersViewState extends State<OrdersView> {
-  late OrdersController _ordersController;
-
-  final List<String> types = [data.Prepare, data.Pending, data.Completed];
-  List<String> selectedTypes = [data.Prepare];
+  final OrdersController _ordersController = Get.find<OrdersController>();
+  late List<String> types;
+  late List<String> selectedTypes;
 
   @override
   void initState() {
     super.initState();
-    _ordersController = Get.find<OrdersController>();
+    _ordersController.listOrdersViewModel.fetchOrders();
+    types = _ordersController.OrderStatus;
+    selectedTypes = _ordersController.selectedStatus;
   }
 
   @override

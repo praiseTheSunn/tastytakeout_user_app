@@ -11,7 +11,7 @@ class FoodItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = food.imageUrl;
+    String imageUrl = food.imageUrls[0];
     String name = food.name;
     String quantityText = ' X' + food.quantity.toString();
     String cost = food.price.toString();

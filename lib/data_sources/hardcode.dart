@@ -19,26 +19,26 @@ final String imageUrl =
 
 final List<OrderModel> orders = [
   OrderModel(
-      orderId: "id1",
-      storeId: "s1",
+      orderId: 1,
+      storeId: 1,
       storeName: "Store 1",
       status: Completed,
       foods: foods.sublist(0, 1)),
   OrderModel(
-      orderId: "id2",
-      storeId: "s2",
+      orderId: 2,
+      storeId: 2,
       storeName: "Store 2",
       status: Prepare,
       foods: foods.sublist(1, 2)),
   OrderModel(
-      orderId: "id2",
-      storeId: "s2",
+      orderId: 3,
+      storeId: 3,
       storeName: "Store 3",
       status: Prepare,
       foods: foods.sublist(2, 3)),
   OrderModel(
-      orderId: "id2",
-      storeId: "s2",
+      orderId: 4,
+      storeId: 4,
       storeName: "Store 4",
       status: Prepare,
       foods: foods.sublist(3, 4))
@@ -46,26 +46,26 @@ final List<OrderModel> orders = [
 
 final List<OrderModel> carts = [
   OrderModel(
-      orderId: "id1",
-      storeId: "s1",
+      orderId: 1,
+      storeId: 1,
       storeName: "Store 11",
       status: Completed,
       foods: foods.sublist(0, 1)),
   OrderModel(
-      orderId: "id2",
-      storeId: "s2",
+      orderId: 2,
+      storeId: 2,
       storeName: "Store 22",
       status: Prepare,
       foods: foods.sublist(1, 2)),
   OrderModel(
-      orderId: "id2",
-      storeId: "s2",
+      orderId: 3,
+      storeId: 3,
       storeName: "Store 33",
       status: Prepare,
       foods: foods.sublist(2, 3)),
   OrderModel(
-      orderId: "id2",
-      storeId: "s2",
+      orderId: 4,
+      storeId: 4,
       storeName: "Store 44",
       status: Prepare,
       foods: foods.sublist(3, 4))
@@ -76,24 +76,24 @@ List<FoodModel> foods = [
     name: 'Chicken Burger store1',
     price: 10000,
     quantity: 1,
-    imageUrl: imageUrl,
+    imageUrls: [imageUrl],
   ),
   FoodModel(
     name: 'Chicken Burger store2',
     price: 10000,
     quantity: 1,
-    imageUrl: imageUrl,
+    imageUrls: [imageUrl],
   ),
   FoodModel(
     name: 'Chicken Burger store3',
     price: 10000,
     quantity: 1,
-    imageUrl: imageUrl,
+    imageUrls: [imageUrl],
   ),
   FoodModel(
     name: 'Chicken Burger store4',
     price: 10000,
     quantity: 1,
-    imageUrl: imageUrl,
+    imageUrls: [imageUrl],
   )
 ];
