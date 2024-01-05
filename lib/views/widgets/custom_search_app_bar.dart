@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
 
 class CustomSearchAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomSearchAppBar({super.key});
@@ -32,10 +33,10 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                 print("SearchBar onChanged");
               },
               onSubmitted: (String value) {
+                Get.to(() => SearchScreen(searchQuery: controller.value.text));
+                
                 controller.closeView("what ");
                 print("SearchBar onSubmitted");
-
-                // Get.to(() => SearchScreen());
               },
             );
           },
@@ -59,7 +60,11 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                   leading: const Icon(Icons.select_all),
                   title: Text(suggestion),
                   onTap: () {
+                    print("suggestion: $suggestion");
+                    Get.back();
                     controller.closeView(suggestion);
+                    Get.to(() => SearchScreen(searchQuery: suggestion));
+                    print("Get: $suggestion");
                   },
                 ),
               );
@@ -81,6 +86,8 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                   leading: const Icon(Icons.select_all),
                   title: Text(suggestion),
                   onTap: () {
+                    print("suggestion: $suggestion");
+                    Get.to(() => SearchScreen(searchQuery: suggestion));
                     controller.closeView(suggestion);
                   },
                 ),

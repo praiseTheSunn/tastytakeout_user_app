@@ -8,7 +8,7 @@ import '../screens/user_infomation_screen.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Function() onSearchPressed = () {
-    Get.to(SearchScreen());
+    Get.to(() => SearchScreen(searchQuery: ''));
   };
   final Function() onNotificationPressed = () {};
   final Function() onUserPressed = () {
