@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/view_models/SearchScreenViewModel.dart';
 import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
 
 class CustomSearchAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -13,6 +14,8 @@ class CustomSearchAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
+  final SearchScreenViewModel _viewModel = Get.put(SearchScreenViewModel());
+  final FocusNode _searchFocusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,6 +27,8 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
               leading: const Icon(Icons.search),
               controller: controller,
               hintText: 'Search',
+              focusNode: _searchFocusNode,
+              
               onTap: () {
                 controller.openView();
                 print("SearchBar onTap");
@@ -33,13 +38,14 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
                 print("SearchBar onChanged");
               },
               onSubmitted: (String value) {
-                Get.to(() => SearchScreen(searchQuery: controller.value.text));
+                // Get.to(() => SearchScreen(searchQuery: controller.value.text));
                 
                 controller.closeView("what ");
                 print("SearchBar onSubmitted");
               },
             );
           },
+          
           suggestionsBuilder:
               (BuildContext context, SearchController controller) {
             List<Widget> suggestions = [];
@@ -54,16 +60,18 @@ class _CustomSearchAppBarState extends State<CustomSearchAppBar> {
             );
 
             for (int i = 0; i < 10; i++) {
-              final String suggestion = 'Suggestion $i';
+              final String suggestion = 'Soda ';
               suggestions.add(
                 ListTile(
                   leading: const Icon(Icons.select_all),
                   title: Text(suggestion),
                   onTap: () {
                     print("suggestion: $suggestion");
-                    Get.back();
+                    // Get.back();
                     controller.closeView(suggestion);
-                    Get.to(() => SearchScreen(searchQuery: suggestion));
+                    _viewModel.fetchFoodWithName(suggestion);
+                    // Get.to(() => SearchScreen(searchQuery: suggestion));
+                    
                     print("Get: $suggestion");
                   },
                 ),

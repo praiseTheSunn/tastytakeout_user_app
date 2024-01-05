@@ -53,7 +53,7 @@ class FoodCard extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8),
-          Image.asset(
+          Image.network(
             imagePath,
             height: 100,
             width: 100,

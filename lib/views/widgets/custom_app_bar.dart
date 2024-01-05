@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
 import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
+import 'package:tastytakeout_user_app/views/widgets/search_delegate.dart';
 
 import '../screens/user_infomation_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Function() onSearchPressed = () {
-    Get.to(() => SearchScreen(searchQuery: ''));
+    // Get.to(() => SearchScreen(searchQuery: ''));
+    // showSearch(
+    //             context: context,
+    //             delegate: SearchField()
+    //           );
   };
   final Function() onNotificationPressed = () {};
   final Function() onUserPressed = () {
@@ -40,7 +45,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: onSearchPressed,
+                  onPressed: () {
+                    // Get.to(() => SearchScreen(searchQuery: ''));
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate()
+                    );
+                  },
                 ),
               ],
             ),
