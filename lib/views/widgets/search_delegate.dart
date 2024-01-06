@@ -41,8 +41,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
             children: [
               TabBar(
                 tabs: [
-                  Tab(text: 'Tab 1'),
-                  Tab(text: 'Tab 2'),
+                  Tab(text: 'Món ăn'),
+                  Tab(text: 'Cửa hàng'),
                 ],
               ),
               Expanded(
@@ -78,6 +78,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         List<Food> foods = _viewModel.groupedByShop.value[shopName]!;
 
         return Card(
+          elevation: 0,
+          color: Colors.transparent,
           margin: EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +87,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  'Shop Name: $shopName',
+                  shopName,
                   style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -95,9 +97,20 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
                   Food food = foods[index];
-                  return ListTile(
-                    title: Text(food.name),
-                    subtitle: Text('Price: \$${food.price.toStringAsFixed(2)}'),
+                  return InkWell(
+                    onTap: () {
+                              Get.to(FoodDetailScreen());
+                            },
+                    child: FoodCard(
+                                foodName: food.name,
+                                // description: food.description,
+                                imagePath: food.imageUrl,
+                                price: food.price.toString(),
+                                shopName: "", // Pass shopName to FoodCard
+                                onTap: () {
+                                  print("Tapped on ${food.name}");
+                                },
+                              ),
                   );
                 },
               ),

@@ -19,6 +19,7 @@ class FoodCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Color.fromARGB(255, 255, 255, 255),
       child: Row(
         children: [
           Expanded(
@@ -53,11 +54,14 @@ class FoodCard extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8),
-          Image.network(
-            imagePath,
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.network(
+              imagePath,
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
           ),
         ],
       ),
