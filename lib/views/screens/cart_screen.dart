@@ -41,13 +41,22 @@ class _CartPageState extends State<CartPage> {
         children: [
           Expanded(
             child: Obx(
-              () => ListView.builder(
-                padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
-                itemCount: _listCartViewModel.cartList.length,
-                itemBuilder: (context, cartIndex) {
-                  return CartItemWidget(cartIndex: cartIndex, clickable: true);
-                },
-              ),
+              () {
+                if (_listCartViewModel.isLoading.value) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return ListView.builder(
+                    padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
+                    itemCount: _listCartViewModel.cartList.length,
+                    itemBuilder: (context, cartIndex) {
+                      return CartItemWidget(
+                          cartIndex: cartIndex, clickable: true);
+                    },
+                  );
+                }
+              },
             ),
           ),
         ],

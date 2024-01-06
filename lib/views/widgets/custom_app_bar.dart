@@ -19,22 +19,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   };
   final Function() onNotificationPressed = () {};
   final Function() onUserPressed = () {
-    
-    // // if (Get.currentRoute != '/UserInfoPage') {
-    // //   Get.to(UserInfoPage());
-    // // } else
-    // //   Get.back();
-    // if (authService.isLoggedIn.value) {
-    //   // If logged in, navigate to the user info page
-    //   if (Get.currentRoute != '/UserInfoPage') {
-    //     Get.to(UserInfoPage());
-    //   } else {
-    //     Get.back();
-    //   }
-    // } else {
-    //   // If not logged in, navigate to the login page
-    //   Get.to(() => SignInPage());
-    // }
+    if (Get.currentRoute != '/UserInfoPage') {
+      Get.put(UserInfoController());
+      Get.to(UserInfoPage());
+    } else
+      Get.back();
   };
 
   CustomAppBar({
