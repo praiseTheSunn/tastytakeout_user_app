@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tastytakeout_user_app/data_sources/food_source.dart';
 import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/view_models/SearchScreenViewModel.dart';
 import 'package:tastytakeout_user_app/views/screens/food_detail_screen.dart';

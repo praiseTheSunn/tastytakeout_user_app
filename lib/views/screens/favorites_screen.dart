@@ -8,9 +8,6 @@ import 'package:tastytakeout_user_app/view_models/FavoritesScreenViewModel.dart'
 
 import '../widgets/custom_drawer.dart';
 
-
-
-
 class FavoritesScreenController extends GetxController {
   // Add your controller logic here
 }
@@ -28,13 +25,12 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
-  late FavoritesScreenViewModel _viewModel;
+  final FavoritesScreenViewModel _viewModel = Get.put(FavoritesScreenViewModel());
 
   @override
   void initState() {
     super.initState();
-    _viewModel = FavoritesScreenViewModel(); // Replace with your viewmodel implementation
-    _viewModel.fetchData(); // Fetch data from somewhere
+    _viewModel.fetchFavoriteFood();
   }
 
   @override
@@ -45,10 +41,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         // Add necessary onPressed callbacks for the app bar icons
       ), // Replace with your custom app bar implementation
       drawer: CustomDrawer(),
-      body: ListView.builder(
-        itemCount: _viewModel.foodList.length,
+      body: 
+      Obx(() => 
+      ListView.builder(
+        itemCount: _viewModel.foodList.value.length,
         itemBuilder: (context, index) {
-          final food = _viewModel.foodList[index];
+          final food = _viewModel.foodList.value[index];
           return InkWell(
             onTap: () {
               Get.to(FoodDetailScreen());
@@ -66,6 +64,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           );
         },
       ),
+      )
     );
   }
 }
