@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/helper/format_helper.dart';
-import 'package:tastytakeout_user_app/views/screens/order_payment_failure.dart';
-import '../../data_sources/cart_source.dart';
-import '../../data_sources/order_source.dart';
 import '../../view_models/ListOrdersViewModel.dart';
 import '../widgets/cart_item.dart';
 import '../widgets/custom_app_bar.dart';
@@ -138,21 +135,10 @@ class OrderPaymentPage extends StatelessWidget {
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
-                onPressed: () async {
-                  //_listOrdersViewModel.exportFromCartToOrder(cartIndex);
-                  _listOrdersViewModel.cartList[cartIndex];
-                  var result = await OrdersSource()
-                      .addOrder(_listOrdersViewModel.cartList[cartIndex]);
-
-                  if (result) {
-                    CartSource().deleteCart(
-                        _listOrdersViewModel.cartList[cartIndex].foods);
-                    Navigator.pop(context);
-                    Get.to(() => PaymentSuccessPage());
-                  } else {
-                    Navigator.pop(context);
-                    Get.to(() => PaymentFailedPage());
-                  }
+                onPressed: () {
+                  _listOrdersViewModel.exportFromCartToOrder(cartIndex);
+                  Navigator.pop(context);
+                  Get.to(() => PaymentSuccessPage());
                 },
                 child: const Text('Xác nhận')),
           ],

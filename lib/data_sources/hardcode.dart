@@ -4,68 +4,70 @@ import '/models/DTO/FoodModel.dart';
 import '/models/DTO/OrderModel.dart';
 
 /// Const variable
-const String PENDING = 'PENDING';
-const String PREPARE = 'PREPARE';
-const String DELIVERING = 'DELIVERING';
-const String COMPLETED = 'COMPLETED';
+const String Prepare = 'Chuẩn bị';
+const String Pending = 'Đang giao';
+const String Completed = 'Đã giao';
 
 final UserModel userModel = UserModel(
-    name: 'Nguyễn Văn A', address: '227 Nguyễn Văn Cừ', email: 'nva@gmail.com');
+    name: 'Nguyễn Văn A',
+    phone: '0123456789',
+    address: ['227 Nguyễn Văn Cừ', 'KTX 135B Trần Hưng Đạo'],
+    email: 'nva@gmail.com');
 
 final String imageUrl =
     'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg';
 
 final List<OrderModel> orders = [
   OrderModel(
-      orderId: 1,
-      storeId: 1,
+      orderId: "id1",
+      storeId: "s1",
       storeName: "Store 1",
-      status: COMPLETED,
+      status: Completed,
       foods: foods.sublist(0, 1)),
   OrderModel(
-      orderId: 2,
-      storeId: 2,
+      orderId: "id2",
+      storeId: "s2",
       storeName: "Store 2",
-      status: PENDING,
+      status: Prepare,
       foods: foods.sublist(1, 2)),
   OrderModel(
-      orderId: 3,
-      storeId: 3,
+      orderId: "id2",
+      storeId: "s2",
       storeName: "Store 3",
-      status: PREPARE,
+      status: Prepare,
       foods: foods.sublist(2, 3)),
   OrderModel(
-      orderId: 4,
-      storeId: 4,
+      orderId: "id2",
+      storeId: "s2",
       storeName: "Store 4",
-      status: PREPARE,
+      status: Prepare,
       foods: foods.sublist(3, 4))
 ];
 
 final List<OrderModel> carts = [
   OrderModel(
-      orderId: 1,
-      storeId: 1,
+      orderId: "id1",
+      storeId: "s1",
       storeName: "Store 11",
-      status: COMPLETED,
+      status: Completed,
       foods: foods.sublist(0, 1)),
   OrderModel(
-      orderId: 2,
-      storeId: 2,
+      orderId: "id2",
+      storeId: "s2",
       storeName: "Store 22",
-      status: PREPARE,
+      status: Prepare,
       foods: foods.sublist(1, 2)),
   OrderModel(
-      orderId: 3,
-      storeId: 3,
+      orderId: "id2",
+      storeId: "s2",
       storeName: "Store 33",
-      status: PREPARE,
+      status: Prepare,
       foods: foods.sublist(2, 3)),
   OrderModel(
-      orderId: 4,
-      storeId: 4,
+      orderId: "id2",
+      storeId: "s2",
       storeName: "Store 44",
-      status: PREPARE,
+      status: Prepare,
       foods: foods.sublist(3, 4))
 ];
 
@@ -74,24 +76,24 @@ List<FoodModel> foods = [
     name: 'Chicken Burger store1',
     price: 10000,
     quantity: 1,
-    imageUrls: [imageUrl],
+    imageUrl: imageUrl,
   ),
   FoodModel(
     name: 'Chicken Burger store2',
     price: 10000,
     quantity: 1,
-    imageUrls: [imageUrl],
+    imageUrl: imageUrl,
   ),
   FoodModel(
     name: 'Chicken Burger store3',
     price: 10000,
     quantity: 1,
-    imageUrls: [imageUrl],
+    imageUrl: imageUrl,
   ),
   FoodModel(
     name: 'Chicken Burger store4',
     price: 10000,
     quantity: 1,
-    imageUrls: [imageUrl],
+    imageUrl: imageUrl,
   )
 ];

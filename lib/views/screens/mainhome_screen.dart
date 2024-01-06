@@ -64,12 +64,13 @@ class _MainHomePageState extends State<MainHomePage> {
             ),
           ),
           Obx(() => HorizontalImageList(
-                title: "Phổ biến",
-                images: mainHomeViewModel.popularFoodImagesUrls.value,
-                onPressed: () {
-                  Get.to(() => PopularScreen());
-                },
-              )),
+                  title: "Phổ biến",
+                  images: mainHomeViewModel.popularFoodImagesUrls.value,
+                  onPressed: () {
+                    Get.to(() => PopularScreen());
+                  },
+                )
+              ),
           // HorizontalImageList(
           //   title: "Phổ biến",
           //   images: mainHomeViewModel.popularFoodImagesUrls,
@@ -79,8 +80,7 @@ class _MainHomePageState extends State<MainHomePage> {
           // ),
           HorizontalImageList(
             title: "Gần đây",
-            //images: mainHomeViewModel.images,
-            images: [],
+            images: mainHomeViewModel.images,
             onPressed: () {
               Get.to(() => NearbyScreen());
             },
@@ -128,7 +128,7 @@ class _MainHomePageState extends State<MainHomePage> {
 //               child: ImageSliderWidget(images: mainHomeViewModel.images),
 //             ),
 //           ),
-
+          
 //           /// Renders a list of horizontal image lists.
 //           /// Each horizontal image list contains a title and a horizontal list of images.
 //           HorizontalImageList(title: "Phổ biến", images: mainHomeViewModel.popularFoodImagesUrls, onPressed: () {

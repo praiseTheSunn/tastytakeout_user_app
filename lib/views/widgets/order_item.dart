@@ -21,11 +21,6 @@ class OrderItemWidget extends GetWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (_listOrdersViewModel.filteredOrderList.isEmpty ||
-        index >= _listOrdersViewModel.filteredOrderList.length) {
-      return Container();
-    }
-
     return GestureDetector(
         onTap: () {
           if (!isClickable) return;

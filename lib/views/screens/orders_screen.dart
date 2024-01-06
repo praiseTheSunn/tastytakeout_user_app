@@ -14,15 +14,7 @@ class OrdersController extends GetxController {
   void onInit() {
     super.onInit();
     listOrdersViewModel.fetchOrders();
-    listOrdersViewModel.selectedStatus = [data.PENDING];
-    listOrdersViewModel.filterOrdersByStatus();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    listOrdersViewModel.fetchOrders();
-    listOrdersViewModel.filterOrdersByStatus();
+    listOrdersViewModel.filterOrdersByStatus(data.Prepare);
   }
 }
 
@@ -53,12 +45,15 @@ class OrdersView extends StatefulWidget {
 }
 
 class _OrdersViewState extends State<OrdersView> {
-  final OrdersController _ordersController = Get.find<OrdersController>();
+  late OrdersController _ordersController;
+
+  final List<String> types = [data.Prepare, data.Pending, data.Completed];
+  List<String> selectedTypes = [data.Prepare];
 
   @override
   void initState() {
     super.initState();
-    _ordersController.listOrdersViewModel.fetchOrders();
+    _ordersController = Get.find<OrdersController>();
   }
 
   @override
@@ -66,62 +61,37 @@ class _OrdersViewState extends State<OrdersView> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(8.0),
-          margin: EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+            padding: EdgeInsets.all(8.0),
+            margin: EdgeInsets.all(8.0),
             child: Row(
-              children: _ordersController.listOrdersViewModel.OrderStatus
-                  .map((type) => Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 8.0, 0),
-                        child: FilterChip(
-                          selected: _ordersController
-                              .listOrdersViewModel.selectedStatus
-                              .contains(type),
-                          label: Text(type),
-                          onSelected: (selected) {
-                            setState(() {
-                              _ordersController
-                                  .listOrdersViewModel.selectedStatus
-                                  .clear();
-                              _ordersController
-                                  .listOrdersViewModel.selectedStatus
-                                  .add(type);
-                              _ordersController.listOrdersViewModel
-                                  .filterOrdersByStatus();
-                            });
-                          },
-                        ),
-                      ))
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: types
+                  .map((type) => FilterChip(
+                      selected: selectedTypes.contains(type),
+                      label: Text(type),
+                      onSelected: (selected) {
+                        setState(() {
+                          selectedTypes.clear();
+                          selectedTypes.add(type);
+                          _ordersController.listOrdersViewModel
+                              .filterOrdersByStatus(type);
+                        });
+                      }))
                   .toList(),
-            ),
-          ),
-        ),
+            )),
         Expanded(
           child: Obx(
-            () {
-              if (_ordersController.listOrdersViewModel.isLoading.value) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return ListView.builder(
-                  padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                  itemCount: _ordersController
-                      .listOrdersViewModel.filteredOrderList.length,
-                  itemBuilder: (context, index) {
-                    return OrderItemWidget(index: index);
-                  },
-                );
-              }
-            },
+            () => ListView.builder(
+              padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+              itemCount: _ordersController
+                  .listOrdersViewModel.filteredOrderList.length,
+              itemBuilder: (context, index) {
+                return OrderItemWidget(index: index);
+              },
+            ),
           ),
         ),
       ],
     );
   }
 }
-
-/*
-CircularProgressIndicator()
- */

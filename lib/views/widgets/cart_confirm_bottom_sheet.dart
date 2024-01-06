@@ -7,7 +7,6 @@ import '../../models/DTO/OrderModel.dart';
 import '../screens/order_detail_screen.dart';
 import '../screens/order_payment_screen.dart';
 import 'order_item.dart';
-import '../../helper/format_helper.dart' as formatHelper;
 
 List<RxInt> quantityListObs = <RxInt>[];
 
@@ -99,10 +98,10 @@ class FoodItemPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = food.imageUrls[0];
+    String imageUrl = food.imageUrl;
     String name = food.name;
     String quantityText = ' X${food.quantity}';
-    String cost = formatHelper.formatMoney(food.price);
+    String cost = food.price.toString();
 
     return GestureDetector(
       child: Card(
