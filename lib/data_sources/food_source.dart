@@ -20,6 +20,7 @@ class FoodSource {
         var jsonString = response.body;
         List<dynamic> jsonData = json.decode(jsonString);
 
+<<<<<<< Updated upstream
         if (jsonData.isNotEmpty) {
           Map<String, dynamic> foodItem = jsonData[0];
 
@@ -28,6 +29,22 @@ class FoodSource {
           String storeName = foodItem['store']['name'];
           double rating = foodItem['rating'];
 
+=======
+        // Parse the JSON string
+        List<dynamic> jsonData = json.decode(jsonString);
+
+        // Extract information
+        if (jsonData.isNotEmpty) {
+          Map<String, dynamic> foodItem = jsonData[0];
+
+          int id = foodItem['id'];
+          String categoryName = foodItem['category']['name'];
+          String storeName = foodItem['store']['name'];
+          double rating = foodItem['rating'];
+          // Add more fields as needed
+
+          // Print extracted information
+>>>>>>> Stashed changes
           print('ID: $id');
           print('Category Name: $categoryName');
           print('Store Name: $storeName');
@@ -40,7 +57,7 @@ class FoodSource {
       }
     } catch (e) {
       // Exception handling
-      print('Exception during request: $e');
+      print('Exception during request fetchData: $e');
     }
   }
 
@@ -68,6 +85,7 @@ class FoodSource {
       }
     } catch (e) {
       // Exception handling
+<<<<<<< Updated upstream
       print('Exception during request fetch FoodData: $e');
       return [];
     }
@@ -141,4 +159,10 @@ class FoodSource {
     }
     return FoodModel.defaultModel();
   }
+=======
+      print('Exception during request PopularFood: $e');
+      return [];
+    }
+  }
+>>>>>>> Stashed changes
 }
