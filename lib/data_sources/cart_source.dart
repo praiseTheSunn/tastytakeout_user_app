@@ -6,40 +6,95 @@ import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 
 class CartSource {
   final baseUrl = Uri.http('localhost:8080', '/carts/');
+  final loginUrl = Uri.http('localhost:8080', '/auth/login/');
 
   /* Example JSON response:
-          [
-            {
+         [
+          {
+            "quantity": 2147483647,
+            "food": {
               "id": 0,
-              "foods": [
-                {
-                  "id": 0,
-                  "quantity": 2147483647,
-                  "total": 2147483647,
-                  "food": 0
-                }
-              ],
-              "address": "string",
-              "status": "PENDING",
-              "total": 2147483647,
-              "created_at": "2024-01-04T17:25:49.634Z",
-              "payment_method": "CASH",
-              "buyer": 0,
-              "voucher": 0
+              "category": {
+                "id": 0,
+                "name": "string"
+              },
+              "store": {
+                "id": 0,
+                "owner": 0,
+                "name": "string",
+                "image_url": "string",
+                "address": "string"
+              },
+              "image_urls": "string",
+              "name": "string",
+              "description": "string",
+              "price": 2147483647,
+              "quantity": 2147483647,
+              "created_at": "2024-01-05T10:46:29.687Z",
+              "rating": 0
             }
-          ]
+          }
+        ]
           */
 
-  Future<List<OrderModel>> fetchCartInfoToUnConfirmedOrders() async {
-    try {
-      List<OrderModel> orders = [];
+  Future<String> getAccessToken() async {
+    final responseLogin = await http.post(
+      loginUrl,
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'username': '123',
+        'password': '1234',
+      }),
+    );
 
-      final response = await http.get(baseUrl
-          // headers: {
-          //   'accept': 'application/json',
-          //   'X-CSRFToken': 'n5Lm8twiNK1239FTN1RwuCGcVFzHIdHW6iVxVnFeMYk5TWdVVhR7nRKyl66L2Q47',
-          // },
-          );
+    String accessToken = jsonDecode(responseLogin.body)['access'];
+    print('Access token: $accessToken');
+    return accessToken;
+  }
+
+  /* jsonData example:
+        [
+          {
+            "quantity": 2147483647,
+            "food": {
+              "id": 0,
+              "category": {
+                "id": 0,
+                "name": "string"
+              },
+              "store": {
+                "id": 0,
+                "owner": 0,
+                "name": "string",
+                "image_url": "string",
+                "address": "string"
+              },
+              "image_urls": "string",
+              "name": "string",
+              "description": "string",
+              "price": 2147483647,
+              "quantity": 2147483647,
+              "created_at": "2024-01-05T10:50:53.000Z",
+              "rating": 0
+            }
+          }
+        ]
+         */
+
+  Future<List<OrderModel>> fetchCartInfoToPendingOrders() async {
+    try {
+      List<OrderModel> carts = [];
+
+      final response = await http.get(
+        baseUrl,
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer ${await getAccessToken()}',
+        },
+      );
 
       if (response.statusCode == 200) {
         print('Response: ${response.body}');
@@ -47,52 +102,55 @@ class CartSource {
         List<dynamic> jsonData = json.decode(jsonString);
 
         if (jsonData.isNotEmpty) {
-          for (var orderItem in jsonData) {
-            int id = orderItem['id'];
-            String address = orderItem['address'];
-            String status = orderItem['status'];
-            int total = orderItem['total'];
-            String createdAt = orderItem['created_at'];
-            String paymentMethod = orderItem['payment_method'];
-            int buyer = orderItem['buyer'];
-            int voucher = orderItem['voucher'];
+          List<FoodModel> foodList = [];
 
-            // Extract food items from order
-            List<dynamic> foodItems = orderItem['foods'];
-            List<FoodModel> foods = foodItems.map((foodItem) {
-              int id = foodItem['id'];
-              int quantity = foodItem['quantity'];
-              int total = foodItem['total'];
-              int food = foodItem['food'];
+          for (var cartItem in jsonData) {
+            int quantity = cartItem['quantity'];
+            var foodItem = cartItem['food'];
+            int foodId = foodItem['id'];
+            String foodName = foodItem['name'];
+            String foodImageUrl = foodItem['image_urls'];
+            int foodPrice = foodItem['price'];
+            int storeId = foodItem['store']['id'];
+            String storeName = foodItem['store']['name'];
 
-              FoodModel _food =
-                  FoodSource().getSimpleFoodDataById(id) as FoodModel;
-
-              return FoodModel(
-                id: id,
-                name: _food.name,
-                price: _food.price,
-                quantity: quantity,
-                storeId: _food.storeId,
-                storeName: _food.storeName,
-              );
-            }).toList();
-
-            OrderModel order = OrderModel(
-              orderId: id,
-              foods: foods,
-              address: address,
-              status: status,
-              createdAt: createdAt,
-              paymentMethod: paymentMethod,
-              buyerId: 12345,
-              voucherId: 1,
+            FoodModel food = FoodModel(
+              id: foodId,
+              name: foodName,
+              imageUrls: [foodImageUrl],
+              price: foodPrice,
+              quantity: quantity,
+              storeId: storeId,
+              storeName: storeName,
             );
 
-            orders.add(order);
+            foodList.add(food);
+          }
+
+          foodList.sort((a, b) => a.storeId.compareTo(b.storeId));
+
+          // Group food items by store
+          Map<int, List<FoodModel>> groupedFoodList = {};
+          for (var food in foodList) {
+            if (groupedFoodList.containsKey(food.storeId)) {
+              groupedFoodList[food.storeId]?.add(food);
+            } else {
+              groupedFoodList[food.storeId] = [food];
+            }
+          }
+
+          // Create order from grouped food items
+          for (var storeId in groupedFoodList.keys) {
+            List<FoodModel> foods = groupedFoodList[storeId]!;
+            OrderModel order = OrderModel(
+              foods: foods,
+              storeId: foods[0].storeId,
+              storeName: foods[0].storeName,
+            );
+            carts.add(order);
           }
         }
-        return orders;
+        return carts;
       } else {
         // Error handling for unsuccessful requests
         print('Request failed with status: ${response.statusCode}');

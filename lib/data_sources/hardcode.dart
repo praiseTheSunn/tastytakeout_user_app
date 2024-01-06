@@ -4,8 +4,9 @@ import '/models/DTO/FoodModel.dart';
 import '/models/DTO/OrderModel.dart';
 
 /// Const variable
+const String Pending = 'Chờ xác nhận';
 const String Prepare = 'Chuẩn bị';
-const String Pending = 'Đang giao';
+const String Delivering = 'Đang giao';
 const String Completed = 'Đã giao';
 
 final UserModel userModel = UserModel(
@@ -28,7 +29,7 @@ final List<OrderModel> orders = [
       orderId: 2,
       storeId: 2,
       storeName: "Store 2",
-      status: Prepare,
+      status: Pending,
       foods: foods.sublist(1, 2)),
   OrderModel(
       orderId: 3,

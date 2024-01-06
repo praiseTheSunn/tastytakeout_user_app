@@ -4,7 +4,7 @@ import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 
 class FoodSource {
   // final String apiUrl = 'http://localhost:8000/foods/';
-  final baseUrl = Uri.http('localhost:8080', '/foods/');
+  final baseUrl = Uri.http('10.0.2.2:8080', '/foods/');
 
   Future<void> fetchData() async {
     try {

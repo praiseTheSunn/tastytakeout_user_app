@@ -9,13 +9,18 @@ import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
 class OrdersController extends GetxController {
   final title = 'Orders'.obs;
   final ListOrdersViewModel listOrdersViewModel = Get.find();
-  final List<String> OrderStatus = [data.Prepare, data.Pending, data.Completed];
-  List<String> selectedStatus = [data.Prepare];
+  final List<String> OrderStatus = [
+    data.Pending,
+    data.Prepare,
+    data.Delivering,
+    data.Completed
+  ];
+  List<String> selectedStatus = [data.Pending];
 
   @override
   void onInit() {
     super.onInit();
-    selectedStatus = [data.Prepare];
+    selectedStatus = [data.Pending];
     listOrdersViewModel.fetchOrders();
     listOrdersViewModel.filterOrdersByStatus(selectedStatus[0]);
   }
@@ -23,7 +28,7 @@ class OrdersController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    selectedStatus = [data.Prepare];
+    selectedStatus = [data.Pending];
     listOrdersViewModel.fetchOrders();
     listOrdersViewModel.filterOrdersByStatus(selectedStatus[0]);
   }
@@ -73,24 +78,31 @@ class _OrdersViewState extends State<OrdersView> {
     return Column(
       children: [
         Container(
-            padding: EdgeInsets.all(8.0),
-            margin: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
+          margin: EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: types
-                  .map((type) => FilterChip(
-                      selected: selectedTypes.contains(type),
-                      label: Text(type),
-                      onSelected: (selected) {
-                        setState(() {
-                          selectedTypes.clear();
-                          selectedTypes.add(type);
-                          _ordersController.listOrdersViewModel
-                              .filterOrdersByStatus(type);
-                        });
-                      }))
+                  .map((type) => Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 8.0, 0),
+                        child: FilterChip(
+                          selected: selectedTypes.contains(type),
+                          label: Text(type),
+                          onSelected: (selected) {
+                            setState(() {
+                              selectedTypes.clear();
+                              selectedTypes.add(type);
+                              _ordersController.listOrdersViewModel
+                                  .filterOrdersByStatus(type);
+                            });
+                          },
+                        ),
+                      ))
                   .toList(),
-            )),
+            ),
+          ),
+        ),
         Expanded(
           child: Obx(
             () => ListView.builder(

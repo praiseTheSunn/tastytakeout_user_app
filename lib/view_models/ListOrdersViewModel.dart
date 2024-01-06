@@ -36,7 +36,7 @@ class ListOrdersViewModel extends GetxController {
   }
 
   void exportFromCartToOrder(int cartIndex) {
-    cartList[cartIndex].status = data.Prepare;
+    cartList[cartIndex].status = data.Pending;
 
     orderList.add(cartList[cartIndex]);
     filterOrdersByStatus(data.Prepare);

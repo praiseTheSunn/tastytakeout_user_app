@@ -28,32 +28,48 @@ class OrdersSource {
           ]
           */
 
-  final baseUrl = Uri.http('localhost:8080', '/orders/');
+  final baseUrl = Uri.http('10.0.2.2:8080', '/orders/');
+  final loginUrl = Uri.http('10.0.2.2:8080', '/login/');
+
+  Future<String> getAccessToken() async {
+    final responseLogin = await http.post(
+      loginUrl,
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(<String, String>{
+        'username': '123',
+        'password': '1234',
+      }),
+    );
+
+    String accessToken = jsonDecode(responseLogin.body)['access'];
+    print('Access token: $accessToken');
+    return accessToken;
+  }
+
+  Future<http.Response> postData(String url, String jsonData) async {
+    final response = await http.post(
+      baseUrl,
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ${await getAccessToken()}',
+      },
+      body: jsonData,
+    );
+    return response;
+  }
 
   Future<List<OrderModel>> fetchOrders() async {
     try {
       List<OrderModel> orders = [];
 
-      final responseLogin = await http.post(
-        Uri.http('localhost:8080', '/users/login/'),
-        headers: {
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(<String, String>{
-          'username': '123',
-          'password': '1234',
-        }),
-      );
-
-      String accessToken = jsonDecode(responseLogin.body)['access'];
-      print('Access token: $accessToken');
-
       final response = await http.get(
         baseUrl,
         headers: {
           'accept': 'application/json',
-          'Authorization': accessToken,
+          'Authorization': 'Bearer ${await getAccessToken()}',
         },
       );
 
@@ -76,16 +92,16 @@ class OrdersSource {
             // Extract food items from order
             List<dynamic> foodItems = orderItem['foods'];
             List<FoodModel> foods = foodItems.map((foodItem) {
-              int id = foodItem['id'];
+              int stt = foodItem['id'];
+              int foodId = foodItem['food'];
               int quantity = foodItem['quantity'];
               int total = foodItem['total'];
-              int food = foodItem['food'];
 
               FoodModel _food =
-                  FoodSource().getSimpleFoodDataById(id) as FoodModel;
+                  FoodSource().getSimpleFoodDataById(foodId) as FoodModel;
 
               return FoodModel(
-                id: id,
+                id: foodId,
                 name: _food.name,
                 price: _food.price,
                 quantity: quantity,
@@ -99,6 +115,8 @@ class OrdersSource {
               foods: foods,
               address: address,
               status: status,
+              storeId: foods[0].storeId,
+              storeName: foods[0].storeName,
               createdAt: createdAt,
               paymentMethod: paymentMethod,
               buyerId: 12345,
