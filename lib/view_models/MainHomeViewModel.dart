@@ -8,14 +8,14 @@ class MainHomeViewModel extends GetxController {
 
   final List<String> images = [];
 
-  Future<void> fetchPopularFoodImages() async {
-    try {
-      await _popularFoodSource.fetchData();
-    } catch (e) {
-      // Handle errors or exceptions here
-      print('Error in fetchDataFromPopularFoodSource: $e');
-    }
-  }
+  // Future<void> fetchPopularFoodImages() async {
+  //   try {
+  //     await _popularFoodSource.fetchData();
+  //   } catch (e) {
+  //     // Handle errors or exceptions here
+  //     print('Error in fetchDataFromPopularFoodSource: $e');
+  //   }
+  // }
 
   Future<void> fetchPopularFoodImagesUrls() async {
     try {

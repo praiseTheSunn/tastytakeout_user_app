@@ -32,7 +32,7 @@
 
 class FoodModel {
   late final int id;
-  late List<String> imageUrls;
+//   late List<String> imageUrls;
   late final String name;
   late final String description;
   late final int price;
@@ -43,6 +43,9 @@ class FoodModel {
   late final String storeName;
   late final int categoryId;
   late final String categoryName;
+  late final String imageUrl;
+  final String description;
+  final String shopName;
 
   FoodModel({
     this.id = 0,
@@ -56,7 +59,11 @@ class FoodModel {
     this.storeName = '',
     this.categoryId = 0,
     this.categoryName = '',
-    this.imageUrls = const [],
+//     this.imageUrls = const [],
+    this.imageUrl = '',
+    this.description = '',
+    this.shopName = '',
+
   });
 
   void setQuantity(int setQuantity) {
@@ -67,7 +74,15 @@ class FoodModel {
     return quantity;
   }
 
-  static Future<FoodModel> defaultModel() {
-    return Future.value(FoodModel(id: -1));
+  factory FoodModel.fromJson(Map<String, dynamic> json) {
+    return FoodModel(
+      name: json['name'],
+      description: json['description'],
+      imageUrl: json['image_urls'] != null && json['image_urls'].isNotEmpty
+          ? json['image_urls'][0]
+          : '',
+      price: (json['price'] ?? 0).toDouble(),
+      shopName: json['store']['name'],
+    );
   }
 }

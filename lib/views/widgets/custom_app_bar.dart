@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tastytakeout_user_app/views/screens/search_screen.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
+import 'package:tastytakeout_user_app/views/widgets/search_delegate.dart';
 
 import '../screens/user_infomation_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  // final AuthService authService = AuthService();
+  final AuthService authService = Get.put(AuthService());
   final String title;
   final Function() onSearchPressed = () {
-    Get.to(SearchScreen());
+    // Get.to(() => SearchScreen(searchQuery: ''));
+    // showSearch(
+    //             context: context,
+    //             delegate: SearchField()
+    //           );
   };
   final Function() onNotificationPressed = () {};
   final Function() onUserPressed = () {
@@ -41,7 +48,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: onSearchPressed,
+                  onPressed: () {
+                    // Get.to(() => SearchScreen(searchQuery: ''));
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate()
+                    );
+                  },
                 ),
               ],
             ),
@@ -57,7 +70,25 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 IconButton(
                   icon: Icon(Icons.person),
-                  onPressed: onUserPressed,
+                  onPressed: () async {
+                    
+                    // if (Get.currentRoute != '/UserInfoPage') {
+                    //   Get.to(UserInfoPage());
+                    // } else
+                    //   Get.back();
+                    authService.checkLoginStatus();
+                    if (authService.isLoggedIn.value) {
+                      // If logged in, navigate to the user info page
+                      if (Get.currentRoute != '/UserInfoPage') {
+                        Get.to(UserInfoPage());
+                      } else {
+                        Get.back();
+                      }
+                    } else {
+                      // If not logged in, navigate to the login page
+                      Get.to(() => SignInPage());
+                    }
+                  }
                 ),
               ],
             ),

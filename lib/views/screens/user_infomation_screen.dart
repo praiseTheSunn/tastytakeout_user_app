@@ -45,7 +45,7 @@ class UserInfoPage extends StatefulWidget {
 class _UserInfoPageState extends State<UserInfoPage> {
   final UserInfoController _userInfoController = Get.find<UserInfoController>();
   late ImagePicker _imagePicker;
-  late PickedFile _pickedFile;
+  late XFile _pickedFile;
   late bool _isPicked = false;
 
   TextEditingController _nameController = TextEditingController();
@@ -57,14 +57,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
     super.initState();
     _userInfoController.getUserInfo();
     _imagePicker = ImagePicker();
-    _pickedFile = PickedFile('');
+    _pickedFile = XFile('');
     _isPicked = false;
   }
 
   Future<void> _pickImage() async {
     try {
       final pickedFile =
-          await _imagePicker.getImage(source: ImageSource.gallery);
+          await _imagePicker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         setState(() {
           _pickedFile = pickedFile;

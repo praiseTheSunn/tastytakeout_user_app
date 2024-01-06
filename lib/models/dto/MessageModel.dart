@@ -1,11 +1,20 @@
   class MessageModel {
     String message;
-    String time;
-    bool sendByMe;
+    String sender;
 
     MessageModel({
       required this.message,
-      required this.time,
-      required this.sendByMe,
+      required this.sender,
     });
+
+    factory MessageModel.fromJson(Map<String, dynamic> json) {
+      return MessageModel(
+        message: json['message'],
+        sender: json['sender'],
+      );
+    }
+
+    bool sendByMe() {
+      return sender == 'BUYER';
+    }
   }

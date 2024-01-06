@@ -1,48 +1,24 @@
-class Food {
-  final String name;
-  final String description;
-  final String imageUrl;
-  final double price;
-  final String shopName; // Added shopName field
+import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/data_sources/food_source.dart';
+import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 
-  Food({
-    required this.name,
-    required this.description,
-    required this.imageUrl,
-    required this.price,
-    required this.shopName, // Added shopName parameter
-  });
-}
+class PopularScreenViewModel extends GetxController {
+  final FoodSource _popularFoodSource = FoodSource();
 
-// import 'package:tastytakeout_user_app/models/food.dart';
+  RxList<FoodModel> foodList = <FoodModel>[].obs;
 
-class PopularScreenViewModel {
-  List<Food> foodList = [];
+  Future<void> fetchPopularFood(rating) async {
+    try {
+      foodList.clear();
+      Iterable foods = await _popularFoodSource.getFoodWithRating(rating);
+      // print imageUrls
+      for (var food in foods) {
+        foodList.add(food);
+      }
 
-  void fetchData() {
-    // Hardcoded data for demonstration purposes
-    foodList = [
-      Food(
-        name: 'Pizza',
-        description: 'Delicious pizza',
-        imageUrl: 'lib/resources/food1.jpg',
-        price: 9.99,
-        shopName: 'Pizza Shop', // Added shopName value
-      ),
-      Food(
-        name: 'Burger',
-        description: 'Tasty burger',
-        imageUrl: 'lib/resources/food2.jpg',
-        price: 6.99,
-        shopName: 'Burger Shop', // Added shopName value
-      ),
-      Food(
-        name: 'Pasta',
-        description: 'Yummy pasta',
-        imageUrl: 'lib/resources/food3.jpg',
-        price: 12.99,
-        shopName: 'Pasta Shop', // Added shopName value
-      ),
-    ];
+    } catch (e) {
+      // Handle errors or exceptions here
+      print('Error in fetchPopularFood in PopularScreenViewModel: $e');
+    }
   }
 }
