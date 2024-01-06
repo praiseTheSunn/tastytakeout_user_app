@@ -3,6 +3,7 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
+import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 
 // class Food {
 //   final String name;
@@ -35,9 +36,9 @@ import 'package:tastytakeout_user_app/data_sources/food_source.dart';
 class SearchScreenViewModel extends GetxController {
   final FoodSource _foodSource = FoodSource();
 
-  RxList<Food> foodList = <Food>[].obs;
+  RxList<FoodModel> foodList = <FoodModel>[].obs;
   final List<String> suggestions = [];
-  RxMap<String, List<Food>> groupedByShop = <String, List<Food>>{}.obs;
+  RxMap<String, List<FoodModel>> groupedByShop = <String, List<FoodModel>>{}.obs;
 
   Future<void> fetchFoodWithName(queryString) async {
     try {
@@ -47,7 +48,7 @@ class SearchScreenViewModel extends GetxController {
       for (var food in foods) {
         foodList.add(food);
       }
-      Map<String, List<Food>> groupedByShopTemp = groupFoodByShop(foodList);
+      Map<String, List<FoodModel>> groupedByShopTemp = groupFoodByShop(foodList);
       for (var key in groupedByShopTemp.keys) {
         groupedByShop[key] = groupedByShopTemp[key]!;
       }
@@ -59,10 +60,10 @@ class SearchScreenViewModel extends GetxController {
     }
   }
 
-  Map<String, List<Food>> groupFoodByShop(List<Food> foodList) {
-      Map<String, List<Food>> groupedByShop = {};
+  Map<String, List<FoodModel>> groupFoodByShop(List<FoodModel> foodList) {
+      Map<String, List<FoodModel>> groupedByShop = {};
 
-      for (Food food in foodList) {
+      for (FoodModel food in foodList) {
         if (groupedByShop.containsKey(food.shopName)) {
           groupedByShop[food.shopName]!.add(food);
         } else {

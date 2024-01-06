@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
+import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/view_models/SearchScreenViewModel.dart';
 import 'package:tastytakeout_user_app/views/screens/food_detail_screen.dart';
 import 'package:tastytakeout_user_app/views/widgets/item_food_extra.dart';
@@ -75,7 +76,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       itemCount: _viewModel.groupedByShop.value.length,
       itemBuilder: (context, index) {
         String shopName = _viewModel.groupedByShop.value.keys.elementAt(index);
-        List<Food> foods = _viewModel.groupedByShop.value[shopName]!;
+        List<FoodModel> foods = _viewModel.groupedByShop.value[shopName]!;
 
         return Card(
           elevation: 0,
@@ -96,7 +97,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
-                  Food food = foods[index];
+                  FoodModel food = foods[index];
                   return InkWell(
                     onTap: () {
                               Get.to(FoodDetailScreen());

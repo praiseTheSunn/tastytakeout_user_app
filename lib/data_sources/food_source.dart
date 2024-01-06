@@ -1,33 +1,34 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 
-class Food {
-  final String name;
-  final String description;
-  final String imageUrl;
-  final double price;
-  final String shopName; // Added shopName field
+// class Food {
+//   final String name;
+//   final String description;
+//   final String imageUrl;
+//   final double price;
+//   final String shopName; // Added shopName field
 
-  Food({
-    required this.name,
-    required this.description,
-    required this.imageUrl,
-    required this.price,
-    required this.shopName, // Added shopName parameter
-  });
+//   Food({
+//     required this.name,
+//     required this.description,
+//     required this.imageUrl,
+//     required this.price,
+//     required this.shopName, // Added shopName parameter
+//   });
 
-  factory Food.fromJson(Map<String, dynamic> json) {
-    return Food(
-      name: json['name'],
-      description: json['description'],
-      imageUrl: json['image_urls'] != null && json['image_urls'].isNotEmpty
-          ? json['image_urls'][0]
-          : '',
-      price: (json['price'] ?? 0).toDouble(),
-      shopName: json['store']['name'],
-    );
-  }
-}
+//   factory Food.fromJson(Map<String, dynamic> json) {
+//     return Food(
+//       name: json['name'],
+//       description: json['description'],
+//       imageUrl: json['image_urls'] != null && json['image_urls'].isNotEmpty
+//           ? json['image_urls'][0]
+//           : '',
+//       price: (json['price'] ?? 0).toDouble(),
+//       shopName: json['store']['name'],
+//     );
+//   }
+// }
 
 
 
@@ -147,7 +148,7 @@ class FoodSource {
 
         Iterable foods = jsonData
             .map((foodItem) =>
-                Food.fromJson(foodItem))
+                FoodModel.fromJson(foodItem))
             // .where((food) => food)
             ;
         
