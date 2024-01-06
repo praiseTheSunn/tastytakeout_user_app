@@ -3,10 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
 import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
+import 'package:tastytakeout_user_app/models/DTO/UserModel.dart';
+import 'package:tastytakeout_user_app/data_sources/hardcode.dart';
 
 class CartSource {
-  final baseUrl = Uri.http('localhost:8080', '/carts/');
-  final loginUrl = Uri.http('localhost:8080', '/auth/login/');
+  final baseUrl = Uri.http('10.0.2.2:8080', '/carts/');
+  final loginUrl = Uri.http('10.0.2.2:8080', '/users/login/');
 
   /* Example JSON response:
          [
@@ -97,22 +99,28 @@ class CartSource {
       );
 
       if (response.statusCode == 200) {
-        print('Response: ${response.body}');
-        var jsonString = response.body;
+        var jsonString = utf8.decode(response.bodyBytes);
         List<dynamic> jsonData = json.decode(jsonString);
 
         if (jsonData.isNotEmpty) {
-          List<FoodModel> foodList = [];
+          // Group food items by store
+          Map<int, List<FoodModel>> groupedFoodList = {};
 
           for (var cartItem in jsonData) {
             int quantity = cartItem['quantity'];
             var foodItem = cartItem['food'];
             int foodId = foodItem['id'];
             String foodName = foodItem['name'];
-            String foodImageUrl = foodItem['image_urls'];
+            String foodImageUrl =
+                (foodItem['image_urls'] as List<dynamic>).first.toString();
             int foodPrice = foodItem['price'];
             int storeId = foodItem['store']['id'];
             String storeName = foodItem['store']['name'];
+
+            if (groupedFoodList.containsKey(storeId) &&
+                groupedFoodList[storeId]!.any((food) => food.id == foodId)) {
+              continue;
+            }
 
             FoodModel food = FoodModel(
               id: foodId,
@@ -124,41 +132,40 @@ class CartSource {
               storeName: storeName,
             );
 
-            foodList.add(food);
-          }
-
-          foodList.sort((a, b) => a.storeId.compareTo(b.storeId));
-
-          // Group food items by store
-          Map<int, List<FoodModel>> groupedFoodList = {};
-          for (var food in foodList) {
-            if (groupedFoodList.containsKey(food.storeId)) {
-              groupedFoodList[food.storeId]?.add(food);
+            if (groupedFoodList.containsKey(storeId)) {
+              groupedFoodList[storeId]!.add(food);
             } else {
-              groupedFoodList[food.storeId] = [food];
+              groupedFoodList[storeId] = [food];
             }
-          }
 
-          // Create order from grouped food items
-          for (var storeId in groupedFoodList.keys) {
-            List<FoodModel> foods = groupedFoodList[storeId]!;
-            OrderModel order = OrderModel(
-              foods: foods,
-              storeId: foods[0].storeId,
-              storeName: foods[0].storeName,
-            );
-            carts.add(order);
+            if (groupedFoodList[storeId]!.length == 1) {
+              OrderModel order = OrderModel(
+                foods: groupedFoodList[storeId]!,
+                storeId: storeId,
+                storeName: storeName,
+                address: userModel.getAddress(),
+                createdAt: DateTime.now().toIso8601String(),
+              );
+              carts.add(order);
+            }
           }
         }
         return carts;
       } else {
-        // Error handling for unsuccessful requests
         print('Request failed with status: ${response.statusCode}');
       }
     } catch (e) {
-      // Exception handling
-      print('Exception during request: $e');
+      print('Exception during request Cart: $e');
     }
     return [];
+  }
+
+  Future<http.Response> deleteCart(List<FoodModel> foods) async {
+    try {
+      /*...*/
+    } catch (e) {
+      print('Exception during delete Cart: $e');
+    }
+    return http.Response('', 500);
   }
 }

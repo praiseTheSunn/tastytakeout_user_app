@@ -13,6 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function() onNotificationPressed = () {};
   final Function() onUserPressed = () {
     if (Get.currentRoute != '/UserInfoPage') {
+      Get.put(UserInfoController());
       Get.to(UserInfoPage());
     } else
       Get.back();

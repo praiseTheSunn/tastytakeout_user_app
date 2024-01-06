@@ -9,28 +9,20 @@ import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
 class OrdersController extends GetxController {
   final title = 'Orders'.obs;
   final ListOrdersViewModel listOrdersViewModel = Get.find();
-  final List<String> OrderStatus = [
-    data.Pending,
-    data.Prepare,
-    data.Delivering,
-    data.Completed
-  ];
-  List<String> selectedStatus = [data.Pending];
 
   @override
   void onInit() {
     super.onInit();
-    selectedStatus = [data.Pending];
     listOrdersViewModel.fetchOrders();
-    listOrdersViewModel.filterOrdersByStatus(selectedStatus[0]);
+    listOrdersViewModel.selectedStatus = [data.PENDING];
+    listOrdersViewModel.filterOrdersByStatus();
   }
 
   @override
   void onReady() {
     super.onReady();
-    selectedStatus = [data.Pending];
     listOrdersViewModel.fetchOrders();
-    listOrdersViewModel.filterOrdersByStatus(selectedStatus[0]);
+    listOrdersViewModel.filterOrdersByStatus();
   }
 }
 
@@ -62,15 +54,11 @@ class OrdersView extends StatefulWidget {
 
 class _OrdersViewState extends State<OrdersView> {
   final OrdersController _ordersController = Get.find<OrdersController>();
-  late List<String> types;
-  late List<String> selectedTypes;
 
   @override
   void initState() {
     super.initState();
     _ordersController.listOrdersViewModel.fetchOrders();
-    types = _ordersController.OrderStatus;
-    selectedTypes = _ordersController.selectedStatus;
   }
 
   @override
@@ -83,18 +71,24 @@ class _OrdersViewState extends State<OrdersView> {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: types
+              children: _ordersController.listOrdersViewModel.OrderStatus
                   .map((type) => Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 8.0, 0),
                         child: FilterChip(
-                          selected: selectedTypes.contains(type),
+                          selected: _ordersController
+                              .listOrdersViewModel.selectedStatus
+                              .contains(type),
                           label: Text(type),
                           onSelected: (selected) {
                             setState(() {
-                              selectedTypes.clear();
-                              selectedTypes.add(type);
+                              _ordersController
+                                  .listOrdersViewModel.selectedStatus
+                                  .clear();
+                              _ordersController
+                                  .listOrdersViewModel.selectedStatus
+                                  .add(type);
                               _ordersController.listOrdersViewModel
-                                  .filterOrdersByStatus(type);
+                                  .filterOrdersByStatus();
                             });
                           },
                         ),
@@ -105,17 +99,29 @@ class _OrdersViewState extends State<OrdersView> {
         ),
         Expanded(
           child: Obx(
-            () => ListView.builder(
-              padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-              itemCount: _ordersController
-                  .listOrdersViewModel.filteredOrderList.length,
-              itemBuilder: (context, index) {
-                return OrderItemWidget(index: index);
-              },
-            ),
+            () {
+              if (_ordersController.listOrdersViewModel.isLoading.value) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return ListView.builder(
+                  padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                  itemCount: _ordersController
+                      .listOrdersViewModel.filteredOrderList.length,
+                  itemBuilder: (context, index) {
+                    return OrderItemWidget(index: index);
+                  },
+                );
+              }
+            },
           ),
         ),
       ],
     );
   }
 }
+
+/*
+CircularProgressIndicator()
+ */

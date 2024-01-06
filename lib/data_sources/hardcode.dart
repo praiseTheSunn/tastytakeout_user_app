@@ -4,16 +4,13 @@ import '/models/DTO/FoodModel.dart';
 import '/models/DTO/OrderModel.dart';
 
 /// Const variable
-const String Pending = 'Chờ xác nhận';
-const String Prepare = 'Chuẩn bị';
-const String Delivering = 'Đang giao';
-const String Completed = 'Đã giao';
+const String PENDING = 'PENDING';
+const String PREPARE = 'PREPARE';
+const String DELIVERING = 'DELIVERING';
+const String COMPLETED = 'COMPLETED';
 
 final UserModel userModel = UserModel(
-    name: 'Nguyễn Văn A',
-    phone: '0123456789',
-    address: ['227 Nguyễn Văn Cừ', 'KTX 135B Trần Hưng Đạo'],
-    email: 'nva@gmail.com');
+    name: 'Nguyễn Văn A', address: '227 Nguyễn Văn Cừ', email: 'nva@gmail.com');
 
 final String imageUrl =
     'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg';
@@ -23,25 +20,25 @@ final List<OrderModel> orders = [
       orderId: 1,
       storeId: 1,
       storeName: "Store 1",
-      status: Completed,
+      status: COMPLETED,
       foods: foods.sublist(0, 1)),
   OrderModel(
       orderId: 2,
       storeId: 2,
       storeName: "Store 2",
-      status: Pending,
+      status: PENDING,
       foods: foods.sublist(1, 2)),
   OrderModel(
       orderId: 3,
       storeId: 3,
       storeName: "Store 3",
-      status: Prepare,
+      status: PREPARE,
       foods: foods.sublist(2, 3)),
   OrderModel(
       orderId: 4,
       storeId: 4,
       storeName: "Store 4",
-      status: Prepare,
+      status: PREPARE,
       foods: foods.sublist(3, 4))
 ];
 
@@ -50,25 +47,25 @@ final List<OrderModel> carts = [
       orderId: 1,
       storeId: 1,
       storeName: "Store 11",
-      status: Completed,
+      status: COMPLETED,
       foods: foods.sublist(0, 1)),
   OrderModel(
       orderId: 2,
       storeId: 2,
       storeName: "Store 22",
-      status: Prepare,
+      status: PREPARE,
       foods: foods.sublist(1, 2)),
   OrderModel(
       orderId: 3,
       storeId: 3,
       storeName: "Store 33",
-      status: Prepare,
+      status: PREPARE,
       foods: foods.sublist(2, 3)),
   OrderModel(
       orderId: 4,
       storeId: 4,
       storeName: "Store 44",
-      status: Prepare,
+      status: PREPARE,
       foods: foods.sublist(3, 4))
 ];
 

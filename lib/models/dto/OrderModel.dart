@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '/models/DTO/FoodModel.dart';
 import '/data_sources/hardcode.dart' as data;
 
@@ -19,7 +21,7 @@ class OrderModel {
     this.foods = const [],
     this.buyerId = 0,
     this.address = '',
-    this.status = data.Prepare,
+    this.status = data.PENDING,
     this.price = 0,
     this.storeId = 0,
     this.storeName = '',
@@ -55,23 +57,40 @@ class OrderModel {
    */
 
   String toJson() {
-    String json = '{';
-    json += '"foods": [';
-    for (var food in foods) {
-      json += '{';
-      json += '"quantity": ${food.quantity},';
-      json += '"total": ${food.price * food.quantity},';
-      json += '"food": ${food.id}';
-      json += '},';
-    }
-    json += '],';
-    json += '"address": "$address",';
-    json += '"status": "$status",';
-    json += '"total": ${calculatePrice()},';
-    json += '"created_at": "$createdAt",';
-    json += '"payment_method": "$paymentMethod",';
-    json += '"voucher": $voucherId';
-    json += '}';
-    return json;
+    var voucherValue = voucherId == -1 ? null : voucherId;
+    return jsonEncode({
+      'foods': foods
+          .map((food) => {
+                'quantity': food.quantity,
+                'total': food.price * food.quantity,
+                'food': food.id,
+              })
+          .toList(),
+      'address': address,
+      'status': status,
+      'total': calculatePrice(),
+      'created_at': createdAt,
+      'payment_method': paymentMethod,
+      'voucher': voucherValue,
+    });
+  }
+
+  Map<String, dynamic> toMapJson() {
+    var voucherValue = voucherId == -1 ? null : voucherId;
+    return {
+      'foods': foods
+          .map((food) => {
+                'quantity': food.quantity,
+                'total': food.price * food.quantity,
+                'food': food.id,
+              })
+          .toList(),
+      'address': address,
+      'status': status,
+      'total': calculatePrice(),
+      'created_at': createdAt,
+      'payment_method': paymentMethod,
+      'voucher': voucherValue,
+    };
   }
 }

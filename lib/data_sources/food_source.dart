@@ -16,15 +16,10 @@ class FoodSource {
           );
 
       if (response.statusCode == 200) {
-        // Successful GET request
         print('Response: ${response.body}');
-
         var jsonString = response.body;
-
-        // Parse the JSON string
         List<dynamic> jsonData = json.decode(jsonString);
 
-        // Extract information
         if (jsonData.isNotEmpty) {
           Map<String, dynamic> foodItem = jsonData[0];
 
@@ -32,9 +27,7 @@ class FoodSource {
           String categoryName = foodItem['category']['name'];
           String storeName = foodItem['store']['name'];
           double rating = foodItem['rating'];
-          // Add more fields as needed
 
-          // Print extracted information
           print('ID: $id');
           print('Category Name: $categoryName');
           print('Store Name: $storeName');
@@ -80,25 +73,7 @@ class FoodSource {
     }
   }
 
-  Future<FoodModel> getSimpleFoodDataById(int foodId) async {
-    try {
-      final uri = Uri.parse('$baseUrl$foodId/');
-      final response = await http.get(uri);
-
-      if (response.statusCode == 200) {
-        // Successful GET request
-        print('Response: ${response.body}');
-
-        var jsonString = response.body;
-
-        // Parse the JSON string
-        List<dynamic> jsonData = json.decode(jsonString);
-
-        // Extract information
-        if (jsonData.isNotEmpty) {
-          Map<String, dynamic> foodItem = jsonData[0];
-
-          /* example json
+  /* example json
           {
               "id": 1,
               "category": {
@@ -131,28 +106,37 @@ class FoodSource {
               "rating": 4
             }
            */
-          int id = foodItem['id'];
-          String foodName = foodItem['name'];
-          int storeId = foodItem['store']['id'];
-          String storeName = foodItem['store']['name'];
-          int price = foodItem['price'];
-          String basicImage = foodItem['image_urls'][0];
 
-          return FoodModel(
-            id: id,
-            name: foodName,
-            storeId: storeId,
-            storeName: storeName,
-            price: price,
-            imageUrls: [basicImage],
-          );
-        }
+  Future<FoodModel> getSimpleFoodDataById(int foodId) async {
+    try {
+      final uri = Uri.parse('$baseUrl$foodId/');
+      final response = await http.get(uri);
+
+      if (response.statusCode == 200) {
+        var jsonString = utf8.decode(response.bodyBytes);
+        Map<String, dynamic> foodItem = json.decode(jsonString);
+
+        int id = foodItem['id'];
+        String foodName = foodItem['name'];
+        int storeId = foodItem['store']['id'];
+        String storeName = foodItem['store']['name'];
+        int price = foodItem['price'];
+        String basicImage = foodItem['image_urls'][0];
+
+        var _food = FoodModel(
+          id: id,
+          name: foodName,
+          storeId: storeId,
+          storeName: storeName,
+          price: price,
+          imageUrls: [basicImage],
+        );
+
+        return _food;
       } else {
-        // Error handling for unsuccessful requests
         print('Request failed with status: ${response.statusCode}');
       }
     } catch (e) {
-      // Exception handling
       print('Exception during request Single Food: $e');
     }
     return FoodModel.defaultModel();

@@ -5,7 +5,15 @@ import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 
 class OrdersSource {
-/* Example JSON response:
+  OrdersSource._privateConstructor();
+
+  static final OrdersSource _instance = OrdersSource._privateConstructor();
+
+  factory OrdersSource() {
+    return _instance;
+  }
+
+  /* Example JSON response:
           [
             {
               "id": 0,
@@ -29,9 +37,10 @@ class OrdersSource {
           */
 
   final baseUrl = Uri.http('10.0.2.2:8080', '/orders/');
-  final loginUrl = Uri.http('10.0.2.2:8080', '/login/');
+  final loginUrl = Uri.http('10.0.2.2:8080', '/users/login/');
 
   Future<String> getAccessToken() async {
+    print('Getting access token...');
     final responseLogin = await http.post(
       loginUrl,
       headers: {
@@ -49,16 +58,22 @@ class OrdersSource {
     return accessToken;
   }
 
-  Future<http.Response> postData(String url, String jsonData) async {
-    final response = await http.post(
-      baseUrl,
-      headers: {
-        'accept': 'application/json',
-        'Authorization': 'Bearer ${await getAccessToken()}',
-      },
-      body: jsonData,
-    );
-    return response;
+  Future<http.Response> postData(
+      Uri uri, Map<String, dynamic> requestData) async {
+    try {
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${await getAccessToken()}',
+        },
+        body: jsonEncode(requestData),
+      );
+      return response;
+    } catch (e) {
+      print('Exception during POST request: $e');
+      return http.Response('Error during request', 500);
+    }
   }
 
   Future<List<OrderModel>> fetchOrders() async {
@@ -74,8 +89,7 @@ class OrdersSource {
       );
 
       if (response.statusCode == 200) {
-        print('Response: ${response.body}');
-        var jsonString = response.body;
+        var jsonString = utf8.decode(response.bodyBytes);
         List<dynamic> jsonData = json.decode(jsonString);
 
         if (jsonData.isNotEmpty) {
@@ -87,18 +101,21 @@ class OrdersSource {
             String createdAt = orderItem['created_at'];
             String paymentMethod = orderItem['payment_method'];
             int buyer = orderItem['buyer'];
-            int voucher = orderItem['voucher'];
+            int voucher = orderItem['voucher'] ?? 0;
 
             // Extract food items from order
             List<dynamic> foodItems = orderItem['foods'];
-            List<FoodModel> foods = foodItems.map((foodItem) {
+
+            // Fetch details of all food items in parallel
+            List<Future<FoodModel>> foodFutures =
+                foodItems.map((foodItem) async {
               int stt = foodItem['id'];
               int foodId = foodItem['food'];
               int quantity = foodItem['quantity'];
               int total = foodItem['total'];
 
               FoodModel _food =
-                  FoodSource().getSimpleFoodDataById(foodId) as FoodModel;
+                  await FoodSource().getSimpleFoodDataById(foodId);
 
               return FoodModel(
                 id: foodId,
@@ -107,8 +124,12 @@ class OrdersSource {
                 quantity: quantity,
                 storeId: _food.storeId,
                 storeName: _food.storeName,
+                imageUrls: _food.imageUrls,
               );
             }).toList();
+
+            // Wait for all food details to be fetched
+            List<FoodModel> foods = await Future.wait(foodFutures);
 
             OrderModel order = OrderModel(
               orderId: id,
@@ -126,12 +147,6 @@ class OrdersSource {
             orders.add(order);
           }
         }
-        for (var order in orders) {
-          print('Order: ${order.orderId}');
-          for (var food in order.foods) {
-            print('Food: ${food.name}');
-          }
-        }
         return orders;
       } else {
         print('Request failed with status: ${response.statusCode}');
@@ -140,5 +155,17 @@ class OrdersSource {
       print('Exception during request Orders: $e');
     }
     return [];
+  }
+
+  Future<bool> addOrder(OrderModel cartOrder) async {
+    var jsonMap = cartOrder.toMapJson();
+    var response = await postData(baseUrl, jsonMap);
+
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+      return false;
+    }
   }
 }
