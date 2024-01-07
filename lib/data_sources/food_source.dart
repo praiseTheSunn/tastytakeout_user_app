@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
+import 'package:tastytakeout_user_app/globals.dart';
 
 class FoodSource {
   // final String apiUrl = 'http://localhost:8000/foods/';
   // final baseUrl = Uri.http('localhost:8000', '/foods/');
 
-  final baseUrl = Uri.http('192.168.13.101:8000', '/foods/');
+  final baseUrl = Uri.http(serverIp, '/foods/');
 
   // Future<void> fetchData() async {
   //   try {

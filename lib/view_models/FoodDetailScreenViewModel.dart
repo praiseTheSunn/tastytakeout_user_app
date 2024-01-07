@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:tastytakeout_user_app/globals.dart';
 
 class FoodDetailScreenViewModel extends GetxController {
   final TEST_ID = 1;
-  final BASE_URL = 'http://10.0.2.2:8000/foods/';
+  final BASE_URL = 'http://$serverIp/foods/';
   var isLoading = true.obs;
   var foodDetail = FoodDetail(
     name: '',

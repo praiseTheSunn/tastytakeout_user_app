@@ -6,13 +6,15 @@ import 'package:http/http.dart';
 import 'package:tastytakeout_user_app/models/dto/ChatModel.dart';
 import 'package:tastytakeout_user_app/view_models/ChatScreenViewModel.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:tastytakeout_user_app/globals.dart';
 
 import '../models/dto/MessageModel.dart';
 
+
 class ChatDetailScreenViewModel extends GetxController {
   var chatMessage = RxList<MessageModel>();
-  final BASE_URL = 'http://10.0.2.2:8000/chat/';
-  final BASE_URL_WS = 'ws://10.0.2.2:8000/ws/chat/';
+  final BASE_URL = '$serverIp/chat/';
+  final BASE_URL_WS = 'ws://$serverIp/ws/chat/';
   String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODg1OTUxNjI4LCJpYXQiOjE3MDQ1MTE2MjgsImp0aSI6IjU1MGFiOWU0MGM4MTQ2MDNhNmQxMjcxZjRiZjYxNmQ4IiwidXNlcl9pZCI6MTAsInJvbGUiOiJCVVlFUiJ9.Um--pPRWNG7VPh9F7ARYaRIn2Ab5yDvrpZvfsO9_9vA';
   String chatRoom = '';
   late WebSocketChannel channel;

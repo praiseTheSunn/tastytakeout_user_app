@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 
 import '../models/dto/StoreModel.dart';
+import 'package:tastytakeout_user_app/globals.dart';
 
 class StoreInfomationScreenViewModel extends GetxController {
   var storeId = -1.obs;
@@ -17,7 +18,7 @@ class StoreInfomationScreenViewModel extends GetxController {
     isLike: false,
     likers_count: 0,
   ).obs;
-  final BASE_URL = 'http://10.0.2.2:8000/stores/';
+  final BASE_URL = 'http://$serverIp/stores/';
 
   StoreInfomationScreenViewModel({required this.storeId});
 

@@ -30,7 +30,7 @@ class FoodModel {
       imageUrl: json['image_urls'] != null && json['image_urls'].isNotEmpty
           ? json['image_urls'][0]
           : '',
-      price: (json['price'] ?? 0).toDouble(),
+      price: int.parse((json['price'].toString())),
       shopName: json['store']['name'],
     );
   }

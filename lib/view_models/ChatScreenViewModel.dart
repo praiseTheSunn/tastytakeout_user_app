@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/helper/date_helper.dart';
 
 import '../models/dto/ChatModel.dart';
@@ -10,7 +11,7 @@ class ChatScreenViewModel extends GetxController {
   var isLoading = true.obs;
   var chatList = RxList<ChatModel>();
   var chatListDate = RxList<String>();
-  final BASE_URL = 'http://10.0.2.2:8000/chat';
+  final BASE_URL = 'http://$serverIp/chat';
 
   @override
   void onInit() {

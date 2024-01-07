@@ -7,7 +7,7 @@ class PopularScreenViewModel extends GetxController {
 
   RxList<FoodModel> foodList = <FoodModel>[].obs;
 
-  Future<void> fetchPopularFood(rating) async {
+  Future<void> fetchPopularFood(double rating) async {
     try {
       foodList.clear();
       Iterable foods = await _popularFoodSource.getFoodWithRating(rating);

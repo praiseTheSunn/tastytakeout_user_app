@@ -9,6 +9,8 @@ import '/views/screens/orders_screen.dart';
 import '/views/screens/chat_screen.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
