@@ -3,48 +3,56 @@ import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/view_models/ChatDetailScreenViewModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/chat_bubble.dart';
 
-import '../../models/dto/ChatModel.dart';
 import '../../models/dto/MessageModel.dart';
 
 class ChatDetailScreen extends StatelessWidget {
   ChatDetailScreen({super.key});
 
+  String chatRoomId = '';
   late TextEditingController messageController = TextEditingController();
-  final ChatDetailScreenViewModel chatDetailScreenViewModel =
-      Get.put(ChatDetailScreenViewModel());
-
-  @override
-  void initState() {
-    // chatDetailScreenViewModel.getChatMessages();
-  }
+  late ChatDetailScreenViewModel chatDetailScreenViewModel;
 
   @override
   void dispose() {
     messageController.dispose();
-    // chatDetailScreenViewModel.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ChatModel chatModel = Get.arguments as ChatModel;
-    chatDetailScreenViewModel.getChatMessages(chatModel);
-    print("Initial messages");
-    for (int i = 0; i < chatModel.messages.length; i++) {
-      print(chatModel.messages[i].message);
+    chatRoomId = Get.arguments;
+    chatDetailScreenViewModel = Get.put(ChatDetailScreenViewModel(chatRoomId));
+    print('chatDetailScreenViewModel.chatMessage.length: ' +
+        chatDetailScreenViewModel.chatMessage.length.toString());
+    for (int i = 0; i < chatDetailScreenViewModel.chatMessage.length; i++) {
+      print(chatDetailScreenViewModel.chatMessage[i].message);
     }
     return Scaffold(
       appBar: AppBar(
         title: Text('ChatDetailScreen'),
       ),
-      body: Stack(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Obx(
-            () => ListView.builder(
-              itemCount: chatDetailScreenViewModel.chatMessage.length,
-              itemBuilder: (context, index) {
-                return ChatBubble(messageModel: chatDetailScreenViewModel.chatMessage[index]);
-              },
-            ),
+            () {
+              if (chatDetailScreenViewModel.isLoading.value) {
+                return Expanded(child: Center(child: CircularProgressIndicator()));
+              } else {
+                return Expanded(
+                  child: ListView.builder(
+                    reverse: true,
+                    controller: chatDetailScreenViewModel.scrollController,
+                    itemCount: chatDetailScreenViewModel.chatMessage.length,
+                    itemBuilder: (context, index) {
+                      return ChatBubble(
+                        messageModel:
+                            chatDetailScreenViewModel.chatMessage[index],
+                      );
+                    },
+                  ),
+                );
+              }
+            },
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -71,17 +79,10 @@ class ChatDetailScreen extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.send),
                     onPressed: () {
-                      if (messageController.text.isNotEmpty) {
-                        chatDetailScreenViewModel.addMessage(
-                          chatModel,
-                          MessageModel(
-                            message: messageController.text,
-                            time: DateTime.now().toString(),
-                            sendByMe: true,
-                          ),
-                        );
-                        messageController.clear();
-                      }
+                      chatDetailScreenViewModel
+                          .sendMessage(messageController.text);
+                      messageController.text = '';
+                      // chatDetailScreenViewModel.scrollToTop(300);
                     },
                   ),
                 ],
