@@ -63,7 +63,7 @@ class HomeController extends GetxController {
       return GetPageRoute(
         settings: settings,
         page: () => MainHomePage(),
-        binding: MainHomeBinding(),
+        binding: MainHomeBinding(), 
       );
     }
 
