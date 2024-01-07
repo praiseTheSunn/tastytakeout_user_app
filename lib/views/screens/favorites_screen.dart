@@ -54,7 +54,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: FoodCard(
               foodName: food.name,
               // description: food.description,
-              imagePath: food.imageUrl,
+              imagePath: food.imageUrls[0],
               price: food.price.toString(),
               shopName: food.shopName, // Pass shopName to FoodCard
               onTap: () {
