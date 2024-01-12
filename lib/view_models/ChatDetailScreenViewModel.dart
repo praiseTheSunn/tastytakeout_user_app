@@ -13,7 +13,7 @@ import '../models/dto/MessageModel.dart';
 
 class ChatDetailScreenViewModel extends GetxController {
   var chatMessage = RxList<MessageModel>();
-  final BASE_URL = '$serverIp/chat/';
+  final BASE_URL = 'http://$serverIp/chat/';
   final BASE_URL_WS = 'ws://$serverIp/ws/chat/';
   String token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODg1OTUxNjI4LCJpYXQiOjE3MDQ1MTE2MjgsImp0aSI6IjU1MGFiOWU0MGM4MTQ2MDNhNmQxMjcxZjRiZjYxNmQ4IiwidXNlcl9pZCI6MTAsInJvbGUiOiJCVVlFUiJ9.Um--pPRWNG7VPh9F7ARYaRIn2Ab5yDvrpZvfsO9_9vA';
   String chatRoom = '';
@@ -67,7 +67,7 @@ class ChatDetailScreenViewModel extends GetxController {
         throw Exception('Error fetching chat messages');
       } else {
         List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
-        chatMessage.value = json.map((e) => MessageModel.fromJson(e)).toList();
+        chatMessage.value.insertAll(0,json.map((e) => MessageModel.fromJson(e)).toList());
         chatMessage.value = chatMessage.value.reversed.toList();
       }
     } catch (e) {
@@ -77,11 +77,33 @@ class ChatDetailScreenViewModel extends GetxController {
     }
   }
 
+  Future<void> postChatMessage(String message) async {
+    final url = Uri.parse(BASE_URL + chatRoom + '/');
+    final headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization' : 'Bearer ' + token
+    };
+    final jsonBody = json.encode({
+      'message': message,
+    });
+
+    try {
+      final response = await post(url, headers: headers, body: jsonBody);
+      if (response.statusCode != 200) {
+        throw Exception('Error posting chat message');
+      } else {
+        print(response.body);
+      }
+      Get.find<ChatScreenViewModel>().fetchChatList();
+    } catch (e) {
+      print('Error in postChatMessage ' + e.toString());
+    }
+  }
+
   void startListening() {
     channel.stream.handleError((error) {
       print('Có lỗi xảy ra: $error');
     }).listen((message) {
-      Get.find<ChatScreenViewModel>().fetchChatList();
       chatMessage.insert(0,MessageModel.fromJson(jsonDecode(message)));
       print('Tin nhắn mới: $message');
     }, onDone: () {
@@ -90,7 +112,9 @@ class ChatDetailScreenViewModel extends GetxController {
   }
 
   void sendMessage(String text) {
+    // Send message to server and add new message to database
     final message = json.encode({'message': text,'role' : 'BUYER'});
+    postChatMessage(text);
     channel.sink.add(message);
   }
 

@@ -37,6 +37,7 @@ class ChatScreenViewModel extends GetxController {
   }
 
   Future<void> fetchChatList() async {
+    print('fetchChatList');
     try {
       isLoading(true);
       final response = await get(

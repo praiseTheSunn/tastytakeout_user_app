@@ -9,6 +9,9 @@ class ChatDetailScreen extends StatelessWidget {
   ChatDetailScreen({super.key});
 
   String chatRoomId = '';
+  int storeId = 0;
+  String storeName = '';
+  String storeImage = '';
   late TextEditingController messageController = TextEditingController();
   late ChatDetailScreenViewModel chatDetailScreenViewModel;
 
@@ -19,17 +22,25 @@ class ChatDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    chatRoomId = Get.arguments;
+    final args = Get.arguments;
+    chatRoomId = args['chat_room_id'];
+    storeId = args['store_id'];
+    storeName = args['store_name'];
+    storeImage = args['store_image_url'];
     chatDetailScreenViewModel = Get.put(ChatDetailScreenViewModel(chatRoomId));
-    print('chatDetailScreenViewModel.chatMessage.length: ' +
-        chatDetailScreenViewModel.chatMessage.length.toString());
-    for (int i = 0; i < chatDetailScreenViewModel.chatMessage.length; i++) {
-      print(chatDetailScreenViewModel.chatMessage[i].message);
-    }
     return Scaffold(
       appBar: AppBar(
-        title: Text('ChatDetailScreen'),
+        title: Text(storeName, style: TextStyle(color: Colors.black), overflow: TextOverflow.ellipsis,),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 10),
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(storeImage),
+            ),
+          )
+        ],
       ),
+      backgroundColor: Colors.grey.shade200,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -40,6 +51,7 @@ class ChatDetailScreen extends StatelessWidget {
               } else {
                 return Expanded(
                   child: ListView.builder(
+                    padding: EdgeInsets.all(10),
                     reverse: true,
                     controller: chatDetailScreenViewModel.scrollController,
                     itemCount: chatDetailScreenViewModel.chatMessage.length,
@@ -58,7 +70,14 @@ class ChatDetailScreen extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              color: Colors.grey.shade200,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey.shade300,
+                  ),
+                ),
+              ),
               child: Row(
                 children: [
                   Expanded(
