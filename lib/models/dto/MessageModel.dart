@@ -25,6 +25,14 @@
       );
     }
 
+    factory MessageModel.fromJsonWithoutImage(Map<String,dynamic> json) {
+      return MessageModel(
+        message: json['message'],
+        sender: json['sender'],
+        sender_url: '',
+      );
+    }
+
     bool sendByMe() {
       return sender == 'BUYER';
     }

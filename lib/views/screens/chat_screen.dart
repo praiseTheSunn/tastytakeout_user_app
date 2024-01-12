@@ -65,6 +65,7 @@ class ChatPage extends StatelessWidget {
                               'store_id': items[index].store.id,
                               'store_name': items[index].store.name,
                               'store_image_url': items[index].store.image_url,
+                              'buyer_image_url': items[index].buyer.image_url,
                             })?.then((value) {
                               viewModel.fetchChatList();
                             });

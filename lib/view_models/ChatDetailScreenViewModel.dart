@@ -19,10 +19,33 @@ class ChatDetailScreenViewModel extends GetxController {
   String chatRoom = '';
   late WebSocketChannel channel;
   final ScrollController scrollController = ScrollController();
+  final TextEditingController messageController = TextEditingController();
+  String sender_url = '';
+  String receiver_url = '';
   var isLoading = true.obs;
+  var partnerIsTyping = false.obs;
+  bool sended = false;
 
-  ChatDetailScreenViewModel(String chatRoom) {
+  ChatDetailScreenViewModel(String chatRoom, String sender_url, String receiver_url) {
     this.chatRoom = chatRoom;
+    this.sender_url = sender_url;
+    this.receiver_url = receiver_url;
+  }
+
+  void addTextControllerListener() {
+    messageController.addListener(() {
+      if (messageController.text.length > 0) {
+        if (sended == false) {
+          sended = true;
+          sendMessage(''); // Send empty message to server
+        }// Send empty message to server
+      } else {
+        if (sended == true) {
+          sended = false;
+          sendMessage(''); // Send empty message to server
+        }
+      }
+    });
   }
 
   @override
@@ -32,6 +55,7 @@ class ChatDetailScreenViewModel extends GetxController {
       Uri.parse(BASE_URL_WS + chatRoom + '/?token=' + token),
     );
     startListening();
+    addTextControllerListener();
     super.onInit();
   }
 
@@ -104,8 +128,28 @@ class ChatDetailScreenViewModel extends GetxController {
     channel.stream.handleError((error) {
       print('Có lỗi xảy ra: $error');
     }).listen((message) {
-      chatMessage.insert(0,MessageModel.fromJson(jsonDecode(message)));
-      print('Tin nhắn mới: $message');
+      MessageModel messageModel = MessageModel.fromJsonWithoutImage(jsonDecode(message));
+      if (messageModel.message.length == 0 ) {
+        if (messageModel.sender == 'SELLER')
+          partnerIsTyping.value = !partnerIsTyping.value;
+      } else {
+        if (messageModel.sender == 'SELLER') {
+          partnerIsTyping.value = false;
+          sended = false;
+        }
+        if (messageModel.sender == 'BUYER') {
+          messageModel.sender_url = sender_url;
+        } else {
+          messageModel.sender_url = receiver_url;
+        }
+        chatMessage.insert(0,messageModel);
+        print('Tin nhắn mới: $message');
+      }
+      if (partnerIsTyping.value) {
+        print('Đối phương đang nhập tin nhắn');
+      } else {
+        print('Đối phương đã gửi tin nhắn');
+      }
     }, onDone: () {
       print('WebSocket kết nối đã đóng');
     });
@@ -114,7 +158,9 @@ class ChatDetailScreenViewModel extends GetxController {
   void sendMessage(String text) {
     // Send message to server and add new message to database
     final message = json.encode({'message': text,'role' : 'BUYER'});
-    postChatMessage(text);
+    if (text.length > 0) {
+      postChatMessage(text);
+    }
     channel.sink.add(message);
   }
 
