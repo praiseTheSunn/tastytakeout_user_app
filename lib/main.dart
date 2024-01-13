@@ -1,19 +1,52 @@
+import 'dart:convert';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tastytakeout_user_app/firebase_options.dart';
+import 'package:tastytakeout_user_app/service/firebase_messaging.dart';
 import 'package:tastytakeout_user_app/views/screens/favorites_screen.dart';
-import '/views/screens/mainhome_screen.dart';
+
 import '/views/screens/cart_screen.dart';
-import '/views/screens/orders_screen.dart';
 import '/views/screens/chat_screen.dart';
+import '/views/screens/mainhome_screen.dart';
+import '/views/screens/orders_screen.dart';
+
+Future<void> _handelMessage(RemoteMessage message) async {
+  String payloadData = jsonEncode(message.data);
+  print("Got a message in foreground");
+  if (message.notification != null) {
+    firebaseMessagingApi.showSimpleNotification(
+        title: message.notification!.title!,
+        body: message.notification!.body!,
+        payload: payloadData);
+  } else {
+    print("No notification");
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
+
+  await firebaseMessagingApi.init();
+  await firebaseMessagingApi.localNotiInit();
+
+  FirebaseMessaging.onBackgroundMessage(_handelMessage);
+  FirebaseMessaging.onMessage.listen(_handelMessage);
+
+  await SharedPreferences.getInstance();
 
   runApp(GetMaterialApp(
     title: 'Tasty Takeout',
@@ -60,7 +93,7 @@ class HomeController extends GetxController {
       return GetPageRoute(
         settings: settings,
         page: () => MainHomePage(),
-        binding: MainHomeBinding(), 
+        binding: MainHomeBinding(),
       );
     }
 
