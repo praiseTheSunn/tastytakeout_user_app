@@ -43,7 +43,8 @@ class UserInfoPage extends StatefulWidget {
 }
 
 class _UserInfoPageState extends State<UserInfoPage> {
-  final UserInfoController _userInfoController = Get.find<UserInfoController>();
+  // final UserInfoController _userInfoController = Get.find<UserInfoController>();
+  final UserInfoController _userInfoController = Get.put(UserInfoController());
   late ImagePicker _imagePicker;
   late XFile _pickedFile;
   late bool _isPicked = false;

@@ -76,7 +76,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     //   Get.to(UserInfoPage());
                     // } else
                     //   Get.back();
-                    authService.checkLoginStatus();
+                    await authService.checkLoginStatus();
+                    print(authService.isLoggedIn.value);
                     if (authService.isLoggedIn.value) {
                       // If logged in, navigate to the user info page
                       if (Get.currentRoute != '/UserInfoPage') {

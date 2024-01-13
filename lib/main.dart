@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/views/screens/favorites_screen.dart';
 import '/views/screens/mainhome_screen.dart';
 import '/views/screens/cart_screen.dart';
@@ -15,8 +14,6 @@ Future<void> main() async {
     statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
-
-  await SharedPreferences.getInstance();
 
   runApp(GetMaterialApp(
     title: 'Tasty Takeout',

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 
 import '../screens/voucher_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
+  final AuthService authService = Get.put(AuthService());
+  // const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +87,9 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Đăng xuất'),
+            onTap: () {
+              authService.logout();
+            },
           ),
         ],
       ),

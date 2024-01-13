@@ -11,7 +11,7 @@ class AuthService extends GetxController {
 
     // Save login status to shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', true);
+    await prefs.setBool('isLoggedIn', true);
   }
 
   Future<void> logout() async {
@@ -19,11 +19,12 @@ class AuthService extends GetxController {
 
     // Clear login status in shared preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isLoggedIn', false);
+    await prefs.setBool('isLoggedIn', false);
   }
 
   Future<void> checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isLoggedIn.value = prefs.getBool('isLoggedIn') ?? false;
+    bool? value = await prefs.getBool('isLoggedIn');
+    isLoggedIn.value = value ?? false;
   }
 }

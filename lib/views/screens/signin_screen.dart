@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 import 'package:tastytakeout_user_app/views/screens/forgotpassword_screen.dart';
 import 'package:tastytakeout_user_app/views/screens/signup_screen.dart';
 
@@ -7,6 +8,7 @@ import 'package:tastytakeout_user_app/views/screens/signup_screen.dart';
 class SignInViewModel {
   String username = '';
   String password = '';
+  
 }
 
 class SignInPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final AuthService authService = Get.put(AuthService());
   // Create an instance of the ViewModel
   SignInViewModel _viewModel = SignInViewModel();
 
@@ -93,6 +96,8 @@ class _SignInPageState extends State<SignInPage> {
               onPressed: () {
                 // Add logic for sign-in button
                 print('Sign In: ${_viewModel.username}, ${_viewModel.password}');
+                authService.login();
+                
               },
               child: Text('Sign In'),
             ),
