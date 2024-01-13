@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
+import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
 import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
@@ -41,6 +42,7 @@ class CartSource {
           */
 
   Future<String> getAccessToken() async {
+    return data.accessKey;
     final responseLogin = await http.post(
       loginUrl,
       headers: {
@@ -53,6 +55,7 @@ class CartSource {
       }),
     );
 
+    print('Getting access token...');
     String accessToken = jsonDecode(responseLogin.body)['access'];
     print('Access token: $accessToken');
     return accessToken;

@@ -78,7 +78,7 @@ class OrderPaymentPage extends StatelessWidget {
                         'Áp dụng voucher',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text('Text 2',
+                      Text('Không áp dụng',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 15.0,
@@ -112,6 +112,8 @@ class OrderPaymentPage extends StatelessWidget {
                 groupValue: radioValue.value,
                 onChanged: (value) {
                   radioValue.value = value!;
+                  _listOrdersViewModel.cartList[cartIndex].paymentMethod =
+                      'PAYMENT';
                 },
               ),
             ),
@@ -122,6 +124,8 @@ class OrderPaymentPage extends StatelessWidget {
                 groupValue: radioValue.value,
                 onChanged: (value) {
                   radioValue.value = value!;
+                  _listOrdersViewModel.cartList[cartIndex].paymentMethod =
+                      'CASH';
                 },
               ),
             ),
