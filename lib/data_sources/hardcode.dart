@@ -9,6 +9,16 @@ const String PREPARE = 'PREPARE';
 const String DELIVERING = 'DELIVERING';
 const String COMPLETED = 'COMPLETED';
 
+var mapStatus = {
+  PENDING: 'Đang chờ',
+  PREPARE: 'Đang chuẩn bị',
+  DELIVERING: 'Đang giao',
+  COMPLETED: 'Đã giao',
+};
+
+final String accessKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODg2NTU3OTg1LCJpYXQiOjE3MDUxMTc5ODUsImp0aSI6IjQyMjBkY2Y2NzkxNTRjZDlhMmE2MGZlNmVkOGZlNWQ3IiwidXNlcl9pZCI6MTAsInJvbGUiOiJCVVlFUiJ9.cKb2CA0V_fh-mU48n98y0z9b6IItegINHPocv-YdQ7k';
+
 final UserModel userModel = UserModel(
     name: 'Nguyễn Văn A', address: '227 Nguyễn Văn Cừ', email: 'nva@gmail.com');
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
+import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
 import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
@@ -41,6 +42,7 @@ class OrdersSource {
   final loginUrl = Uri.http(serverIp, '/users/login/');
 
   Future<String> getAccessToken() async {
+    return data.accessKey;
     print('Getting access token...');
     final responseLogin = await http.post(
       loginUrl,
@@ -101,7 +103,7 @@ class OrdersSource {
             int total = orderItem['total'];
             String createdAt = orderItem['created_at'];
             String paymentMethod = orderItem['payment_method'];
-            int buyer = orderItem['buyer'];
+            int buyerId = orderItem['buyer']['id'];
             int voucher = orderItem['voucher'] ?? 0;
 
             // Extract food items from order

@@ -78,7 +78,7 @@ class _OrdersViewState extends State<OrdersView> {
                           selected: _ordersController
                               .listOrdersViewModel.selectedStatus
                               .contains(type),
-                          label: Text(type),
+                          label: Text(data.mapStatus[type]!),
                           onSelected: (selected) {
                             setState(() {
                               _ordersController
