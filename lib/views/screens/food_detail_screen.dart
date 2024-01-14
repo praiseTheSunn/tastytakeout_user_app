@@ -7,13 +7,14 @@ import 'package:tastytakeout_user_app/view_models/FoodDetailScreenViewModel.dart
 import 'package:tastytakeout_user_app/views/screens/store_infomation_screen.dart';
 
 class FoodDetailScreen extends StatelessWidget {
-  FoodDetailScreen({super.key});
+  final int foodId;
 
-  final FoodDetailScreenViewModel viewModel =
-      Get.put(FoodDetailScreenViewModel());
+  FoodDetailScreen({super.key, required this.foodId});
 
   @override
   Widget build(BuildContext context) {
+    final FoodDetailScreenViewModel viewModel =
+        Get.put(FoodDetailScreenViewModel(foodId));
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -170,45 +171,55 @@ class FoodDetailScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30.0),
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: Image.network(
+                                  viewModel.foodDetail.value.storeDetail.imageUrl,
+                                  height: 60,
+                                  width: 60,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(
+                                      Icons.error,
+                                      size: 60,
+                                    );
+                                  },
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              clipBehavior: Clip.antiAlias,
-                              child: Image.network(
-                                // viewModel.foodDetail.value.storeDetail.imageUrl,
-                                'https://i.imgur.com/5X9XYYz.png',
-                                height: 60,
-                                width: 60,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Icon(
-                                    Icons.error,
-                                    size: 60,
-                                  );
-                                },
-                                fit: BoxFit.cover,
+                            ), // Logo của nhà cung cấp
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      viewModel
+                                          .foodDetail.value.storeDetail.name,
+                                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
+                                  SizedBox(height: 4.0),
+                                  Text(
+                                    viewModel
+                                        .foodDetail.value.storeDetail.address,
+                                    style: TextStyle(fontSize: 16),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(height: 4.0),
+                                ],
                               ),
                             ),
-                          ), // Logo của nhà cung cấp
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(viewModel.foodDetail.value.storeDetail.name,
-                                  style: TextStyle(fontSize: 16)),
-                              SizedBox(height: 4.0),
-                              Text(
-                                  viewModel
-                                      .foodDetail.value.storeDetail.address,
-                                  style: TextStyle(fontSize: 16)),
-                              SizedBox(height: 4.0),
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       InkWell(
                         child: Container(
@@ -231,8 +242,8 @@ class FoodDetailScreen extends StatelessWidget {
                         ),
                         onTap: () {
                           Get.to(() => StoreInfomationScreen(),
-                              arguments: viewModel
-                                  .foodDetail.value.storeDetail.id);
+                              arguments:
+                                  viewModel.foodDetail.value.storeDetail.id);
                         },
                       ),
                     ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:input_quantity/input_quantity.dart';
 import 'package:tastytakeout_user_app/view_models/ListOrdersViewModel.dart';
+import 'package:tastytakeout_user_app/views/screens/cart_screen.dart';
 import 'dart:developer' as developer;
 import '../../models/DTO/FoodModel.dart';
 import '../../models/DTO/OrderModel.dart';
@@ -75,8 +77,7 @@ class CartPreviewBottomSheet extends StatelessWidget {
                     listOrdersViewModel.cartList[cartIndex].foods[i]
                         .setQuantity(quantityListObs[i].value);
                   }
-                  Get.to(() => OrderPaymentPage(cartIndex: cartIndex));
-                  Navigator.pop(context);
+                  Get.toNamed('/cart', id: 1);
                 },
                 child: Text('Confirm'),
               ),
@@ -105,34 +106,42 @@ class FoodItemPreviewWidget extends StatelessWidget {
     String cost = formatHelper.formatMoney(food.price);
 
     return GestureDetector(
-      child: Card(
-        elevation: 4.0,
-        shape: RoundedRectangleBorder(
+      child: Container(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
+          color: Colors.white,
         ),
-        color: Colors.green[100],
+        padding: EdgeInsets.all(12.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 80.0,
-              height: 80.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12.0),
-                  bottomLeft: Radius.circular(12.0),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1.0,
+                    ),
+                  ),
+                  width: 80.0,
+                  height: 80.0,
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              ],
             ),
             // Left side with 3 lines of text
             Expanded(
+              flex: 1,
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RichText(
@@ -160,49 +169,118 @@ class FoodItemPreviewWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  children: [
-                    Obx(() {
-                      return Row(
-                        children: [
-                          // "-" button to decrease quantity
-                          IconButton(
-                            onPressed: () {
-                              if (quantityListObs[foodIndex].value > 1) {
-                                quantityListObs[foodIndex].value--;
-                              }
-                            },
-                            icon: Icon(Icons.remove),
-                          ),
-                          // Display quantity
-                          Text(
-                            ' X${quantityListObs[foodIndex].value}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                              color: Colors.green, // Adjust color as needed
-                            ),
-                          ),
-                          // "+" button to increase quantity
-                          IconButton(
-                            onPressed: () {
-                              quantityListObs[foodIndex].value++;
-                            },
-                            icon: Icon(Icons.add),
-                          ),
-                        ],
-                      );
-                    }),
-                  ],
-                ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: InputQty.int(
+                initVal: quantityListObs[foodIndex].value,
+                onQtyChanged: (value) {
+                  quantityListObs[foodIndex].value = value;
+                },
               ),
-            ),
+            )
           ],
         ),
       ),
     );
+    //   GestureDetector(
+    //   child: Card(
+    //     elevation: 4.0,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(12.0),
+    //     ),
+    //     color: Colors.green[100],
+    //     child: Row(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       children: [
+    //         Container(
+    //           width: 80.0,
+    //           height: 80.0,
+    //           decoration: BoxDecoration(
+    //             borderRadius: BorderRadius.only(
+    //               topLeft: Radius.circular(12.0),
+    //               bottomLeft: Radius.circular(12.0),
+    //             ),
+    //             image: DecorationImage(
+    //               image: NetworkImage(imageUrl),
+    //               fit: BoxFit.cover,
+    //             ),
+    //           ),
+    //         ),
+    //         // Left side with 3 lines of text
+    //         Expanded(
+    //           child: Padding(
+    //             padding: const EdgeInsets.all(12.0),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               children: [
+    //                 RichText(
+    //                   text: TextSpan(
+    //                     children: [
+    //                       TextSpan(
+    //                         text: name,
+    //                         style: TextStyle(
+    //                           fontWeight: FontWeight.bold,
+    //                           fontSize: 16.0,
+    //                           color: Colors.black, // Adjust color as needed
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),
+    //                 SizedBox(height: 8.0),
+    //                 Text(
+    //                   cost, // Display cost here
+    //                   style: TextStyle(
+    //                     color: Colors.black87, // Adjust color as needed
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //         Container(
+    //           child: Padding(
+    //             padding: const EdgeInsets.all(12.0),
+    //             child: Column(
+    //               children: [
+    //                 Obx(() {
+    //                   return Row(
+    //                     children: [
+    //                       // "-" button to decrease quantity
+    //                       IconButton(
+    //                         onPressed: () {
+    //                           if (quantityListObs[foodIndex].value > 1) {
+    //                             quantityListObs[foodIndex].value--;
+    //                           }
+    //                         },
+    //                         icon: Icon(Icons.remove),
+    //                       ),
+    //                       // Display quantity
+    //                       Text(
+    //                         ' X${quantityListObs[foodIndex].value}',
+    //                         style: TextStyle(
+    //                           fontWeight: FontWeight.bold,
+    //                           fontSize: 16.0,
+    //                           color: Colors.green, // Adjust color as needed
+    //                         ),
+    //                       ),
+    //                       // "+" button to increase quantity
+    //                       IconButton(
+    //                         onPressed: () {
+    //                           quantityListObs[foodIndex].value++;
+    //                         },
+    //                         icon: Icon(Icons.add),
+    //                       ),
+    //                     ],
+    //                   );
+    //                 }),
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

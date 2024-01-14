@@ -35,8 +35,9 @@ class ChatPage extends StatelessWidget {
                   var items = viewModel.chatList;
                   var time = viewModel.chatListDate;
                   String lastMessage = "";
-                  return ListView.builder(
+                  return ListView.separated(
                     padding: EdgeInsets.all(10),
+                    separatorBuilder: (context, index) => SizedBox(height: 10),
                     itemCount: items.length,
                     itemBuilder: (context, index) {
                       if (items[index].sender == "BUYER") {

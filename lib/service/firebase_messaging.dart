@@ -65,7 +65,7 @@ class firebaseMessagingApi {
         AndroidNotificationDetails(
             'high_importance_channel', 'your channel name',
             channelDescription: 'your channel description',
-            icon: '',
+            icon: 'tasty_takeout_icon',
             importance: Importance.max,
             priority: Priority.high,
             styleInformation: BigTextStyleInformation('',

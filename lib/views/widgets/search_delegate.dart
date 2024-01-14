@@ -7,7 +7,7 @@ import 'package:tastytakeout_user_app/views/widgets/item_food_extra.dart';
 
 class CustomSearchDelegate extends SearchDelegate<String> {
   final SearchScreenViewModel _viewModel = Get.put(SearchScreenViewModel());
-  
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -38,93 +38,98 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     return DefaultTabController(
       length: 2,
       child: Column(
-            children: [
-              TabBar(
-                tabs: [
-                  Tab(text: 'Món ăn'),
-                  Tab(text: 'Cửa hàng'),
-                ],
-              ),
-              Expanded(
-                child: TabBarView(
-                    children: [
-                      Obx(() => ListView.builder(
-                        itemCount: _viewModel.foodList.value.length,
-                        itemBuilder: (context, index) {
-                          final food = _viewModel.foodList.value[index];
-                          return InkWell(
+        children: [
+          TabBar(
+            tabs: [
+              Tab(text: 'Món ăn'),
+              Tab(text: 'Cửa hàng'),
+            ],
+          ),
+          Expanded(
+            child: TabBarView(
+              children: [
+                Obx(() => ListView.builder(
+                      itemCount: _viewModel.foodList.value.length,
+                      itemBuilder: (context, index) {
+                        final food = _viewModel.foodList.value[index];
+                        return InkWell(
+                          onTap: () {
+                            Get.to(FoodDetailScreen(
+                                foodId: _viewModel.foodList.value[index].id));
+                          },
+                          child: FoodCard(
+                            foodName: food.name,
+                            // description: food.description,
+                            imagePath: food.imageUrls[0],
+                            price: food.price.toString(),
+                            shopName: food.shopName,
+                            // Pass shopName to FoodCard
                             onTap: () {
-                              Get.to(FoodDetailScreen());
+                              print("Tapped on ${food.name}");
                             },
-                            child: FoodCard(
-                              foodName: food.name,
-                              // description: food.description,
-                              imagePath: food.imageUrls[0],
-                              price: food.price.toString(),
-                              shopName: food.shopName, // Pass shopName to FoodCard
-                              onTap: () {
-                                print("Tapped on ${food.name}");
-                              },
-                            ),
-                          );
-                        },
-                      )
-                      ),
-                      Obx(() => 
-                      ListView.builder(
-      itemCount: _viewModel.groupedByShop.value.length,
-      itemBuilder: (context, index) {
-        String shopName = _viewModel.groupedByShop.value.keys.elementAt(index);
-        List<FoodModel> foods = _viewModel.groupedByShop.value[shopName]!;
+                          ),
+                        );
+                      },
+                    )),
+                Obx(() => ListView.builder(
+                      itemCount: _viewModel.groupedByShop.value.length,
+                      itemBuilder: (context, index) {
+                        String shopName = _viewModel.groupedByShop.value.keys
+                            .elementAt(index);
+                        List<FoodModel> foods =
+                            _viewModel.groupedByShop.value[shopName]!;
 
-        return Card(
-          elevation: 0,
-          color: Colors.transparent,
-          margin: EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  shopName,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: foods.length,
-                itemBuilder: (context, index) {
-                  FoodModel food = foods[index];
-                  return InkWell(
-                    onTap: () {
-                              Get.to(FoodDetailScreen());
-                            },
-                    child: FoodCard(
-                                foodName: food.name,
-                                // description: food.description,
-                                imagePath: food.imageUrls[0],
-                                price: food.price.toString(),
-                                shopName: "", // Pass shopName to FoodCard
-                                onTap: () {
-                                  print("Tapped on ${food.name}");
+                        return Card(
+                          elevation: 0,
+                          color: Colors.transparent,
+                          margin: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  shopName,
+                                  style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: foods.length,
+                                itemBuilder: (context, index) {
+                                  FoodModel food = foods[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.to(FoodDetailScreen(
+                                          foodId: food.id));
+                                    },
+                                    child: FoodCard(
+                                      foodName: food.name,
+                                      // description: food.description,
+                                      imagePath: food.imageUrls[0],
+                                      price: food.price.toString(),
+                                      shopName: "",
+                                      // Pass shopName to FoodCard
+                                      onTap: () {
+                                        print("Tapped on ${food.name}");
+                                      },
+                                    ),
+                                  );
                                 },
                               ),
-                  );
-                },
-              ),
-            ],
+                            ],
+                          ),
+                        );
+                      },
+                    ))
+              ],
+            ),
           ),
-        );
-      },
-    )
-                      )
-                    ],
-                  ),
-              ),
-            ],
-          ),
+        ],
+      ),
     );
   }
 

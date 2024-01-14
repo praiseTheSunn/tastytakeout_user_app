@@ -37,7 +37,7 @@ class FavoritesScreen extends StatelessWidget {
               final food = _viewModel.foodList.value[index];
               return InkWell(
                 onTap: () {
-                  Get.to(FoodDetailScreen());
+                  Get.to(FoodDetailScreen(foodId: _viewModel.foodList.value[index].id,));
                 },
                 child: FoodCard(
                   foodName: food.name,

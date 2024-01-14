@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/helper/format_helper.dart';
 import 'package:tastytakeout_user_app/views/screens/order_payment_failure.dart';
+import 'package:tastytakeout_user_app/views/widgets/payment_cart_items.dart';
 import '../../data_sources/cart_source.dart';
 import '../../data_sources/order_source.dart';
 import '../../view_models/ListOrdersViewModel.dart';
@@ -23,143 +24,147 @@ class OrderPaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Thanh toán",
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text('Thanh toán'),
+        centerTitle: true,
       ),
-      drawer: CustomDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CartItemWidget(cartIndex: cartIndex, clickable: false),
-            SizedBox(height: 30.0),
-            GestureDetector(
-              onTap: () {
-                print("Thay đổi địa chỉ");
-              },
-              child: Row(
-                children: [
-                  Icon(Icons.pin_drop_sharp),
-                  SizedBox(width: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Địa chỉ giao hàng',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        data.userModel.getAddress(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.0,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20.0),
-            GestureDetector(
-              onTap: () {
-                print("Thay đổi voucher");
-              },
-              child: Row(
-                children: [
-                  Icon(Icons.card_giftcard),
-                  SizedBox(width: 8.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Áp dụng voucher',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text('Không áp dụng',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                              color: Colors.green)),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              children: [
-                Icon(Icons.wallet),
-                SizedBox(width: 8.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              PaymentCardItem(cartIndex: cartIndex, clickable: false),
+              SizedBox(height: 30.0),
+              GestureDetector(
+                onTap: () {
+                  print("Thay đổi địa chỉ");
+                },
+                child: Row(
                   children: [
-                    Text(
-                      'Hình thức thanh toán',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    Icon(Icons.pin_drop_sharp),
+                    SizedBox(width: 8.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Địa chỉ giao hàng',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          data.userModel.getAddress(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.0,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-            SizedBox(height: 20.0),
-            Obx(
-              () => RadioListTile<int>(
-                title: const Text('Chuyển khoản'),
-                value: 1,
-                groupValue: radioValue.value,
-                onChanged: (value) {
-                  radioValue.value = value!;
-                  _listOrdersViewModel.cartList[cartIndex].paymentMethod =
-                      'PAYMENT';
-                },
               ),
-            ),
-            Obx(
-              () => RadioListTile<int>(
-                title: const Text('Tiền mặt'),
-                value: 2,
-                groupValue: radioValue.value,
-                onChanged: (value) {
-                  radioValue.value = value!;
-                  _listOrdersViewModel.cartList[cartIndex].paymentMethod =
-                      'CASH';
+              SizedBox(height: 20.0),
+              GestureDetector(
+                onTap: () {
+                  print("Thay đổi voucher");
                 },
+                child: Row(
+                  children: [
+                    Icon(Icons.card_giftcard),
+                    SizedBox(width: 8.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Áp dụng voucher',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text('Không áp dụng',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.0,
+                                color: Colors.green)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              children: [
-                Text(
-                    'Tổng: ${formatMoney(_listOrdersViewModel.cartList[cartIndex].calculatePrice())}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: Colors.green)),
-              ],
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-                onPressed: () async {
-                  //_listOrdersViewModel.exportFromCartToOrder(cartIndex);
-                  _listOrdersViewModel.cartList[cartIndex];
-                  var result = await OrdersSource()
-                      .addOrder(_listOrdersViewModel.cartList[cartIndex]);
-
-                  if (result) {
-                    CartSource().deleteCart(
-                        _listOrdersViewModel.cartList[cartIndex].foods);
-                    Navigator.pop(context);
-                    Get.to(() => PaymentSuccessPage());
-                  } else {
-                    Navigator.pop(context);
-                    Get.to(() => PaymentFailedPage());
-                  }
-                },
-                child: const Text('Xác nhận')),
-          ],
+              SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Icon(Icons.wallet),
+                  SizedBox(width: 8.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hình thức thanh toán',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.0),
+              Obx(
+                () => RadioListTile<int>(
+                  title: const Text('Chuyển khoản'),
+                  value: 1,
+                  groupValue: radioValue.value,
+                  onChanged: (value) {
+                    radioValue.value = value!;
+                    _listOrdersViewModel.cartList[cartIndex].paymentMethod =
+                        'PAYMENT';
+                  },
+                ),
+              ),
+              Obx(
+                () => RadioListTile<int>(
+                  title: const Text('Tiền mặt'),
+                  value: 2,
+                  groupValue: radioValue.value,
+                  onChanged: (value) {
+                    radioValue.value = value!;
+                    _listOrdersViewModel.cartList[cartIndex].paymentMethod =
+                        'CASH';
+                  },
+                ),
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                children: [
+                  Text(
+                      'Tổng: ${formatMoney(_listOrdersViewModel.cartList[cartIndex].calculatePrice())}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.green)),
+                ],
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                  onPressed: () async {
+                    //_listOrdersViewModel.exportFromCartToOrder(cartIndex);
+                    _listOrdersViewModel.cartList[cartIndex];
+                    var result = await OrdersSource()
+                        .addOrder(_listOrdersViewModel.cartList[cartIndex]);
+        
+                    if (result) {
+                      CartSource().deleteCart(
+                          _listOrdersViewModel.cartList[cartIndex].foods);
+                      Navigator.pop(context);
+                      Get.to(() => PaymentSuccessPage());
+                    } else {
+                      Navigator.pop(context);
+                      Get.to(() => PaymentFailedPage());
+                    }
+                  },
+                  child: const Text('Xác nhận')),
+            ],
+          ),
         ),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:tastytakeout_user_app/helper/format_helper.dart'
 import '../../models/DTO/OrderModel.dart';
 import '../../view_models/ListOrdersViewModel.dart';
 import '../screens/order_detail_screen.dart';
+import 'order_food_items.dart';
 
 class OrderItemWidget extends GetWidget {
   int index;
@@ -58,9 +59,12 @@ class OrderItemWidget extends GetWidget {
                     itemCount: _listOrdersViewModel
                         .filteredOrderList[index].foods.length,
                     itemBuilder: (context, foodIndex) {
-                      return FoodItemWidget(
-                          food: _listOrdersViewModel
-                              .filteredOrderList[index].foods[foodIndex]);
+                      return Container(
+                       margin: EdgeInsets.only(bottom: 8.0),
+                        child: OrderFoodItemWidget(
+                            food: _listOrdersViewModel
+                                .filteredOrderList[index].foods[foodIndex]),
+                      );
                     },
                   ),
                 ],

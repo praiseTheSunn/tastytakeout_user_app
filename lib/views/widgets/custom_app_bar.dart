@@ -33,67 +33,66 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    // Get.to(() => SearchScreen(searchQuery: ''));
-                    showSearch(
-                      context: context,
-                      delegate: CustomSearchDelegate()
-                    );
-                  },
-                ),
-              ],
-            ),
-            Text(
-              title,
-              style: TextStyle(fontSize: 22),
-            ),
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.notifications),
-                  onPressed: onNotificationPressed,
-                ),
-                IconButton(
-                  icon: Icon(Icons.person),
-                  onPressed: () async {
-                    
-                    // if (Get.currentRoute != '/UserInfoPage') {
-                    //   Get.to(UserInfoPage());
-                    // } else
-                    //   Get.back();
-                    await authService.checkLoginStatus();
-                    print(authService.isLoggedIn.value);
-                    if (authService.isLoggedIn.value) {
-                      // If logged in, navigate to the user info page
-                      if (Get.currentRoute != '/UserInfoPage') {
-                        Get.to(UserInfoPage());
-                      } else {
-                        Get.back();
-                      }
-                    } else {
-                      // If not logged in, navigate to the login page
-                      Get.to(() => SignInPage());
-                    }
-                  }
-                ),
-              ],
-            ),
-          ],
+      child: Material(
+        elevation: 2.0,
+        child: Container(
+          padding: EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.menu),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      // Get.to(() => SearchScreen(searchQuery: ''));
+                      showSearch(
+                          context: context, delegate: CustomSearchDelegate());
+                    },
+                  ),
+                ],
+              ),
+              Text(
+                title,
+                style: TextStyle(fontSize: 22),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.notifications),
+                    onPressed: onNotificationPressed,
+                  ),
+                  IconButton(
+                      icon: Icon(Icons.person),
+                      onPressed: () async {
+                        // if (Get.currentRoute != '/UserInfoPage') {
+                        //   Get.to(UserInfoPage());
+                        // } else
+                        //   Get.back();
+                        await authService.checkLoginStatus();
+                        print(authService.isLoggedIn.value);
+                        if (authService.isLoggedIn.value) {
+                          // If logged in, navigate to the user info page
+                          if (Get.currentRoute != '/UserInfoPage') {
+                            Get.to(UserInfoPage());
+                          } else {
+                            Get.back();
+                          }
+                        } else {
+                          // If not logged in, navigate to the login page
+                          Get.to(() => SignInPage());
+                        }
+                      }),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

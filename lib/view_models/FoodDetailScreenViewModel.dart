@@ -6,6 +6,7 @@ import 'package:tastytakeout_user_app/globals.dart';
 
 class FoodDetailScreenViewModel extends GetxController {
   final TEST_ID = 1;
+  int id = 0;
   final BASE_URL = 'http://$serverIp/foods/';
   var isLoading = true.obs;
   var foodDetail = FoodDetail(
@@ -22,6 +23,10 @@ class FoodDetailScreenViewModel extends GetxController {
     ),
   ).obs;
 
+  FoodDetailScreenViewModel(int id) {
+    this.id = id;
+  }
+
   @override
   void onInit() {
     fetchFoodDetail();
@@ -33,7 +38,7 @@ class FoodDetailScreenViewModel extends GetxController {
     try {
       isLoading(true);
       final response = await get(
-        Uri.parse('$BASE_URL$TEST_ID'),
+        Uri.parse('$BASE_URL$id'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Charset': 'UTF-8',

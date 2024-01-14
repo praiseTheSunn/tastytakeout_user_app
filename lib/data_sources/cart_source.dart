@@ -119,6 +119,7 @@ class CartSource {
                 (foodItem['image_urls'] as List<dynamic>).first.toString();
             int foodPrice = foodItem['price'];
             int storeId = foodItem['store']['id'];
+            var rating = foodItem['rating'];
             String storeName = foodItem['store']['name'];
 
             if (groupedFoodList.containsKey(storeId) &&
@@ -134,6 +135,7 @@ class CartSource {
               quantity: quantity,
               storeId: storeId,
               storeName: storeName,
+              rating: rating.toInt(),
             );
 
             if (groupedFoodList.containsKey(storeId)) {

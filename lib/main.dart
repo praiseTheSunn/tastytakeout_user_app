@@ -152,34 +152,55 @@ class HomePage extends GetView<HomeController> {
         onGenerateRoute: controller.onGenerateRoute,
       ),
       bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+        () => Material(
+          elevation: 1.0,
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: 4.0,
+                ),
+              ],
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 1.0,
+                ),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.star),
-                label: 'Favourites',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: 'Cart',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.delivery_dining_sharp),
-                label: 'Orders',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.mark_chat_unread),
-                label: 'Chat',
-              ),
-            ],
-            currentIndex: controller.currentIndex.value,
-            selectedItemColor: Colors.pink,
-            unselectedItemColor: Colors.grey,
-            showUnselectedLabels: true,
-            onTap: controller.changePage),
+            ),
+            child: BottomNavigationBar(
+                elevation: 1.0,
+                type: BottomNavigationBarType.fixed,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.star),
+                    label: 'Favourites',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.shopping_cart),
+                    label: 'Cart',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.delivery_dining_sharp),
+                    label: 'Orders',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.mark_chat_unread),
+                    label: 'Chat',
+                  ),
+                ],
+                currentIndex: controller.currentIndex.value,
+                selectedItemColor: Colors.pink,
+                unselectedItemColor: Colors.grey,
+                showUnselectedLabels: true,
+                onTap: controller.changePage),
+          ),
+        ),
       ),
     );
   }

@@ -15,7 +15,7 @@ class CartController extends GetxController {
 class CartBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ListOrdersViewModel());
+    Get.lazyPut(() => ListOrdersViewModel(),fenix: true);
     Get.lazyPut(() => CartController());
   }
 }
@@ -33,33 +33,37 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: CustomAppBar(
-        title: "Cart",
+        title: "Giỏ hàng",
       ),
       drawer: CustomDrawer(),
-      body: Column(
-        children: [
-          Expanded(
-            child: Obx(
-              () {
-                if (_listCartViewModel.isLoading.value) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  return ListView.builder(
-                    padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
-                    itemCount: _listCartViewModel.cartList.length,
-                    itemBuilder: (context, cartIndex) {
-                      return CartItemWidget(
-                          cartIndex: cartIndex, clickable: true);
-                    },
-                  );
-                }
-              },
+      body: Container(
+        margin: EdgeInsets.only(top: 8.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(
+                () {
+                  if (_listCartViewModel.isLoading.value) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return ListView.builder(
+                      padding: EdgeInsets.fromLTRB(4, 0.0, 4, 4),
+                      itemCount: _listCartViewModel.cartList.length,
+                      itemBuilder: (context, cartIndex) {
+                        return CartItemWidget(
+                            cartIndex: cartIndex, clickable: true);
+                      },
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

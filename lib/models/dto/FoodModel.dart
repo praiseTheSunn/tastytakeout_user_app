@@ -82,6 +82,7 @@ class FoodModel {
           : [],
       price: int.parse((json['price'].toString())),
       shopName: json['store']['name'],
+      rating: json['rating'].toInt(),
     );
   }
 
