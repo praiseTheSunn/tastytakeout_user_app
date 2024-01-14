@@ -14,6 +14,7 @@ class StoreInfomationScreen extends StatelessWidget {
     final int storeId = Get.arguments;
     var viewModel = Get.put(StoreInfomationScreenViewModel(storeId: storeId));
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Thông tin cửa hàng'),
         centerTitle: true,

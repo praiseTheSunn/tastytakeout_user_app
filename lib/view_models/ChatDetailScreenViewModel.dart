@@ -142,6 +142,7 @@ class ChatDetailScreenViewModel extends GetxController {
         } else {
           messageModel.sender_url = receiver_url;
         }
+        Get.find<ChatScreenViewModel>().fetchChatList();
         chatMessage.insert(0,messageModel);
         print('Tin nhắn mới: $message');
       }

@@ -40,7 +40,8 @@ class OrdersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Orders'),
+      backgroundColor: Colors.grey[200],
+      appBar: CustomAppBar(title: 'Lịch sử đơn hàng'),
       drawer: CustomDrawer(),
       body: OrdersView(),
     );

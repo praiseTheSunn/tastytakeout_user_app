@@ -20,6 +20,7 @@ class _PopularScreenState extends State<PopularScreen> {
   Widget build(BuildContext context) {
     _viewModel.fetchPopularFood(4);
     return Scaffold(
+        backgroundColor: Colors.grey[200],
         appBar: CustomAppBar(
           title: 'Phổ biến',
           // Add necessary onPressed callbacks for the app bar icons

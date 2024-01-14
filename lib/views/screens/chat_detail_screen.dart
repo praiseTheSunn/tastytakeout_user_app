@@ -43,7 +43,7 @@ class ChatDetailScreen extends StatelessWidget {
           )
         ],
       ),
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.grey[200],
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

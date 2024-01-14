@@ -22,6 +22,7 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _viewModel.fetchFavoriteFood();
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: CustomAppBar(
         title: 'Yêu thích',
         // Add necessary onPressed callbacks for the app bar icons

@@ -103,6 +103,7 @@ class CartSource {
       );
 
       if (response.statusCode == 200) {
+        print(response.body);
         var jsonString = utf8.decode(response.bodyBytes);
         List<dynamic> jsonData = json.decode(jsonString);
 
@@ -111,6 +112,7 @@ class CartSource {
           Map<int, List<FoodModel>> groupedFoodList = {};
 
           for (var cartItem in jsonData) {
+            print(cartItem);
             int quantity = cartItem['quantity'];
             var foodItem = cartItem['food'];
             int foodId = foodItem['id'];

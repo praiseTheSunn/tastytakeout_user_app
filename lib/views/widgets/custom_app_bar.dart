@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
+import 'package:tastytakeout_user_app/views/screens/notification_screen.dart';
 import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
 import 'package:tastytakeout_user_app/views/widgets/search_delegate.dart';
 
@@ -17,7 +18,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     //             delegate: SearchField()
     //           );
   };
-  final Function() onNotificationPressed = () {};
+  final Function() onNotificationPressed = () {
+    Get.to(() => NotificationScreen());
+  };
   final Function() onUserPressed = () {
     if (Get.currentRoute != '/UserInfoPage') {
       Get.put(UserInfoController());

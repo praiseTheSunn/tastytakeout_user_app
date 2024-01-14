@@ -50,6 +50,7 @@ class _MainHomePageState extends State<MainHomePage> {
   Widget build(BuildContext context) {
     // final mainHomeViewModel = Provider.of<MainHomeViewModel>(context);
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: CustomAppBar(
         title: "Trang chủ",
       ),

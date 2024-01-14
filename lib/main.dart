@@ -146,6 +146,7 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: Navigator(
         key: Get.nestedKey(1),
         initialRoute: '/main_home',

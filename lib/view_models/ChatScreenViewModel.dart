@@ -53,6 +53,7 @@ class ChatScreenViewModel extends GetxController {
         } else {
           List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
           chatList.value = json.map((e) => ChatModel.fromJson(e)).toList();
+          chatList.value.sort((a, b) => b.newest_message_time.compareTo(a.newest_message_time));
           formatChatListDate();
         }
     } catch (e) {
@@ -60,6 +61,7 @@ class ChatScreenViewModel extends GetxController {
       print(chatList.value);
     } finally {
       isLoading(false);
+      update();
     }
   }
 }

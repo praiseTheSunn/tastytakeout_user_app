@@ -24,6 +24,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: CustomAppBar(
         title: 'Gần đây',
         // Add necessary onPressed callbacks for the app bar icons
