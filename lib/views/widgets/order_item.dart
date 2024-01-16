@@ -34,22 +34,30 @@ class OrderItemWidget extends GetWidget {
         },
         child: Obx(
           () => Card(
-            elevation: 4.0,
+            elevation: 1.0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(0.0),
             ),
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${_listOrdersViewModel.filteredOrderList[index].storeName} - ${formatHelper.formatMoney(_listOrdersViewModel.filteredOrderList[index].calculatePrice())}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      color: Colors.black,
+                  SizedBox(height: 12.0),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '   🛒 ${_listOrdersViewModel.filteredOrderList[index].storeName}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                            color: Colors.black87, // Màu cho storeName
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 12.0),
@@ -60,13 +68,43 @@ class OrderItemWidget extends GetWidget {
                         .filteredOrderList[index].foods.length,
                     itemBuilder: (context, foodIndex) {
                       return Container(
-                       margin: EdgeInsets.only(bottom: 8.0),
-                        child: OrderFoodItemWidget(
-                            food: _listOrdersViewModel
-                                .filteredOrderList[index].foods[foodIndex]),
+                        margin: EdgeInsets.only(bottom: 8.0),
+                        child: Column(
+                          children: [
+                            OrderFoodItemWidget(
+                                food: _listOrdersViewModel
+                                    .filteredOrderList[index].foods[foodIndex]),
+                          ],
+                        ),
                       );
                     },
                   ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Thành tiền: ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.black87, // Màu cho giá
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                '${formatHelper.formatMoney(_listOrdersViewModel.filteredOrderList[index].calculatePrice())}  ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                              color: Colors.green, // Màu cho giá
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

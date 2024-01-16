@@ -25,7 +25,7 @@ class CartItemWidget extends GetWidget {
       ),
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -44,10 +44,10 @@ class CartItemWidget extends GetWidget {
                       child: Container(
                         margin: EdgeInsets.only(left: 12.0),
                         child: Text(
-                          '${_listOrdersViewModel.cartList[cartIndex].storeName} >',
+                          '🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 24.0,
+                            fontSize: 18.0,
                             color: Colors.black,
                           ),
                           maxLines: 1,
@@ -77,7 +77,7 @@ class CartItemWidget extends GetWidget {
                 )
               ],
             ),
-            SizedBox(height: 12.0),
+            SizedBox(height: 0.0),
             Obx(
               () => ListView.separated(
                 shrinkWrap: true,
@@ -114,8 +114,7 @@ class CartItemWidget extends GetWidget {
                           ' : ' +
                           formatMoney(_listOrdersViewModel.cartList[cartIndex]
                                   .calculatePrice())
-                              .toString() +
-                          'đ',
+                              .toString(),
                       style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 16.0,

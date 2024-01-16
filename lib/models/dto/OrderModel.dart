@@ -14,7 +14,7 @@ class OrderModel {
   late final String storeName;
   late final int voucherId;
   late final String createdAt;
-  late final String paymentMethod;
+  late String paymentMethod;
 
   OrderModel({
     this.orderId = 0,

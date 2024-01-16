@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:input_quantity/input_quantity.dart';
 import '../../models/DTO/FoodModel.dart';
 import '../../helper/format_helper.dart' as formatHelper;
@@ -18,20 +19,19 @@ class OrderFoodItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = food.imageUrls.isNotEmpty
-        ? food.imageUrls[0]
-        : 'Error';
+    String imageUrl = food.imageUrls.isNotEmpty ? food.imageUrls[0] : 'Error';
     String name = food.name;
     String quantityText = ' Số lượng: ' + food.quantity.toString();
     String cost = formatHelper.formatMoney(food.price);
 
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 6.0),
+        color: HexColor('#e6e6e6'),
+        padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(4),
+              padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -65,7 +65,7 @@ class OrderFoodItemWidget extends StatelessWidget {
                     name,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 22.0,
+                      fontSize: 18.0,
                       color: Colors.black, // Adjust color as needed
                     ),
                     maxLines: 3,
@@ -94,14 +94,11 @@ class OrderFoodItemWidget extends StatelessWidget {
                             color: Colors.black, // Adjust color as needed
                           ),
                         ),
-                      )
-                  ),
+                      )),
                 ],
               ),
             )
           ],
-        )
-    );
-
+        ));
   }
 }
