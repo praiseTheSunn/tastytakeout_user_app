@@ -19,11 +19,9 @@ class FoodItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String imageUrl = food.imageUrls.isNotEmpty
-        ? food.imageUrls[0]
-        : 'Error';
+    String imageUrl = food.imageUrls.isNotEmpty ? food.imageUrls[0] : 'Error';
     String name = food.name;
-    String quantityText = ' Số lượng: ' + food.quantity.toString();
+    String quantityText = 'Số lượng: ' + food.quantity.toString();
     String cost = formatHelper.formatMoney(food.price);
 
     return Container(
@@ -70,7 +68,7 @@ class FoodItemWidget extends StatelessWidget {
                       name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 22.0,
+                        fontSize: 18.0,
                         color: Colors.black, // Adjust color as needed
                       ),
                       maxLines: 3,
@@ -84,40 +82,37 @@ class FoodItemWidget extends StatelessWidget {
                       ),
                     ),
                     RatingBarIndicator(
-                      itemBuilder: (context, index) =>
-                          Icon(
-                            Icons.star,
-                            color: Colors.amber,
-                          ),
+                      itemBuilder: (context, index) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
                       itemCount: 5,
                       itemSize: 16,
                       rating: food.rating.toDouble(),
                     ),
                     Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          color: Colors.grey,
-                        ),
-                        child: Text(
-                          quantityText, // Display quantity here
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            color: Colors.black, // Adjust color as needed
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            color: Colors.grey,
                           ),
-                        ),
-                      )
-                    ),
+                          child: Text(
+                            quantityText, // Display quantity here
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                              color: Colors.black, // Adjust color as needed
+                            ),
+                          ),
+                        )),
                   ],
                 ),
               )
             ],
           ),
-        )
-    );
+        ));
 
     // return GestureDetector(
     //   child: Card(

@@ -21,7 +21,7 @@ class OrderFoodItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String imageUrl = food.imageUrls.isNotEmpty ? food.imageUrls[0] : 'Error';
     String name = food.name;
-    String quantityText = ' Số lượng: ' + food.quantity.toString();
+    String quantityText = 'Số lượng: ' + food.quantity.toString();
     String cost = formatHelper.formatMoney(food.price);
 
     return Container(

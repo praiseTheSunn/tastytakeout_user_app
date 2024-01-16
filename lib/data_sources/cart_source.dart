@@ -113,8 +113,10 @@ class CartSource {
 
           for (var cartItem in jsonData) {
             print(cartItem);
+            int cartId = cartItem['id'];
             int quantity = cartItem['quantity'];
             var foodItem = cartItem['food'];
+
             int foodId = foodItem['id'];
             String foodName = foodItem['name'];
             String foodImageUrl =
@@ -131,6 +133,7 @@ class CartSource {
 
             FoodModel food = FoodModel(
               id: foodId,
+              cartId: cartId,
               name: foodName,
               imageUrls: [foodImageUrl],
               price: foodPrice,
@@ -171,6 +174,22 @@ class CartSource {
   Future<http.Response> deleteCart(List<FoodModel> foods) async {
     try {
       /*...*/
+      for (var food in foods) {
+        final response = await http.delete(
+          Uri.http(serverIp, '/carts/${food.cartId}/'),
+          headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer ${await getAccessToken()}',
+          },
+        );
+
+        if (response.statusCode == 204) {
+          print('Cart deleted');
+          return response;
+        } else {
+          print('Request failed with status: ${response.statusCode}');
+        }
+      }
     } catch (e) {
       print('Exception during delete Cart: $e');
     }

@@ -56,7 +56,25 @@ class ChatPage extends StatelessWidget {
       child: Obx(
         () {
           if (viewModel.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
+            String notification = 'Đang tải dữ liệu...';
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'lib/resources/gif/loading.gif',
+                  width: 150,
+                  height: 150,
+                ),
+                Text(
+                  notification,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ));
           } else {
             var items = viewModel.chatList;
             var time = viewModel.chatListDate;

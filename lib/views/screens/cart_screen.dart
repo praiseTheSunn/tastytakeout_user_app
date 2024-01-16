@@ -63,23 +63,47 @@ class _CartPageState extends State<CartPage> {
 
   Widget _buildBody() {
     return Container(
-      color: Colors.black54,
+      color: Colors.white,
+      padding: EdgeInsets.fromLTRB(0, 12.0, 0, 0.0),
       child: Column(
         children: [
           Expanded(
             child: Obx(
               () {
-                if (_listCartViewModel.isLoading.value) {
+                if (_listCartViewModel.isLoading.value ||
+                    _listCartViewModel.cartList.isEmpty) {
+                  String notification = '';
+                  if (_listCartViewModel.isLoading.value) {
+                    notification = 'Đang tải dữ liệu...';
+                  } else if (_listCartViewModel.cartList.isEmpty) {
+                    notification = 'Hãy thêm món vào giỏ!';
+                  }
                   return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'lib/resources/gif/loading.gif',
+                        width: 150,
+                        height: 150,
+                      ),
+                      Text(
+                        notification,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ));
                 } else {
                   return ListView.builder(
-                    padding: EdgeInsets.fromLTRB(4, 0.0, 4, 4),
+                    padding: EdgeInsets.fromLTRB(0, 0.0, 0, 4),
                     itemCount: _listCartViewModel.cartList.length,
                     itemBuilder: (context, cartIndex) {
-                      return CartItemWidget(
-                          cartIndex: cartIndex, clickable: true);
+                      return Column(children: [
+                        CartItemWidget(cartIndex: cartIndex, clickable: true),
+                      ]);
                     },
                   );
                 }

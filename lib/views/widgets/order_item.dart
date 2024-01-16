@@ -50,7 +50,7 @@ class OrderItemWidget extends GetWidget {
                       children: [
                         TextSpan(
                           text:
-                              '   🛒 ${_listOrdersViewModel.filteredOrderList[index].storeName}',
+                              '    🛒 ${_listOrdersViewModel.filteredOrderList[index].storeName}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,

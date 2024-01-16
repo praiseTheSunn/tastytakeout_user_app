@@ -32,7 +32,7 @@ class OrderPaymentPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -51,7 +51,8 @@ class OrderPaymentPage extends StatelessWidget {
                       children: [
                         Text(
                           'Địa chỉ giao hàng',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16.0),
                         ),
                         Text(
                           data.userModel.getAddress(),
@@ -80,7 +81,10 @@ class OrderPaymentPage extends StatelessWidget {
                       children: [
                         Text(
                           'Áp dụng voucher',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
                         ),
                         Text('Không áp dụng',
                             style: TextStyle(
@@ -102,7 +106,8 @@ class OrderPaymentPage extends StatelessWidget {
                     children: [
                       Text(
                         'Hình thức thanh toán',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0),
                       ),
                     ],
                   ),
@@ -117,7 +122,7 @@ class OrderPaymentPage extends StatelessWidget {
                   onChanged: (value) {
                     radioValue.value = value!;
                     _listOrdersViewModel.cartList[cartIndex].paymentMethod =
-                        'PAYMENT';
+                        'BANKING';
                   },
                 ),
               ),
@@ -145,24 +150,47 @@ class OrderPaymentPage extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
-                  onPressed: () async {
-                    //_listOrdersViewModel.exportFromCartToOrder(cartIndex);
-                    _listOrdersViewModel.cartList[cartIndex];
-                    var result = await OrdersSource()
-                        .addOrder(_listOrdersViewModel.cartList[cartIndex]);
-        
-                    if (result) {
-                      CartSource().deleteCart(
-                          _listOrdersViewModel.cartList[cartIndex].foods);
-                      Navigator.pop(context);
-                      Get.to(() => PaymentSuccessPage());
-                    } else {
-                      Navigator.pop(context);
-                      Get.to(() => PaymentFailedPage());
-                    }
-                  },
-                  child: const Text('Xác nhận')),
+              Row(
+                children: [
+                  SizedBox(width: 10.0),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: TextButton(
+                        onPressed: () async {
+                          //_listOrdersViewModel.exportFromCartToOrder(cartIndex);
+                          _listOrdersViewModel.cartList[cartIndex];
+                          var result = await OrdersSource().addOrder(
+                              _listOrdersViewModel.cartList[cartIndex]);
+
+                          if (result) {
+                            CartSource().deleteCart(
+                                _listOrdersViewModel.cartList[cartIndex].foods);
+                            _listOrdersViewModel.cartList.removeAt(cartIndex);
+                            Navigator.pop(context);
+                            Get.to(() => PaymentSuccessPage());
+                          } else {
+                            Navigator.pop(context);
+                            Get.to(() => PaymentFailedPage());
+                          }
+                        },
+                        child: Text(
+                          'Xác nhận',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20.0),
             ],
           ),
         ),

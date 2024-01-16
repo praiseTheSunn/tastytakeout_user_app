@@ -168,6 +168,7 @@ class OrdersSource {
       return true;
     } else {
       print('Request failed with status: ${response.statusCode}');
+      print('Response body: ${response.body}');
       return false;
     }
   }

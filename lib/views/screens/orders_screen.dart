@@ -147,19 +147,48 @@ class _OrdersViewState extends State<OrdersView> {
         Expanded(
           child: Obx(
             () {
-              if (_ordersController.listOrdersViewModel.isLoading.value) {
+              if (_ordersController.listOrdersViewModel.isLoading.value ||
+                  _ordersController
+                      .listOrdersViewModel.filteredOrderList.isEmpty) {
+                String notification = '';
+                if (_ordersController.listOrdersViewModel.isLoading.value) {
+                  notification = 'Đang tải dữ liệu...';
+                } else if (_ordersController
+                    .listOrdersViewModel.filteredOrderList.isEmpty) {
+                  notification = 'Bạn chưa có đơn hàng nào!';
+                }
                 return Center(
-                  child: CircularProgressIndicator(),
-                );
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'lib/resources/gif/loading.gif',
+                      width: 150,
+                      height: 150,
+                    ),
+                    Text(
+                      notification,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ));
               } else {
                 return ListView.builder(
                   padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
                   itemCount: _ordersController
                       .listOrdersViewModel.filteredOrderList.length,
+                  //reverse: true,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        OrderItemWidget(index: index),
+                        OrderItemWidget(
+                            index: _ordersController.listOrdersViewModel
+                                    .filteredOrderList.length -
+                                index -
+                                1),
                         SizedBox(height: 8.0),
                       ],
                     );

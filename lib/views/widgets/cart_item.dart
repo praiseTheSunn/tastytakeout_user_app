@@ -44,7 +44,7 @@ class CartItemWidget extends GetWidget {
                       child: Container(
                         margin: EdgeInsets.only(left: 12.0),
                         child: Text(
-                          '🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
+                          '  🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
@@ -94,19 +94,21 @@ class CartItemWidget extends GetWidget {
                 },
               ),
             ),
+            SizedBox(height: 10.0),
+            Divider(height: 1.0, color: Colors.grey),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(10.0),
                     margin: EdgeInsets.only(left: 0.0),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.0),
-                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(0.0),
+                      color: Colors.transparent,
                       border: Border.all(
-                        color: Colors.grey,
-                        width: 1.0,
+                        color: Colors.transparent,
+                        width: 0.0,
                       ),
                     ),
                     child: Text(
@@ -116,9 +118,9 @@ class CartItemWidget extends GetWidget {
                                   .calculatePrice())
                               .toString(),
                       style: TextStyle(
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                         fontSize: 16.0,
-                        color: Colors.black,
+                        color: Colors.black87,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -129,10 +131,10 @@ class CartItemWidget extends GetWidget {
                       Get.to(() => OrderPaymentPage(cartIndex: cartIndex));
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12.0),
-                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(0.0),
+                        color: Colors.deepOrangeAccent,
                         border: Border.all(
                           color: Colors.grey,
                           width: 1.0,
@@ -141,7 +143,7 @@ class CartItemWidget extends GetWidget {
                       child: Text(
                         'Thanh toán',
                         style: TextStyle(
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                           fontSize: 16.0,
                           color: Colors.black,
                         ),
@@ -153,6 +155,7 @@ class CartItemWidget extends GetWidget {
                 ],
               ),
             ),
+            Divider(color: Colors.grey.shade300, height: 1.0),
           ],
         ),
       ),

@@ -11,7 +11,7 @@ class PaymentCardItem extends GetWidget {
   int cartIndex;
   bool clickable = true;
   late ListOrdersViewModel _listOrdersViewModel =
-  Get.find<ListOrdersViewModel>();
+      Get.find<ListOrdersViewModel>();
 
   PaymentCardItem({required this.cartIndex, required this.clickable});
 
@@ -34,17 +34,19 @@ class PaymentCardItem extends GetWidget {
                 Expanded(
                   flex: 1,
                   child: Obx(
-                        () => GestureDetector(
+                    () => GestureDetector(
                       onTap: () {
-                        Get.to(() => StoreInfomationScreen(),arguments: _listOrdersViewModel.cartList[cartIndex].storeId);
+                        Get.to(() => StoreInfomationScreen(),
+                            arguments: _listOrdersViewModel
+                                .cartList[cartIndex].storeId);
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 12.0),
                         child: Text(
-                          '${_listOrdersViewModel.cartList[cartIndex].storeName} >',
+                          ' 🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 24.0,
+                            fontSize: 20.0,
                             color: Colors.black,
                           ),
                           maxLines: 1,
@@ -58,11 +60,11 @@ class PaymentCardItem extends GetWidget {
             ),
             SizedBox(height: 12.0),
             Obx(
-                  () => ListView.separated(
+              () => ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount:
-                _listOrdersViewModel.cartList[cartIndex].foods.length,
+                    _listOrdersViewModel.cartList[cartIndex].foods.length,
                 separatorBuilder: (context, index) {
                   return Divider(height: 1.0, color: Colors.grey);
                 },

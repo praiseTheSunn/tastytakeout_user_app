@@ -69,20 +69,38 @@ class CartPreviewBottomSheet extends StatelessWidget {
           Row(
             children: [
               Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  for (var i = 0;
-                      i < listOrdersViewModel.cartList[cartIndex].foods.length;
-                      i++) {
-                    listOrdersViewModel.cartList[cartIndex].foods[i]
-                        .setQuantity(quantityListObs[i].value);
-                  }
-                  Get.toNamed('/cart', id: 1);
-                },
-                child: Text('Confirm'),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrangeAccent,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      for (var i = 0;
+                          i <
+                              listOrdersViewModel
+                                  .cartList[cartIndex].foods.length;
+                          i++) {
+                        listOrdersViewModel.cartList[cartIndex].foods[i]
+                            .setQuantity(quantityListObs[i].value);
+                      }
+                      Get.toNamed('/cart', id: 1);
+                    },
+                    child: Text(
+                      'Xác nhận',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
+          SizedBox(height: 12.0),
         ],
       ),
     );

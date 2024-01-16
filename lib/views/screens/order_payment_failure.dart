@@ -9,8 +9,10 @@ class PaymentFailedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: CustomAppBar(
-        title: "Thanh toán",
+      appBar: AppBar(
+        backgroundColor: Colors.grey[200],
+        title: Text('Thanh toán'),
+        centerTitle: true,
       ),
       drawer: CustomDrawer(),
       body: Column(
