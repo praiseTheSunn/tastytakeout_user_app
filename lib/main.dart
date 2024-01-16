@@ -54,7 +54,7 @@ Future<void> main() async {
   runApp(GetMaterialApp(
     title: 'Tasty Takeout',
     theme: ThemeData(
-      fontFamily: GoogleFonts.roboto().fontFamily,
+      fontFamily: GoogleFonts.poppins().fontFamily,
     ),
     color: Colors.white,
     debugShowCheckedModeBanner: false,
@@ -208,7 +208,7 @@ class HomePage extends GetView<HomeController> {
                       ),
                     ],
                     currentIndex: controller.currentIndex.value,
-                    selectedItemColor: Colors.pink,
+                    selectedItemColor: navBarColor,
                     unselectedItemColor: Colors.grey,
                     showUnselectedLabels: true,
                     onTap: controller.changePage),
