@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
+import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/views/widgets/cart_item.dart';
 import 'package:tastytakeout_user_app/views/widgets/order_item.dart';
 import '../../view_models/ListOrdersViewModel.dart';
@@ -15,7 +16,7 @@ class CartController extends GetxController {
 class CartBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ListOrdersViewModel());
+    Get.lazyPut(() => ListOrdersViewModel(), fenix: true);
     Get.lazyPut(() => CartController());
   }
 }
@@ -33,26 +34,76 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Cart",
-      ),
+      backgroundColor: mainColor,
+      appBar: CustomAppBar(title: "Giỏ hàng"),
       drawer: CustomDrawer(),
-      body: Column(
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border.fromBorderSide(
+            BorderSide(
+              color: Colors.grey.shade300,
+              width: 0.0,
+            ),
+          ),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0),
+            topRight: Radius.circular(25.0),
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0),
+            topRight: Radius.circular(25.0),
+          ),
+          child: _buildBody(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.fromLTRB(0, 12.0, 0, 0.0),
+      child: Column(
         children: [
           Expanded(
             child: Obx(
               () {
-                if (_listCartViewModel.isLoading.value) {
+                if (_listCartViewModel.isLoading.value ||
+                    _listCartViewModel.cartList.isEmpty) {
+                  String notification = '';
+                  if (_listCartViewModel.isLoading.value) {
+                    notification = 'Đang tải dữ liệu...';
+                  } else if (_listCartViewModel.cartList.isEmpty) {
+                    notification = 'Hãy thêm món vào giỏ!';
+                  }
                   return Center(
-                    child: CircularProgressIndicator(),
-                  );
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'lib/resources/gif/loading.gif',
+                        width: 150,
+                        height: 150,
+                      ),
+                      Text(
+                        notification,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ));
                 } else {
                   return ListView.builder(
-                    padding: EdgeInsets.fromLTRB(20, 0.0, 20, 20),
+                    padding: EdgeInsets.fromLTRB(0, 0.0, 0, 4),
                     itemCount: _listCartViewModel.cartList.length,
                     itemBuilder: (context, cartIndex) {
-                      return CartItemWidget(
-                          cartIndex: cartIndex, clickable: true);
+                      return Column(children: [
+                        CartItemWidget(cartIndex: cartIndex, clickable: true),
+                      ]);
                     },
                   );
                 }

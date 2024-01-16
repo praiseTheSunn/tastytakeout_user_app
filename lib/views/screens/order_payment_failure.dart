@@ -8,8 +8,11 @@ class PaymentFailedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Thanh toán",
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[200],
+        title: Text('Thanh toán'),
+        centerTitle: true,
       ),
       drawer: CustomDrawer(),
       body: Column(

@@ -5,8 +5,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/firebase_options.dart';
+import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/service/firebase_messaging.dart';
 import 'package:tastytakeout_user_app/views/screens/favorites_screen.dart';
 
@@ -36,7 +39,7 @@ Future<void> main() async {
   );
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: Colors.white,
+    statusBarColor: mainColor,
     statusBarIconBrightness: Brightness.dark,
   ));
 
@@ -50,6 +53,10 @@ Future<void> main() async {
 
   runApp(GetMaterialApp(
     title: 'Tasty Takeout',
+    theme: ThemeData(
+      fontFamily: GoogleFonts.poppins().fontFamily,
+    ),
+    color: Colors.white,
     debugShowCheckedModeBanner: false,
     initialRoute: '/home',
     defaultTransition: Transition.fadeIn,
@@ -146,41 +153,68 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Navigator(
-        key: Get.nestedKey(1),
-        initialRoute: '/main_home',
-        onGenerateRoute: controller.onGenerateRoute,
-      ),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
+        backgroundColor: Colors.white,
+        body: Navigator(
+          key: Get.nestedKey(1),
+          initialRoute: '/main_home',
+          onGenerateRoute: controller.onGenerateRoute,
+        ),
+        bottomNavigationBar: Obx(
+          () => Material(
+            elevation: 1.0,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.fromBorderSide(
+                  BorderSide(
+                    color: Colors.grey.shade300,
+                    width: 2.0,
+                  ),
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.0),
+                  topRight: Radius.circular(25.0),
+                ),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.star),
-                label: 'Favourites',
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(0.0),
+                  topRight: Radius.circular(0.0),
+                ),
+                child: BottomNavigationBar(
+                    elevation: 1.0,
+                    // #EEEFFB for background
+                    backgroundColor: Colors.white,
+                    type: BottomNavigationBarType.fixed,
+                    items: const <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.home),
+                        label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.star),
+                        label: 'Favourites',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.shopping_cart),
+                        label: 'Cart',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.delivery_dining_sharp),
+                        label: 'Orders',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.mark_chat_unread),
+                        label: 'Chat',
+                      ),
+                    ],
+                    currentIndex: controller.currentIndex.value,
+                    selectedItemColor: navBarColor,
+                    unselectedItemColor: Colors.grey,
+                    showUnselectedLabels: true,
+                    onTap: controller.changePage),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: 'Cart',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.delivery_dining_sharp),
-                label: 'Orders',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.mark_chat_unread),
-                label: 'Chat',
-              ),
-            ],
-            currentIndex: controller.currentIndex.value,
-            selectedItemColor: Colors.pink,
-            unselectedItemColor: Colors.grey,
-            showUnselectedLabels: true,
-            onTap: controller.changePage),
-      ),
-    );
+            ),
+          ),
+        ));
   }
 }

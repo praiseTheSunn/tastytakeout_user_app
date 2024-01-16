@@ -8,10 +8,12 @@ class PaymentSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Thanh toán",
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[200],
+        title: Text('Thanh toán'),
+        centerTitle: true,
       ),
-      drawer: CustomDrawer(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -36,11 +38,33 @@ class PaymentSuccessPage extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 50),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text('Quay về'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Spacer(),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Quay về',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Spacer(),
+            ],
           ),
         ],
       ),

@@ -32,6 +32,7 @@
 
 class FoodModel {
   late final int id;
+  late final int cartId;
   late List<String> imageUrls;
   late final String name;
   late final String description;
@@ -49,6 +50,7 @@ class FoodModel {
 
   FoodModel({
     this.id = 0,
+    this.cartId = -1,
     this.name = '',
     this.description = '',
     this.price = 0,
@@ -62,7 +64,6 @@ class FoodModel {
     this.imageUrls = const [],
     // this.imageUrl = '',
     this.shopName = '',
-
   });
 
   void setQuantity(int setQuantity) {
@@ -77,11 +78,12 @@ class FoodModel {
     return FoodModel(
       name: json['name'],
       description: json['description'],
-        imageUrls: json['image_urls'] != null && json['image_urls'].isNotEmpty
+      imageUrls: json['image_urls'] != null && json['image_urls'].isNotEmpty
           ? List<String>.from(json['image_urls'])
           : [],
       price: int.parse((json['price'].toString())),
       shopName: json['store']['name'],
+      rating: json['rating'].toInt(),
     );
   }
 

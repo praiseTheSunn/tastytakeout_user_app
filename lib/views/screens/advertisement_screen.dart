@@ -10,6 +10,7 @@ class AdvertisementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: CustomAppBar(
         title: 'Advertisement',
         // Add necessary onPressed callbacks for the app bar icons

@@ -103,6 +103,7 @@ class CartSource {
       );
 
       if (response.statusCode == 200) {
+        print(response.body);
         var jsonString = utf8.decode(response.bodyBytes);
         List<dynamic> jsonData = json.decode(jsonString);
 
@@ -111,14 +112,18 @@ class CartSource {
           Map<int, List<FoodModel>> groupedFoodList = {};
 
           for (var cartItem in jsonData) {
+            print(cartItem);
+            int cartId = cartItem['id'];
             int quantity = cartItem['quantity'];
             var foodItem = cartItem['food'];
+
             int foodId = foodItem['id'];
             String foodName = foodItem['name'];
             String foodImageUrl =
                 (foodItem['image_urls'] as List<dynamic>).first.toString();
             int foodPrice = foodItem['price'];
             int storeId = foodItem['store']['id'];
+            var rating = foodItem['rating'];
             String storeName = foodItem['store']['name'];
 
             if (groupedFoodList.containsKey(storeId) &&
@@ -128,12 +133,14 @@ class CartSource {
 
             FoodModel food = FoodModel(
               id: foodId,
+              cartId: cartId,
               name: foodName,
               imageUrls: [foodImageUrl],
               price: foodPrice,
               quantity: quantity,
               storeId: storeId,
               storeName: storeName,
+              rating: rating.toInt(),
             );
 
             if (groupedFoodList.containsKey(storeId)) {
@@ -167,6 +174,22 @@ class CartSource {
   Future<http.Response> deleteCart(List<FoodModel> foods) async {
     try {
       /*...*/
+      for (var food in foods) {
+        final response = await http.delete(
+          Uri.http(serverIp, '/carts/${food.cartId}/'),
+          headers: {
+            'accept': 'application/json',
+            'Authorization': 'Bearer ${await getAccessToken()}',
+          },
+        );
+
+        if (response.statusCode == 204) {
+          print('Cart deleted');
+          return response;
+        } else {
+          print('Request failed with status: ${response.statusCode}');
+        }
+      }
     } catch (e) {
       print('Exception during delete Cart: $e');
     }

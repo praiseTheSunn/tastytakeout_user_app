@@ -9,7 +9,8 @@ class HorizontalImageList extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
 
-  HorizontalImageList({required this.title, required this.images, required this.onPressed});
+  HorizontalImageList(
+      {required this.title, required this.images, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class HorizontalImageList extends StatelessWidget {
       print(image);
     }
     return Card(
+      margin: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,7 +34,8 @@ class HorizontalImageList extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Text(
                     title,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
                 TextButton(
@@ -42,7 +45,7 @@ class HorizontalImageList extends StatelessWidget {
               ],
             ),
           ),
-      
+
           // Horizontal list of images
           SizedBox(
             height: 100,
@@ -77,6 +80,3 @@ class HorizontalImageList extends StatelessWidget {
     );
   }
 }
-          
-
-

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../view_models/StoreInfomationScreenViewModel.dart';
+import 'chat_detail_screen.dart';
 
 class StoreInfomationScreen extends StatelessWidget {
   const StoreInfomationScreen({super.key});
@@ -13,6 +14,7 @@ class StoreInfomationScreen extends StatelessWidget {
     final int storeId = Get.arguments;
     var viewModel = Get.put(StoreInfomationScreenViewModel(storeId: storeId));
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text('Thông tin cửa hàng'),
         centerTitle: true,
@@ -41,45 +43,47 @@ class StoreInfomationScreen extends StatelessWidget {
                               ),
                               clipBehavior: Clip.antiAlias,
                               child: Image.network(
-                                // viewModel.foodDetail.value.storeDetail.imageUrl,
-                                'https://i.imgur.com/5X9XYYz.png',
+                                viewModel.storeInfo.value.imgUrl,
                                 height: 120,
                                 width: 120,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Icon(
                                     Icons.error,
-                                    size: 60,
+                                    size: 120,
                                   );
                                 },
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                viewModel.storeInfo.value.name,
-                                style: TextStyle(
-                                    fontSize: 26, fontWeight: FontWeight.bold),
-                                overflow: TextOverflow.clip,
-                              ),
-                              SizedBox(height: 4.0),
-                              Text(
-                                viewModel.storeInfo.value.address,
-                                style: TextStyle(fontSize: 16),
-                                overflow: TextOverflow.clip,
-                              ),
-                              SizedBox(height: 4.0),
-                              Text(
-                                viewModel.storeInfo.value.likers_count
-                                        .toString() +
-                                    ' lượt thích',
-                                style: TextStyle(fontSize: 16),
-                                overflow: TextOverflow.clip,
-                              ),
-                            ],
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  viewModel.storeInfo.value.name,
+                                  style: TextStyle(
+                                      fontSize: 26, fontWeight: FontWeight.bold),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 4.0),
+                                Text(
+                                  viewModel.storeInfo.value.address,
+                                  style: TextStyle(fontSize: 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(height: 4.0),
+                                Text(
+                                  viewModel.storeInfo.value.likers_count
+                                          .toString() +
+                                      ' lượt thích',
+                                  style: TextStyle(fontSize: 16),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -105,17 +109,29 @@ class StoreInfomationScreen extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 8.0),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('Chat', style: TextStyle(fontSize: 16)),
-                                SizedBox(width: 8.0),
-                                Icon(Icons.chat_bubble_outline),
-                              ],
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => ChatDetailScreen(),
+                                  arguments: {
+                                    'chat_room_id': 10.toString() + '_' + storeId.toString(),
+                                    'store_id': storeId,
+                                    'store_name': viewModel.storeInfo.value.name,
+                                    'store_image_url': viewModel.storeInfo.value.imgUrl,
+                                    'buyer_image_url': viewModel.storeInfo.value.imgUrl,
+                                  });
+                            } ,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Chat', style: TextStyle(fontSize: 16)),
+                                  SizedBox(width: 8.0),
+                                  Icon(Icons.chat_bubble_outline),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -146,6 +162,13 @@ class StoreInfomationScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
+                                  margin: EdgeInsets.only(bottom: 8.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1.0,
+                                    ),
+                                  ),
                                   child: Image.network(
                                     viewModel
                                         .storeInfo.value.foods[index].imgUrl,
