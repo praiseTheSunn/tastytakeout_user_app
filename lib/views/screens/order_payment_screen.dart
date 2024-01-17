@@ -19,7 +19,7 @@ class OrderPaymentPage extends StatelessWidget {
 
   OrderPaymentPage({required this.cartIndex});
 
-  var radioValue = 0.obs;
+  var radioValue = 1.obs;
 
   @override
   Widget build(BuildContext context) {
