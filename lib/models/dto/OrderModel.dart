@@ -35,6 +35,7 @@ class OrderModel {
     for (var food in foods) {
       totalPrice += food.price * food.quantity;
     }
+    this.price = totalPrice;
     return totalPrice;
   }
 
