@@ -161,6 +161,7 @@ class OrdersSource {
   }
 
   Future<bool> addOrder(OrderModel cartOrder) async {
+    cartOrder.calculatePrice();
     var jsonMap = cartOrder.toMapJson();
     var response = await postData(baseUrl, jsonMap);
 
