@@ -44,7 +44,7 @@ class OrdersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: CustomAppBar(title: 'Lịch sử đơn hàng'),
+      appBar: CustomAppBar(title: 'Đơn hàng'),
       drawer: CustomDrawer(),
       body: Container(
         decoration: BoxDecoration(

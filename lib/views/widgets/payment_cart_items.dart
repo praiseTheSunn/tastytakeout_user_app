@@ -33,25 +33,23 @@ class PaymentCardItem extends GetWidget {
               children: [
                 Expanded(
                   flex: 1,
-                  child: Obx(
-                    () => GestureDetector(
-                      onTap: () {
-                        Get.to(() => StoreInfomationScreen(),
-                            arguments: _listOrdersViewModel
-                                .cartList[cartIndex].storeId);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 12.0),
-                        child: Text(
-                          ' 🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.0,
-                            color: Colors.black,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => StoreInfomationScreen(),
+                          arguments:
+                              _listOrdersViewModel.cartList[cartIndex].storeId);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 12.0),
+                      child: Text(
+                        ' 🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Colors.black,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
