@@ -31,6 +31,7 @@ class ListOrdersViewModel extends GetxController {
     }
 
     orderList.value = await OrdersSource().fetchOrders();
+    orderList.value.reversed;
     filterOrdersByStatus();
     isLoading.value = false;
   }
@@ -42,6 +43,7 @@ class ListOrdersViewModel extends GetxController {
     }
 
     cartList.value = await CartSource().fetchCartInfoToPendingOrders();
+    cartList.value.reversed;
     isLoading.value = false;
   }
 

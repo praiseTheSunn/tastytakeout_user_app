@@ -134,6 +134,8 @@ class _OrdersViewState extends State<OrdersView> {
                                     .listOrdersViewModel.selectedStatus
                                     .add(type);
                                 _ordersController.listOrdersViewModel
+                                    .fetchOrders();
+                                _ordersController.listOrdersViewModel
                                     .filterOrdersByStatus();
                               });
                             },
@@ -184,11 +186,7 @@ class _OrdersViewState extends State<OrdersView> {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        OrderItemWidget(
-                            index: _ordersController.listOrdersViewModel
-                                    .filteredOrderList.length -
-                                index -
-                                1),
+                        OrderItemWidget(index: index),
                         SizedBox(height: 8.0),
                       ],
                     );
