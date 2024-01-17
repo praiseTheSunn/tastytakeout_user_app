@@ -81,7 +81,7 @@ class ChatPage extends StatelessWidget {
             String lastMessage = "";
             return ListView.separated(
               padding: EdgeInsets.all(10),
-              shrinkWrap: true,
+              shrinkWrap: false,
               separatorBuilder: (context, index) => SizedBox(height: 10),
               itemCount: items.length + 1,
               itemBuilder: (context, index) {

@@ -103,7 +103,6 @@ class StoreInfomationScreen extends StatelessWidget {
                               children: [
                                 Text('Yêu thích',
                                     style: TextStyle(fontSize: 16)),
-                                SizedBox(width: 8.0),
                                 Icon(Icons.favorite_border),
                               ],
                             ),
@@ -128,7 +127,6 @@ class StoreInfomationScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text('Chat', style: TextStyle(fontSize: 16)),
-                                  SizedBox(width: 8.0),
                                   Icon(Icons.chat_bubble_outline),
                                 ],
                               ),
@@ -139,99 +137,94 @@ class StoreInfomationScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Danh Sách Món Ăn',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
-                      ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        // Sử dụng shrinkWrap để ListView không chiếm toàn bộ không gian// Tắt khả năng scroll của ListView
-                        itemCount: viewModel.storeInfo.value.foods.length,
-                        // Số lượng món ăn, có thể thay đổi tùy theo data của bạn
-                        itemBuilder: (context, index) {
-                          // Sử dụng data thật của bạn ở đây
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 8.0),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: Image.network(
-                                    viewModel
-                                        .storeInfo.value.foods[index].imgUrl,
-                                    width: 100,
-                                    height: 100,
-                                  ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Danh Sách Món Ăn',
+                      style: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    // Sử dụng shrinkWrap để ListView không chiếm toàn bộ không gian// Tắt khả năng scroll của ListView
+                    itemCount: viewModel.storeInfo.value.foods.length,
+                    // Số lượng món ăn, có thể thay đổi tùy theo data của bạn
+                    itemBuilder: (context, index) {
+                      // Sử dụng data thật của bạn ở đây
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(bottom: 8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.0,
                                 ),
-                                SizedBox(width: 8.0),
-                                Expanded(
-                                  flex: 1,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        viewModel
-                                            .storeInfo.value.foods[index].name,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 2,
-                                      ),
-                                      Text(
-                                        NumberFormat("#,##0", "vi_VN").format(
-                                                viewModel.storeInfo.value
-                                                    .foods[index].price) +
-                                            ' đ',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                      Row(
-                                        children: [
-                                          RatingBarIndicator(
-                                            itemBuilder: (context, index) =>
-                                                Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
-                                            ),
-                                            itemCount: 5,
-                                            itemSize: 12,
-                                            rating: viewModel.storeInfo.value
-                                                .foods[index].rating,
-                                          ),
-                                          Text(
-                                            viewModel.storeInfo.value
-                                                .foods[index].rating
-                                                .toString(),
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
+                              ),
+                              child: Image.network(
+                                viewModel
+                                    .storeInfo.value.foods[index].imgUrl,
+                                width: 100,
+                                height: 100,
+                              ),
                             ),
-                          );
-                        },
-                      ),
-                    ],
+                            SizedBox(width: 16.0),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    viewModel
+                                        .storeInfo.value.foods[index].name,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    maxLines: 2,
+                                  ),
+                                  Text(
+                                    NumberFormat("#,##0", "vi_VN").format(
+                                            viewModel.storeInfo.value
+                                                .foods[index].price) +
+                                        ' đ',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Row(
+                                    children: [
+                                      RatingBarIndicator(
+                                        itemBuilder: (context, index) =>
+                                            Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                        itemCount: 5,
+                                        itemSize: 12,
+                                        rating: viewModel.storeInfo.value
+                                            .foods[index].rating,
+                                      ),
+                                      Text(
+                                        viewModel.storeInfo.value
+                                            .foods[index].rating
+                                            .toString(),
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

@@ -79,7 +79,7 @@ class FoodDetailScreenViewModel extends GetxController {
         },
         body: jsonBody,
       );
-      if (response.statusCode != 201) {
+      if (response.statusCode != 201  && response.statusCode != 200) {
         throw Exception('Error adding food to cart');
       } else {
         print(response);
@@ -107,7 +107,7 @@ class FoodDetailScreenViewModel extends GetxController {
         },
         body: jsonBody,
       );
-      if (response.statusCode != 201) {
+      if (response.statusCode != 201 && response.statusCode != 200) {
         throw Exception('Error changing like status');
       } else {
         print(response);

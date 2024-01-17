@@ -1,29 +1,56 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:tastytakeout_user_app/data_sources/food_source.dart';
+import 'package:tastytakeout_user_app/globals.dart';
+import 'package:tastytakeout_user_app/models/dto/EventModel.dart';
 
 class MainHomeViewModel extends GetxController {
   final FoodSource _popularFoodSource = FoodSource();
-  RxList<String> popularFoodImagesUrls = <String>[].obs;
+  var popularFoodImagesUrls = RxList<String>();
+  var eventInformation = RxList<EventModel>();
+  var eventImagesUrls = RxList<String>();
+  final BASEURL = 'http://$serverIp/';
 
-  final List<String> images = [];
+  @override
+  void onInit() {
+    super.onInit();
+    fetchPopularFoodImagesUrls();
+    fetchEventImageUrls();
+    update();
+  }
 
-  // Future<void> fetchPopularFoodImages() async {
-  //   try {
-  //     await _popularFoodSource.fetchData();
-  //   } catch (e) {
-  //     // Handle errors or exceptions here
-  //     print('Error in fetchDataFromPopularFoodSource: $e');
-  //   }
-  // }
+  Future<void> fetchEventImageUrls() async {
+    try {
+      final response = await get(
+        Uri.parse(BASEURL + 'events/'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept-Charset': 'UTF-8',
+        },
+      );
+      if (response.statusCode != 200) {
+        throw Exception('Error fetching event list');
+      } else {
+        List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
+        print(json);
+        eventInformation.value = json.map((e) => EventModel.fromJson(e)).toList();
+        eventImagesUrls.value = eventInformation.map((e) => e.imageUrl).toList();
+      }
+    } catch (e) {
+      print('Error in fetchEventImageUrls ' + e.toString());
+    } finally {
+
+    }
+  }
+
 
   Future<void> fetchPopularFoodImagesUrls() async {
     try {
       Iterable imageUrls = await _popularFoodSource.getPopularFoodImages(4.0);
-      // print imageUrls
-      for (var imageUrl in imageUrls) {
-        popularFoodImagesUrls.add(imageUrl);
-      }
+      popularFoodImagesUrls.value = imageUrls.toList().map((e) => e.toString()).toList().obs;
     } catch (e) {
       // Handle errors or exceptions here
       print('Error in fetchPopularFoodImagesUrls: $e');

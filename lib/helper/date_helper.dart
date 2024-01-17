@@ -17,4 +17,9 @@ class DateHelper {
       return Date.OTHERDAY;
     }
   }
+
+  static String getFormattedDate(DateTime date) {
+    return date.day.toString() + '/' + date.month.toString() + '/' + date.year.toString();
+  }
 }
+
