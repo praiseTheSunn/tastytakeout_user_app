@@ -152,6 +152,7 @@ class CartSource {
             if (groupedFoodList[storeId]!.length == 1) {
               OrderModel order = OrderModel(
                 foods: groupedFoodList[storeId]!,
+                status: PENDING,
                 storeId: storeId,
                 storeName: storeName,
                 address: userModel.getAddress(),

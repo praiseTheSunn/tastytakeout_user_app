@@ -170,12 +170,14 @@ class OrderPaymentPage extends StatelessWidget {
                             CartSource().deleteCart(
                                 _listOrdersViewModel.cartList[cartIndex].foods);
 
-                            _listOrdersViewModel.cartList.value
-                                .removeAt(cartIndex);
-                            Navigator.pop(context);
+                            _listOrdersViewModel.cartList[cartIndex].status =
+                                data.REJECTED;
+                            _listOrdersViewModel.filterCartsByStatus();
+
+                            Get.back();
                             Get.to(() => PaymentSuccessPage());
                           } else {
-                            Navigator.pop(context);
+                            Get.back();
                             Get.to(() => PaymentFailedPage());
                           }
                         },

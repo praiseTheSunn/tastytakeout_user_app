@@ -71,11 +71,11 @@ class _CartPageState extends State<CartPage> {
             child: Obx(
               () {
                 if (_listCartViewModel.isLoading.value ||
-                    _listCartViewModel.cartList.isEmpty) {
+                    _listCartViewModel.filteredCartList.isEmpty) {
                   String notification = '';
                   if (_listCartViewModel.isLoading.value) {
                     notification = 'Đang tải dữ liệu...';
-                  } else if (_listCartViewModel.cartList.isEmpty) {
+                  } else if (_listCartViewModel.filteredCartList.isEmpty) {
                     notification = 'Hãy thêm món vào giỏ!';
                   }
                   return Center(
@@ -108,7 +108,7 @@ class _CartPageState extends State<CartPage> {
                       },
                       child: ListView.builder(
                         padding: EdgeInsets.fromLTRB(0, 0.0, 0, 4),
-                        itemCount: _listCartViewModel.cartList.length,
+                        itemCount: _listCartViewModel.filteredCartList.length,
                         itemBuilder: (context, cartIndex) {
                           return Column(children: [
                             CartItemWidget(

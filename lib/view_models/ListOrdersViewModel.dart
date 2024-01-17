@@ -6,6 +6,7 @@ import 'package:tastytakeout_user_app/data_sources/hardcode.dart' as data;
 import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 
 import '../data_sources/cart_source.dart';
+import '../data_sources/hardcode.dart';
 import '../data_sources/order_source.dart';
 import '../globals.dart';
 
@@ -13,6 +14,7 @@ class ListOrdersViewModel extends GetxController {
   var orderList = <OrderModel>[].obs;
   var filteredOrderList = <OrderModel>[].obs;
   var cartList = <OrderModel>[].obs;
+  var filteredCartList = <OrderModel>[].obs;
   var isLoading = true.obs;
 
   final List<String> OrderStatus = [
@@ -48,6 +50,7 @@ class ListOrdersViewModel extends GetxController {
 
     cartList.value = await CartSource().fetchCartInfoToPendingOrders();
     cartList.value.reversed;
+    filterCartsByStatus();
     isLoading.value = false;
   }
 
@@ -107,6 +110,15 @@ class ListOrdersViewModel extends GetxController {
   void filterOrdersByStatus() {
     filteredOrderList.value =
         orderList.where((order) => order.status == selectedStatus[0]).toList();
+
+    filteredOrderList.refresh();
+  }
+
+  void filterCartsByStatus() {
+    filteredCartList.value =
+        cartList.where((cart) => cart.status == PENDING).toList();
+
+    filteredCartList.refresh();
   }
 
   void exportFromCartToOrder(int cartIndex) {

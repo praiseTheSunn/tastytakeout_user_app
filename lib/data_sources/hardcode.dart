@@ -4,6 +4,7 @@ import '/models/DTO/FoodModel.dart';
 import '/models/DTO/OrderModel.dart';
 
 /// Const variable
+const String REJECTED = 'REJECTED';
 const String PENDING = 'PENDING';
 const String PREPARE = 'PREPARE';
 const String DELIVERING = 'DELIVERING';
