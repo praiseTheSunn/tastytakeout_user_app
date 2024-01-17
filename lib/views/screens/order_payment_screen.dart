@@ -121,8 +121,8 @@ class OrderPaymentPage extends StatelessWidget {
                   groupValue: radioValue.value,
                   onChanged: (value) {
                     radioValue.value = value!;
-                    _listOrdersViewModel.cartList[cartIndex].paymentMethod =
-                        'BANKING';
+                    _listOrdersViewModel
+                        .filteredCartList[cartIndex].paymentMethod = 'BANKING';
                   },
                 ),
               ),
@@ -133,8 +133,8 @@ class OrderPaymentPage extends StatelessWidget {
                   groupValue: radioValue.value,
                   onChanged: (value) {
                     radioValue.value = value!;
-                    _listOrdersViewModel.cartList[cartIndex].paymentMethod =
-                        'CASH';
+                    _listOrdersViewModel
+                        .filteredCartList[cartIndex].paymentMethod = 'CASH';
                   },
                 ),
               ),
@@ -142,7 +142,7 @@ class OrderPaymentPage extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                      'Tổng: ${formatMoney(_listOrdersViewModel.cartList[cartIndex].calculatePrice())}',
+                      'Tổng: ${formatMoney(_listOrdersViewModel.filteredCartList[cartIndex].calculatePrice())}',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20.0,
@@ -162,16 +162,16 @@ class OrderPaymentPage extends StatelessWidget {
                       child: TextButton(
                         onPressed: () async {
                           //_listOrdersViewModel.exportFromCartToOrder(cartIndex);
-                          _listOrdersViewModel.cartList[cartIndex];
+                          _listOrdersViewModel.filteredCartList[cartIndex];
                           var result = await OrdersSource().addOrder(
-                              _listOrdersViewModel.cartList[cartIndex]);
+                              _listOrdersViewModel.filteredCartList[cartIndex]);
 
                           if (result) {
-                            CartSource().deleteCart(
-                                _listOrdersViewModel.cartList[cartIndex].foods);
+                            CartSource().deleteCart(_listOrdersViewModel
+                                .filteredCartList[cartIndex].foods);
 
-                            _listOrdersViewModel.cartList[cartIndex].status =
-                                data.REJECTED;
+                            _listOrdersViewModel.filteredCartList[cartIndex]
+                                .status = data.REJECTED;
                             _listOrdersViewModel.filterCartsByStatus();
 
                             Get.back();
