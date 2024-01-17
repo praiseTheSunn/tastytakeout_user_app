@@ -76,6 +76,7 @@ class FoodModel {
 
   factory FoodModel.fromJson(Map<String, dynamic> json) {
     return FoodModel(
+      id: json['id'],
       name: json['name'],
       description: json['description'],
       imageUrls: json['image_urls'] != null && json['image_urls'].isNotEmpty

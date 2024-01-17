@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
 import 'package:tastytakeout_user_app/views/screens/notification_screen.dart';
 import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
@@ -82,40 +81,41 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         });
 
     return SafeArea(
-        child: Material(
-      elevation: 0.0,
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(0.0),
-          bottomRight: Radius.circular(0.0),
-        ),
-        child: Container(
-          color: mainColor,
-          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  if (hasIcons) iconDrawer,
-                  if (hasIcons) iconSearch,
-                ],
-              ),
-              Text(
-                title,
-                style: TextStyle(fontSize: 22),
-              ),
-              Row(
-                children: [
-                  if (hasIcons) iconNoti,
-                  if (hasIcons) iconUser,
-                ],
-              ),
-            ],
+      child: Material(
+        elevation: 0.0,
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(0.0),
+            bottomRight: Radius.circular(0.0),
+          ),
+          child: Container(
+            color: mainColor,
+            padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    if (hasIcons) iconDrawer,
+                    if (hasIcons) iconSearch,
+                  ],
+                ),
+                Text(
+                  title,
+                  style: TextStyle(fontSize: 22),
+                ),
+                Row(
+                  children: [
+                    if (hasIcons) iconNoti,
+                    if (hasIcons) iconUser,
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ));
+    );
   }
 
   @override

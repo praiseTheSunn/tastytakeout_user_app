@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:input_quantity/input_quantity.dart';
 import 'package:tastytakeout_user_app/view_models/ListOrdersViewModel.dart';
-import 'package:tastytakeout_user_app/views/screens/cart_screen.dart';
-import 'dart:developer' as developer;
-import '../../models/DTO/FoodModel.dart';
-import '../../models/DTO/OrderModel.dart';
-import '../screens/order_detail_screen.dart';
-import '../screens/order_payment_screen.dart';
-import 'order_item.dart';
+
 import '../../helper/format_helper.dart' as formatHelper;
+import '../../models/DTO/FoodModel.dart';
 
 List<RxInt> quantityListObs = <RxInt>[];
+List<int> deleteList = [];
+Map<int, int> changeQuantityList = {};
 
 void showCartPreviewBottomSheet(BuildContext context, int index) {
   showModalBottomSheet(
@@ -29,6 +26,8 @@ class CartPreviewBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     quantityListObs.clear();
+    changeQuantityList.clear();
+    deleteList.clear();
 
     for (var i = 0;
         i < listOrdersViewModel.cartList[cartIndex].foods.length;
@@ -53,10 +52,28 @@ class CartPreviewBottomSheet extends StatelessWidget {
                 itemBuilder: (context, foodIndex) {
                   return Column(
                     children: [
-                      FoodItemPreviewWidget(
-                        food: listOrdersViewModel
-                            .cartList[cartIndex].foods[foodIndex],
-                        foodIndex: foodIndex,
+                      Dismissible(
+                        key: Key(listOrdersViewModel
+                            .cartList[cartIndex].foods[foodIndex].cartId
+                            .toString()),
+                        onDismissed: (direction) {
+                          deleteList.add(listOrdersViewModel
+                              .cartList[cartIndex].foods[foodIndex].cartId);
+                        },
+                        direction: DismissDirection.endToStart,
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          color: Colors.red,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.delete, size: 40),
+                          ),
+                        ),
+                        child: FoodItemPreviewWidget(
+                          food: listOrdersViewModel
+                              .cartList[cartIndex].foods[foodIndex],
+                          foodIndex: foodIndex,
+                        ),
                       ),
                       SizedBox(height: 20.0),
                     ],
@@ -77,14 +94,56 @@ class CartPreviewBottomSheet extends StatelessWidget {
                   ),
                   child: TextButton(
                     onPressed: () {
-                      for (var i = 0;
-                          i <
-                              listOrdersViewModel
-                                  .cartList[cartIndex].foods.length;
-                          i++) {
-                        listOrdersViewModel.cartList[cartIndex].foods[i]
-                            .setQuantity(quantityListObs[i].value);
-                      }
+                      changeQuantityList.forEach((key, value) {
+                        // listOrdersViewModel.cartList[cartIndex].foods.firstWhere((element) => element.id == key).setQuantity(value);
+                        var res =
+                            listOrdersViewModel.updateQuantity(key, value);
+                        if (res != null) {
+                          res.then((value) {
+                            if (value) {
+                              Get.snackbar(
+                                'Thành công',
+                                'Cập nhật giỏ hàng thành công',
+                                backgroundColor: Colors.green,
+                                colorText: Colors.white,
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            } else {
+                              Get.snackbar(
+                                'Thất bại',
+                                'Đã xảy ra lỗi',
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            }
+                          });
+                        }
+                      });
+                      deleteList.forEach((element) {
+                        var res = listOrdersViewModel.deleteCart(element);
+                        if (res != null) {
+                          res.then((value) {
+                            if (value) {
+                              Get.snackbar(
+                                'Thành công',
+                                'Xóa sản phẩm khỏi giỏ hàng thành công',
+                                backgroundColor: Colors.green,
+                                colorText: Colors.white,
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            } else {
+                              Get.snackbar(
+                                'Thất bại',
+                                'Đã xảy ra lỗi',
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            }
+                          });
+                        }
+                      });
                       Get.toNamed('/cart', id: 1);
                     },
                     child: Text(
@@ -190,9 +249,14 @@ class FoodItemPreviewWidget extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: InputQty.int(
+                minVal: 1,
                 initVal: quantityListObs[foodIndex].value,
                 onQtyChanged: (value) {
-                  quantityListObs[foodIndex].value = value;
+                  if (value != quantityListObs[foodIndex].value) {
+                    changeQuantityList[food.cartId] = value;
+                  } else {
+                    changeQuantityList.remove(food.cartId);
+                  }
                 },
               ),
             )

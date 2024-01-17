@@ -21,8 +21,10 @@ class _PopularScreenState extends State<PopularScreen> {
     _viewModel.fetchPopularFood(4);
     return Scaffold(
         backgroundColor: Colors.grey[200],
-        appBar: CustomAppBar(
-          title: 'Phổ biến',
+        appBar: AppBar(
+          title: Text("Phổ biến"),
+          automaticallyImplyLeading: true,
+          centerTitle: true,
           // Add necessary onPressed callbacks for the app bar icons
         ), // Replace with your custom app bar implementation
         body: Obx(
@@ -43,6 +45,8 @@ class _PopularScreenState extends State<PopularScreen> {
                   // Pass shopName to FoodCard
                   onTap: () {
                     print("Tapped on ${food.name}");
+                    print("Tapped on ${food.id}");
+                    Get.to(FoodDetailScreen(foodId: food.id));
                   },
                 ),
               );

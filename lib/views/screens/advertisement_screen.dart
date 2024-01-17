@@ -1,33 +1,74 @@
 // advertisement_page.dart
 
 import 'package:flutter/material.dart';
+import 'package:tastytakeout_user_app/helper/date_helper.dart';
+import 'package:tastytakeout_user_app/models/dto/EventModel.dart';
 import 'package:tastytakeout_user_app/views/widgets/custom_app_bar.dart';
 
 class AdvertisementPage extends StatelessWidget {
-  final String imageUrl;
+  final EventModel eventModel;
 
-  AdvertisementPage({required this.imageUrl});
+  AdvertisementPage({required this.eventModel});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: CustomAppBar(
-        title: 'Advertisement',
+      appBar: AppBar(
+        title: Text("Sự kiện khuyến mãi"),
+        centerTitle: true,
+        automaticallyImplyLeading: true,
         // Add necessary onPressed callbacks for the app bar icons
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Advertisement Image
-            Image.asset(
-              imageUrl,
-              fit: BoxFit.cover,
-              height: 200, // Set the desired height
+            SizedBox(height: 8.0),
+            Text(
+              eventModel.name,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+            ),
+            SizedBox(height: 8.0),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.fromBorderSide(
+                  BorderSide(
+                    color: Colors.grey.shade300,
+                    width: 0.0,
+                  ),
+                ),
+              ),
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width,
+              clipBehavior: Clip.antiAlias,
+              child: Image.network(
+                eventModel.imageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(
+                    child: Image.asset(
+                      'lib/resources/tasty_takeout_icon.png',
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                },
+              ),
             ),
             // 8 pairs of information related to this advertisement
-            AdvertisementInfoPair('Info 1', 'Detail 1'),
-            AdvertisementInfoPair('Info 2', 'Detail 2'),
+            AdvertisementInfoPair('Bắt đầu từ ngày', DateHelper.getFormattedDate(DateTime.parse(eventModel.start_date))),
+            AdvertisementInfoPair('Kết thúc vào ngày', DateHelper.getFormattedDate(DateTime.parse(eventModel.end_date))),
+            AdvertisementInfoPair('Thông tin chi tiết', eventModel.description),
             // Add more pairs as needed
           ],
         ),

@@ -38,24 +38,6 @@ class OrderModel {
     return totalPrice;
   }
 
-/* order json data of food
-      {
-      "foods": [
-        {
-          "quantity": 2147483647,
-          "total": 2147483647,
-          "food": 0
-        }
-      ],
-      "address": "string",
-      "status": "PENDING",
-      "total": 2147483647,
-      "created_at": "2024-01-05T09:37:27.827Z",
-      "payment_method": "CASH",
-      "voucher": 0
-    }
-   */
-
   String toJson() {
     var voucherValue = voucherId == -1 ? null : voucherId;
     return jsonEncode({
