@@ -79,33 +79,43 @@ class _CartPageState extends State<CartPage> {
                     notification = 'Hãy thêm món vào giỏ!';
                   }
                   return Center(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'lib/resources/gif/loading.gif',
-                        width: 150,
-                        height: 150,
-                      ),
-                      Text(
-                        notification,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ));
-                } else {
-                  return ListView.builder(
-                    padding: EdgeInsets.fromLTRB(0, 0.0, 0, 4),
-                    itemCount: _listCartViewModel.cartList.length,
-                    itemBuilder: (context, cartIndex) {
-                      return Column(children: [
-                        CartItemWidget(cartIndex: cartIndex, clickable: true),
-                      ]);
-                    },
+                    child: RefreshIndicator(
+                        onRefresh: () async {
+                          _listCartViewModel.fetchCart();
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'lib/resources/gif/loading.gif',
+                              width: 150,
+                              height: 150,
+                            ),
+                            Text(
+                              notification,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        )),
                   );
+                } else {
+                  return RefreshIndicator(
+                      onRefresh: () async {
+                        _listCartViewModel.fetchCart();
+                      },
+                      child: ListView.builder(
+                        padding: EdgeInsets.fromLTRB(0, 0.0, 0, 4),
+                        itemCount: _listCartViewModel.cartList.length,
+                        itemBuilder: (context, cartIndex) {
+                          return Column(children: [
+                            CartItemWidget(
+                                cartIndex: cartIndex, clickable: true),
+                          ]);
+                        },
+                      ));
                 }
               },
             ),

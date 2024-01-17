@@ -159,39 +159,52 @@ class _OrdersViewState extends State<OrdersView> {
                     .listOrdersViewModel.filteredOrderList.isEmpty) {
                   notification = 'Bạn chưa có đơn hàng nào!';
                 }
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'lib/resources/gif/loading.gif',
-                      width: 150,
-                      height: 150,
-                    ),
-                    Text(
-                      notification,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ));
-              } else {
-                return ListView.builder(
-                  padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
-                  itemCount: _ordersController
-                      .listOrdersViewModel.filteredOrderList.length,
-                  //reverse: true,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        OrderItemWidget(index: index),
-                        SizedBox(height: 8.0),
-                      ],
-                    );
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    _ordersController.listOrdersViewModel.fetchOrders();
+                    _ordersController.listOrdersViewModel
+                        .filterOrdersByStatus();
                   },
+                  child: Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'lib/resources/gif/loading.gif',
+                        width: 150,
+                        height: 150,
+                      ),
+                      Text(
+                        notification,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  )),
                 );
+              } else {
+                return RefreshIndicator(
+                    onRefresh: () async {
+                      _ordersController.listOrdersViewModel.fetchOrders();
+                      _ordersController.listOrdersViewModel
+                          .filterOrdersByStatus();
+                    },
+                    child: ListView.builder(
+                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 8.0),
+                      itemCount: _ordersController
+                          .listOrdersViewModel.filteredOrderList.length,
+                      //reverse: true,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            OrderItemWidget(index: index),
+                            SizedBox(height: 8.0),
+                          ],
+                        );
+                      },
+                    ));
               }
             },
           ),
