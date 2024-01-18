@@ -23,6 +23,7 @@ class MainHomeViewModel extends GetxController {
   }
 
   Future<void> fetchEventImageUrls() async {
+    print('fetchEventImageUrls');
     try {
       final response = await get(
         Uri.parse(BASEURL + 'events/'),
@@ -37,6 +38,9 @@ class MainHomeViewModel extends GetxController {
         List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
         print(json);
         eventInformation.value = json.map((e) => EventModel.fromJson(e)).toList();
+        for (int i = 0; i < eventInformation.length; i++) {
+          eventInformation[i].translateVoucher();
+        }
         eventImagesUrls.value = eventInformation.map((e) => e.imageUrl).toList();
       }
     } catch (e) {

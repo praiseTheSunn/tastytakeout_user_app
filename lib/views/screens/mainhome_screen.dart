@@ -25,11 +25,14 @@ class MainHomeBinding extends Bindings {
 }
 
 class MainHomePage extends StatelessWidget {
-  const MainHomePage({super.key});
+  MainHomePage({super.key});
+  MainHomeViewModel mainHomeViewModel = Get.put(MainHomeViewModel());
 
   @override
   Widget build(BuildContext context) {
     print('MainHomePage build');
+    mainHomeViewModel.fetchEventImageUrls();
+    // mainHomeViewModel.fetchPopularFoodImagesUrls();
     return Scaffold(
       backgroundColor: mainColor,
       appBar: CustomAppBar(
@@ -61,7 +64,6 @@ class MainHomePage extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    MainHomeViewModel mainHomeViewModel = Get.put(MainHomeViewModel());
     return Container(
       color: Colors.white,
       child: Column(

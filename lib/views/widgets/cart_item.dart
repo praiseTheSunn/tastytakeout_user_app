@@ -39,12 +39,12 @@ class CartItemWidget extends GetWidget {
                       onTap: () {
                         Get.to(() => StoreInfomationScreen(),
                             arguments: _listOrdersViewModel
-                                .filteredCartList[cartIndex].storeId);
+                                .cartList[cartIndex].storeId);
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 12.0),
                         child: Text(
-                          '  🛒 ${_listOrdersViewModel.filteredCartList[cartIndex].storeName}',
+                          '  🛒 ${_listOrdersViewModel.cartList[cartIndex].storeName}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
@@ -82,15 +82,15 @@ class CartItemWidget extends GetWidget {
               () => ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: _listOrdersViewModel
-                    .filteredCartList[cartIndex].foods.length,
+                itemCount:
+                    _listOrdersViewModel.cartList[cartIndex].foods.length,
                 separatorBuilder: (context, index) {
                   return Divider(height: 1.0, color: Colors.grey);
                 },
                 itemBuilder: (context, foodIndex) {
                   return FoodItemWidget(
                       food: _listOrdersViewModel
-                          .filteredCartList[cartIndex].foods[foodIndex]);
+                          .cartList[cartIndex].foods[foodIndex]);
                 },
               ),
             ),
@@ -114,8 +114,7 @@ class CartItemWidget extends GetWidget {
                     child: Text(
                       'Tổng tiền' +
                           ' : ' +
-                          formatMoney(_listOrdersViewModel
-                                  .filteredCartList[cartIndex]
+                          formatMoney(_listOrdersViewModel.cartList[cartIndex]
                                   .calculatePrice())
                               .toString(),
                       style: TextStyle(
@@ -179,7 +178,7 @@ class CartItemWidget extends GetWidget {
     //         children: [
     //           Obx(
     //             () => Text(
-    //               '${_listOrdersViewModel.filteredCartList[cartIndex].storeName} - ${formatHelper.formatMoney(_listOrdersViewModel.filteredCartList[cartIndex].calculatePrice())}',
+    //               '${_listOrdersViewModel.cartList[cartIndex].storeName} - ${formatHelper.formatMoney(_listOrdersViewModel.cartList[cartIndex].calculatePrice())}',
     //               style: TextStyle(
     //                 fontWeight: FontWeight.bold,
     //                 fontSize: 18.0,
@@ -193,11 +192,11 @@ class CartItemWidget extends GetWidget {
     //               shrinkWrap: true,
     //               physics: NeverScrollableScrollPhysics(),
     //               itemCount:
-    //                   _listOrdersViewModel.filteredCartList[cartIndex].foods.length,
+    //                   _listOrdersViewModel.cartList[cartIndex].foods.length,
     //               itemBuilder: (context, foodIndex) {
     //                 return FoodItemWidget(
     //                     food: _listOrdersViewModel
-    //                         .filteredCartList[cartIndex].foods[foodIndex]);
+    //                         .cartList[cartIndex].foods[foodIndex]);
     //               },
     //             ),
     //           ),
