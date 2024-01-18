@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../view_models/StoreInfomationScreenViewModel.dart';
 import 'chat_detail_screen.dart';
+import '../../data_sources/hardcode.dart' as data;
 
 class StoreInfomationScreen extends StatelessWidget {
   const StoreInfomationScreen({super.key});
@@ -112,7 +113,7 @@ class StoreInfomationScreen extends StatelessWidget {
                             onTap: () {
                               Get.to(() => ChatDetailScreen(),
                                   arguments: {
-                                    'chat_room_id': 10.toString() + '_' + storeId.toString(),
+                                    'chat_room_id': data.userModel.id.toString() + '_' + storeId.toString(),
                                     'store_id': storeId,
                                     'store_name': viewModel.storeInfo.value.name,
                                     'store_image_url': viewModel.storeInfo.value.imgUrl,

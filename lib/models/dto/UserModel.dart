@@ -1,4 +1,5 @@
 class UserModel {
+  late int id;
   late String email;
   late String avatar_url;
   late String name;
@@ -8,6 +9,7 @@ class UserModel {
   late String gender;
 
   UserModel({
+    this.id = -1,
     this.email = '',
     this.avatar_url = '',
     this.name = '',
@@ -18,6 +20,7 @@ class UserModel {
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     email = json['email'];
     avatar_url = json['avatar_url'];
     name = json['name'];
@@ -52,13 +55,10 @@ class UserModel {
 
   Map<String, dynamic> toMapJson() {
     return {
+      'bio' : 'deptrai',
       'email': email,
-      'avatar_url': avatar_url,
       'name': name,
-      'bio': bio,
       'address': address,
-      'date_of_birth': date_of_birth,
-      'gender': gender
     };
   }
 }

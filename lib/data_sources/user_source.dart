@@ -104,6 +104,8 @@ class UserSource {
         },
         body: jsonEncode(_userModel.toMapJson()),
       );
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
       return response;
     } catch (e) {
       print('Exception during POST request: $e');

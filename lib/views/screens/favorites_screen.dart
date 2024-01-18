@@ -16,11 +16,13 @@ class FavoritesScreenBinding extends Bindings {
 }
 
 class FavoritesScreen extends StatelessWidget {
-  final FavoritesScreenViewModel _viewModel =
+  FavoritesScreen({Key? key});
+  FavoritesScreenViewModel _viewModel =
       Get.put(FavoritesScreenViewModel());
 
   @override
   Widget build(BuildContext context) {
+    print('FavoritesScreen build');
     return Scaffold(
       backgroundColor: mainColor,
       appBar: CustomAppBar(
@@ -53,12 +55,13 @@ class FavoritesScreen extends StatelessWidget {
   }
 
   Widget _buildBody() {
+    _viewModel.fetchFavoriteFood();
     return Container(
       color: Colors.white,
       child: Obx(() {
         if (_viewModel.isLoading.value) {
           String notification = 'Đang tải dữ liệu...';
-          _viewModel.fetchFavoriteFood();
+          print(notification);
           return Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -78,29 +81,37 @@ class FavoritesScreen extends StatelessWidget {
             ],
           ));
         } else {
-          return ListView.builder(
-            itemCount: _viewModel.foodList.value.length,
-            itemBuilder: (context, index) {
-              final food = _viewModel.foodList.value[index];
-              return InkWell(
-                onTap: () {
-                  Get.to(FoodDetailScreen(
-                    foodId: _viewModel.foodList.value[index].id,
-                  ));
-                },
-                child: FoodCard(
-                  foodName: food.name,
-                  // description: food.description,
-                  imagePath: food.imageUrls[0],
-                  price: food.price.toString(),
-                  shopName: food.shopName,
-                  // Pass shopName to FoodCard
-                  onTap: () {
-                    print("Tapped on ${food.name}");
-                  },
-                ),
-              );
+          return RefreshIndicator(
+            onRefresh: () async {
+              _viewModel.fetchFavoriteFood();
             },
+            child: Obx(() => ListView.builder(
+                itemCount: _viewModel.foodList.value.length,
+                itemBuilder: (context, index) {
+                  final food = _viewModel.foodList.value[index];
+                  return InkWell(
+                    onTap: () {
+                      Get.to(FoodDetailScreen(
+                        foodId: _viewModel.foodList.value[index].id,
+                      ))?.then((value) {
+                        _viewModel.fetchFavoriteFood();
+                      });
+                    },
+                    child: FoodCard(
+                      foodName: food.name,
+                      // description: food.description,
+                      imagePath: food.imageUrls[0],
+                      price: food.price.toString(),
+                      shopName: food.shopName,
+                      // Pass shopName to FoodCard
+                      onTap: () {
+                        print("Tapped on ${food.name}");
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
           );
         }
       }),

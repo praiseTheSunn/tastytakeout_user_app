@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
 
+import '../../data_sources/hardcode.dart';
+
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -103,6 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       backgroundColor: Color.fromARGB(255, 129, 223, 129),
                     ),
                   );
+                  updateUserInfoAfterLogin();
                   Get.toNamed('/signin');
                 }
                 else {
