@@ -3,14 +3,26 @@
 import 'package:flutter/material.dart';
 import 'package:tastytakeout_user_app/helper/date_helper.dart';
 import 'package:tastytakeout_user_app/models/dto/EventModel.dart';
-import 'package:tastytakeout_user_app/views/widgets/custom_app_bar.dart';
+import 'package:tastytakeout_user_app/views/widgets/voucher_items.dart';
 
 class AdvertisementPage extends StatelessWidget {
   final EventModel eventModel;
 
   AdvertisementPage({required this.eventModel});
+
   @override
   Widget build(BuildContext context) {
+    final String beginDate =
+        DateHelper.getFormattedDate(DateTime.parse(eventModel.start_date));
+    final String endDate;
+
+    if (eventModel.start_date == eventModel.end_date) {
+      endDate = 'Không xác định';
+    } else {
+      endDate =
+          DateHelper.getFormattedDate(DateTime.parse(eventModel.end_date));
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -66,10 +78,21 @@ class AdvertisementPage extends StatelessWidget {
               ),
             ),
             // 8 pairs of information related to this advertisement
-            AdvertisementInfoPair('Bắt đầu từ ngày', DateHelper.getFormattedDate(DateTime.parse(eventModel.start_date))),
-            AdvertisementInfoPair('Kết thúc vào ngày', DateHelper.getFormattedDate(DateTime.parse(eventModel.end_date))),
+            AdvertisementInfoPair('Bắt đầu từ ngày', beginDate),
+            AdvertisementInfoPair('Kết thúc vào ngày', endDate),
             AdvertisementInfoPair('Thông tin chi tiết', eventModel.description),
+            AdvertisementInfoPair('Các Vouchers trong chương trình', ''),
             // Add more pairs as needed
+            ListView.builder(
+              itemCount: eventModel.translatedVoucher.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                print(eventModel.voucher[index].runtimeType);
+                print(eventModel.voucher[index]);
+                return VoucherItem(voucher: eventModel.translatedVoucher[index]);
+              },
+            ),
           ],
         ),
       ),
@@ -92,7 +115,8 @@ class AdvertisementInfoPair extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
 
         children: [
-          Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          Text(label,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           Text(value),
         ],
       ),
