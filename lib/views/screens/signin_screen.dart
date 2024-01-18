@@ -94,11 +94,26 @@ class _SignInPageState extends State<SignInPage> {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Add logic for sign-in button
                 print('Sign In: ${_viewModel.username}, ${_viewModel.password}');
-                authService.login();
-                
+
+                bool success = await authService.login(_viewModel.username, _viewModel.password);
+                if (success) {
+                  // Navigate to home page
+                  // Get.offAll(() => HomePage());
+                  Get.back();
+                } else {
+                  // Show error message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error: login unsuccessfully'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 223, 129, 129),
+                    ),
+                  );
+                }
+                Get.back();
               },
               child: Text('Sign In'),
             ),
