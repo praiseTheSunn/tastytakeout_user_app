@@ -62,8 +62,7 @@ class ListOrdersViewModel extends GetxController {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Charset': 'UTF-8',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODg1OTUxNjI4LCJpYXQiOjE3MDQ1MTE2MjgsImp0aSI6IjU1MGFiOWU0MGM4MTQ2MDNhNmQxMjcxZjRiZjYxNmQ4IiwidXNlcl9pZCI6MTAsInJvbGUiOiJCVVlFUiJ9.Um--pPRWNG7VPh9F7ARYaRIn2Ab5yDvrpZvfsO9_9vA'
+          'Authorization': 'Bearer ${data.accessKey}'
         },
         body: jsonEncode(
           <String, String>{
@@ -91,8 +90,7 @@ class ListOrdersViewModel extends GetxController {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Charset': 'UTF-8',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODg1OTUxNjI4LCJpYXQiOjE3MDQ1MTE2MjgsImp0aSI6IjU1MGFiOWU0MGM4MTQ2MDNhNmQxMjcxZjRiZjYxNmQ4IiwidXNlcl9pZCI6MTAsInJvbGUiOiJCVVlFUiJ9.Um--pPRWNG7VPh9F7ARYaRIn2Ab5yDvrpZvfsO9_9vA'
+          'Authorization': 'Bearer ${data.accessKey}'
         },
       );
       if (response.statusCode != 204) {

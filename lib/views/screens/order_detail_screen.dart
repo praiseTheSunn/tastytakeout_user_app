@@ -17,6 +17,8 @@ class OrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(_listOrdersViewModel.filteredOrderList[index].orderId);
+
     if (_listOrdersViewModel.filteredOrderList[index].paymentMethod == "CASH") {
       radioValue.value = 1;
     } else {
