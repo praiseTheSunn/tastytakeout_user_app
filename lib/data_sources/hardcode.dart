@@ -19,17 +19,17 @@ var mapStatus = {
   COMPLETED: 'Đã giao',
 };
 
-Future<void> updateUserInfoAfterLogin() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String accessKey = prefs.getString('token') ?? '';
-
-  userModel = await UserSource().getUserInfo();
-}
-
 //Data----------------//
 String accessKey = '';
 UserModel userModel = UserModel();
 //--------------------//
+
+Future<void> updateUserInfoAfterLogin() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  accessKey = prefs.getString('token') ?? '';
+  userModel = await UserSource().getUserInfo();
+}
 
 final String imageUrl =
     'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg';

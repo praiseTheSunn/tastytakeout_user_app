@@ -56,23 +56,31 @@ class OrderDetailPage extends StatelessWidget {
                           children: [
                             Icon(Icons.pin_drop_sharp),
                             SizedBox(width: 8.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Địa chỉ giao hàng',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  _listOrdersViewModel
-                                      .filteredOrderList[index].address,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15.0,
-                                    color: Colors.green,
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Địa chỉ giao hàng',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.0),
                                   ),
-                                ),
-                              ],
+                                  Text(
+                                    _listOrdersViewModel
+                                        .filteredOrderList[index].address,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15.0,
+                                      color: Colors.green,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
