@@ -11,25 +11,31 @@ import '../widgets/cart_confirm_bottom_sheet.dart';
 
 class CartController extends GetxController {
   final title = 'Cart'.obs;
+  final listCartViewModel = Get.find<ListOrdersViewModel>();
+
+  @override
+  void onInit() {
+    super.onInit();
+    listCartViewModel.fetchCart();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    listCartViewModel.fetchCart();
+  }
 }
 
 class CartBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => ListOrdersViewModel(), fenix: true);
+    Get.lazyPut(() => ListOrdersViewModel());
     Get.lazyPut(() => CartController());
   }
 }
 
-class _CartPageState extends State<CartPage> {
-  final _listCartViewModel = Get.find<ListOrdersViewModel>();
-  final _cartController = Get.find<CartController>();
-
-  @override
-  void initState() {
-    super.initState();
-    _listCartViewModel.fetchCart();
-  }
+class CartPage extends StatelessWidget {
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +61,29 @@ class _CartPageState extends State<CartPage> {
             topLeft: Radius.circular(25.0),
             topRight: Radius.circular(25.0),
           ),
-          child: _buildBody(),
+          child: CartPageView(),
         ),
       ),
     );
   }
+}
 
-  Widget _buildBody() {
+class CartPageView extends StatefulWidget {
+  @override
+  State<CartPageView> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPageView> {
+  final _cartController = Get.find<CartController>();
+
+  @override
+  void initState() {
+    super.initState();
+    //_cartController.listCartViewModel.fetchCart();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(0, 12.0, 0, 0.0),
@@ -70,18 +92,20 @@ class _CartPageState extends State<CartPage> {
           Expanded(
             child: Obx(
               () {
-                if (_listCartViewModel.isLoading.value ||
-                    _listCartViewModel.filteredCartList.isEmpty) {
+                if (_cartController.listCartViewModel.isLoading.value ||
+                    _cartController
+                        .listCartViewModel.filteredCartList.isEmpty) {
                   String notification = '';
-                  if (_listCartViewModel.isLoading.value) {
+                  if (_cartController.listCartViewModel.isLoading.value) {
                     notification = 'Đang tải dữ liệu...';
-                  } else if (_listCartViewModel.filteredCartList.isEmpty) {
+                  } else if (_cartController
+                      .listCartViewModel.filteredCartList.isEmpty) {
                     notification = 'Hãy thêm món vào giỏ!';
                   }
                   return Center(
                     child: RefreshIndicator(
                         onRefresh: () async {
-                          _listCartViewModel.fetchCart();
+                          _cartController.listCartViewModel.fetchCart();
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -104,11 +128,12 @@ class _CartPageState extends State<CartPage> {
                 } else {
                   return RefreshIndicator(
                       onRefresh: () async {
-                        _listCartViewModel.fetchCart();
+                        _cartController.listCartViewModel.fetchCart();
                       },
                       child: ListView.builder(
                         padding: EdgeInsets.fromLTRB(0, 0.0, 0, 4),
-                        itemCount: _listCartViewModel.filteredCartList.length,
+                        itemCount: _cartController
+                            .listCartViewModel.filteredCartList.length,
                         itemBuilder: (context, cartIndex) {
                           return Column(children: [
                             CartItemWidget(
@@ -124,11 +149,4 @@ class _CartPageState extends State<CartPage> {
       ),
     );
   }
-}
-
-class CartPage extends StatefulWidget {
-  const CartPage({Key? key}) : super(key: key);
-
-  @override
-  State<CartPage> createState() => _CartPageState();
 }
