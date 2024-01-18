@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 import 'package:tastytakeout_user_app/globals.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 
 class FoodSource {
   // final String apiUrl = 'http://localhost:8000/foods/';
@@ -132,6 +135,8 @@ class FoodSource {
 
   Future<Iterable> getFavoriteFood() async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString('token') ?? '';
       final uri = Uri.parse('$baseUrl?is_liked=true');
       // final response = await http.get(uri);
       final response = await http.get(
@@ -139,6 +144,7 @@ class FoodSource {
         headers: {
           'accept': 'application/json',
           // 'X-CSRFToken': 'n5Lm8twiNK1239FTN1RwuCGcVFzHIdHW6iVxVnFeMYk5TWdVVhR7nRKyl66L2Q47',
+          'Authorization' : 'Bearer ' + token,
         },
       );
 

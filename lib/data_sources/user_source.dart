@@ -1,15 +1,14 @@
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:tastytakeout_user_app/data_sources/food_source.dart';
 import 'package:tastytakeout_user_app/globals.dart';
-import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
-import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 import 'package:tastytakeout_user_app/models/DTO/UserModel.dart';
-import 'package:tastytakeout_user_app/data_sources/hardcode.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 
 class UserSource {
   final baseUrl = Uri.http(serverIp, '/users/');
   final loginUrl = Uri.http(serverIp, '/users/login/');
+  final AuthService authService = Get.put(AuthService());
 
   /* Example JSON response:
          {
@@ -25,7 +24,7 @@ class UserSource {
         }
           */
 
-  Future<String> getAccessToken() async {
+  Future<String> getAccessTokenByLogin(String username, String password) async {
     final responseLogin = await http.post(
       loginUrl,
       headers: {
@@ -33,14 +32,41 @@ class UserSource {
         'Content-Type': 'application/json',
       },
       body: jsonEncode(<String, String>{
-        'username': '123',
-        'password': '1234',
+        'username': username,
+        'password': password,
       }),
     );
+
+    if (responseLogin.statusCode != 200) {
+      print('Request failed with status: ${responseLogin.statusCode}');
+      return '';
+    }
 
     String accessToken = jsonDecode(responseLogin.body)['access'];
     print('Access token: $accessToken');
     return accessToken;
+  }
+
+  Future<String> getAccessToken() async {
+    // get access token from SharedPreferences
+    await authService.checkLoginStatus();
+    return authService.token;
+
+    // final responseLogin = await http.post(
+    //   loginUrl,
+    //   headers: {
+    //     'accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: jsonEncode(<String, String>{
+    //     'username': '123',
+    //     'password': '1234',
+    //   }),
+    // );
+
+    // String accessToken = jsonDecode(responseLogin.body)['access'];
+    // print('Access token: $accessToken');
+    // return accessToken;
   }
 
   Future<UserModel> getUserInfo() async {

@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/models/dto/ChatModel.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 import 'package:tastytakeout_user_app/view_models/ChatScreenViewModel.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:tastytakeout_user_app/globals.dart';
@@ -49,7 +51,9 @@ class ChatDetailScreenViewModel extends GetxController {
   }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token') ?? '';
     getChatMessages();
     channel = WebSocketChannel.connect(
       Uri.parse(BASE_URL_WS + chatRoom + '/?token=' + token),

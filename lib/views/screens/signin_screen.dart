@@ -5,10 +5,16 @@ import 'package:tastytakeout_user_app/views/screens/forgotpassword_screen.dart';
 import 'package:tastytakeout_user_app/views/screens/signup_screen.dart';
 
 // ViewModel class for managing the state of the sign-in page
-class SignInViewModel {
+class SignInViewModel extends GetxController {
   String username = '';
-  String password = '';
-  
+  String password = ''; 
+}
+
+class SignInBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => SignInViewModel());
+  }
 }
 
 class SignInPage extends StatefulWidget {
@@ -94,13 +100,38 @@ class _SignInPageState extends State<SignInPage> {
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                if (_viewModel.username.isEmpty || _viewModel.password.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lỗi: số điện thoại hoặc mật khẩu trống!'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 223, 129, 129),
+                    ),
+                  );
+                  return;
+                }
+
                 // Add logic for sign-in button
                 print('Sign In: ${_viewModel.username}, ${_viewModel.password}');
-                authService.login();
-                
+
+                bool success = await authService.login(_viewModel.username, _viewModel.password);
+                if (success) {
+                  // Navigate to home page
+                  // Get.offAll(() => HomePage());
+                  Get.toNamed('/home');
+                } else {
+                  // Show error message
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lỗi: số điện thoại hoặc mật khẩu không đúng!'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 223, 129, 129),
+                    ),
+                  );
+                }
               },
-              child: Text('Sign In'),
+              child: Text('Đăng nhập'),
             ),
             SizedBox(height: 16.0),
             GestureDetector(
@@ -109,15 +140,17 @@ class _SignInPageState extends State<SignInPage> {
                 print('Navigate to Sign Up');
                 Get.to(() => SignUpPage());
               },
-              child: Text(
-                "Chưa có tài khoản? Tạo tài khoản mới tại đây.",
-                style: TextStyle(
-                  color: Colors.blue,
+              child: Center(
+                child: Text(
+                  "Chưa có tài khoản? Tạo tài khoản mới tại đây.",
+                  style: TextStyle(
+                    color: Colors.blue,
+                  ),
                 ),
               ),
             ),
             SizedBox(height: 16.0),
-            Text('Or sign up with:'),
+            Text('Hoặc đăng nhập bằng'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

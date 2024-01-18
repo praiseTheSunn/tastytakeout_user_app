@@ -6,7 +6,7 @@ import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
 
 class FavoritesScreenViewModel extends GetxController {
   var isLoading = true.obs;
-  final FoodSource _popularFoodSource = FoodSource();
+  final FoodSource foodSource = FoodSource();
 
   RxList<FoodModel> foodList = <FoodModel>[].obs;
 
@@ -20,14 +20,14 @@ class FavoritesScreenViewModel extends GetxController {
     try {
       isLoading(true);
       foodList.clear();
-      Iterable foods = await _popularFoodSource.getFavoriteFood();
+      Iterable foods = await foodSource.getFavoriteFood();
       // print imageUrls
       for (var food in foods) {
         foodList.add(food);
       }
     } catch (e) {
       // Handle errors or exceptions here
-      print('Error in fetchPopularFood in PopularScreenViewModel: $e');
+      print('Error in fetchFavoriteFood in FavoritesScreenViewModel: $e');
     } finally {
       isLoading(false);
     }
