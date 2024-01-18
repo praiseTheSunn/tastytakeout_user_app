@@ -44,7 +44,7 @@ Future<void> main() async {
   ));
 
   await firebaseMessagingApi.init();
-  await firebaseMessagingApi.localNotiInit();
+  //await firebaseMessagingApi.localNotiInit();
 
   FirebaseMessaging.onBackgroundMessage(_handelMessage);
   FirebaseMessaging.onMessage.listen(_handelMessage);
