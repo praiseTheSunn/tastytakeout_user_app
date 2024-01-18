@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/models/DTO/UserModel.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
@@ -49,8 +50,8 @@ class UserSource {
 
   Future<String> getAccessToken() async {
     // get access token from SharedPreferences
-    await authService.checkLoginStatus();
-    return authService.token;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token') ?? '';
 
     // final responseLogin = await http.post(
     //   loginUrl,

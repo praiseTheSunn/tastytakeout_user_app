@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tastytakeout_user_app/data_sources/user_source.dart';
 import 'package:tastytakeout_user_app/models/DTO/UserModel.dart';
 
 import '/models/DTO/FoodModel.dart';
@@ -17,11 +19,17 @@ var mapStatus = {
   COMPLETED: 'Đã giao',
 };
 
-final String accessKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxODg2NTU3OTg1LCJpYXQiOjE3MDUxMTc5ODUsImp0aSI6IjQyMjBkY2Y2NzkxNTRjZDlhMmE2MGZlNmVkOGZlNWQ3IiwidXNlcl9pZCI6MTAsInJvbGUiOiJCVVlFUiJ9.cKb2CA0V_fh-mU48n98y0z9b6IItegINHPocv-YdQ7k';
+Future<void> updateUserInfoAfterLogin() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String accessKey = prefs.getString('token') ?? '';
 
-final UserModel userModel = UserModel(
-    name: 'Nguyễn Văn A', address: '227 Nguyễn Văn Cừ', email: 'nva@gmail.com');
+  userModel = await UserSource().getUserInfo();
+}
+
+//Data----------------//
+String accessKey = '';
+UserModel userModel = UserModel();
+//--------------------//
 
 final String imageUrl =
     'https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg';
