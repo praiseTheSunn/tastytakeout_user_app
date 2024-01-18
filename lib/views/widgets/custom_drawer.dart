@@ -89,6 +89,7 @@ class CustomDrawer extends StatelessWidget {
             title: Text('Đăng xuất'),
             onTap: () {
               authService.logout();
+              Get.toNamed('/signin');
             },
           ),
         ],

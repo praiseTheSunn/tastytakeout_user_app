@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:tastytakeout_user_app/data_sources/food_source.dart';
 import 'package:tastytakeout_user_app/globals.dart';
-import 'package:tastytakeout_user_app/models/DTO/FoodModel.dart';
-import 'package:tastytakeout_user_app/models/DTO/OrderModel.dart';
 import 'package:tastytakeout_user_app/models/DTO/UserModel.dart';
-import 'package:tastytakeout_user_app/data_sources/hardcode.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
 
 class UserSource {

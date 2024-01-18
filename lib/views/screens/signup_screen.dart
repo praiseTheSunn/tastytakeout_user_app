@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -11,12 +13,14 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
+  final AuthService authService = Get.put(AuthService());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        title: Text('Sign Up'),
+        title: Text('Đăng ký'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -25,25 +29,25 @@ class _SignUpPageState extends State<SignUpPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Create an Account',
+              'Sign Up!',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SizedBox(height: 16.0),
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                labelText: 'Username',
-              ),
-            ),
-            SizedBox(height: 16.0),
+            // TextField(
+            //   controller: _usernameController,
+            //   decoration: InputDecoration(
+            //     labelText: 'Username',
+            //   ),
+            // ),
+            // SizedBox(height: 16.0),
             TextField(
               controller: _phoneNumberController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                labelText: 'Phone Number',
+                labelText: 'Số điện thoại',
               ),
             ),
             SizedBox(height: 16.0),
@@ -51,7 +55,7 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Mật khẩu',
               ),
             ),
             SizedBox(height: 16.0),
@@ -59,14 +63,57 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _confirmPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Confirm Password',
+                labelText: 'Xác nhận mật khẩu',
               ),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                if (_phoneNumberController.text.isEmpty ||
+                    _passwordController.text.isEmpty ||
+                    _confirmPasswordController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lỗi: Vui lòng nhập đầy đủ thông tin'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 223, 129, 129),
+                    ),
+                  );
+                  return;
+                }
+                else if (_passwordController.text != _confirmPasswordController.text) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lỗi: Mật khẩu xác nhận không khớp'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 223, 129, 129),
+                    ),
+                  );
+                  return;
+                }
                 // Add logic for sign-up button
-                print('Sign Up: ${_usernameController.text}, ${_phoneNumberController.text}, ${_passwordController.text}, ${_confirmPasswordController.text}');
+                print('Sign Up: ${_phoneNumberController.text}, ${_passwordController.text}, ${_confirmPasswordController.text}');
+                
+                bool isSuccessful = await authService.signUp(_phoneNumberController.text, _passwordController.text);
+                if (isSuccessful) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Đăng ký thành công!'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 129, 223, 129),
+                    ),
+                  );
+                  Get.toNamed('/signin');
+                }
+                else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Lỗi: Đăng ký thất bại!'),
+                      duration: Duration(seconds: 2), // Set the duration here]
+                      backgroundColor: Color.fromARGB(255, 223, 129, 129),
+                    ),
+                  );
+                }
               },
               child: Text('Sign Up'),
             ),

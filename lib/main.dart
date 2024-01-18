@@ -10,8 +10,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/firebase_options.dart';
 import 'package:tastytakeout_user_app/globals.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 import 'package:tastytakeout_user_app/service/firebase_messaging.dart';
 import 'package:tastytakeout_user_app/views/screens/favorites_screen.dart';
+import 'package:tastytakeout_user_app/views/screens/signin_screen.dart';
 
 import '/views/screens/cart_screen.dart';
 import '/views/screens/chat_screen.dart';
@@ -29,6 +31,18 @@ Future<void> _handelMessage(RemoteMessage message) async {
   } else {
     print("No notification");
   }
+}
+
+Future<String> determineInitialRoute() async {
+  // Check the login status, you can use SharedPreferences or any other method
+  // For simplicity, let's assume a key named 'isLoggedIn' in SharedPreferences
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  String token = prefs.getString('token') ?? '';
+  print('Startup: Token: $token');
+
+  // Return the appropriate initial route based on the login status
+  return isLoggedIn ? '/home' : '/signin';
 }
 
 Future<void> main() async {
@@ -51,6 +65,8 @@ Future<void> main() async {
 
   await SharedPreferences.getInstance();
 
+  String initialRoute = await determineInitialRoute();
+
   runApp(GetMaterialApp(
     title: 'Tasty Takeout',
     theme: ThemeData(
@@ -58,13 +74,18 @@ Future<void> main() async {
     ),
     color: Colors.white,
     debugShowCheckedModeBanner: false,
-    initialRoute: '/home',
+    initialRoute: initialRoute,
     defaultTransition: Transition.fadeIn,
     getPages: [
       GetPage(
         name: '/home',
         page: () => HomePage(),
         binding: HomeBinding(),
+      ),
+      GetPage(
+        name: '/signin',
+        page: () => SignInPage(),
+        binding: SignInBinding(),
       ),
     ],
   ));
@@ -146,8 +167,6 @@ class HomeController extends GetxController {
     return null;
   }
 }
-
-PopularPage() {}
 
 class HomePage extends GetView<HomeController> {
   @override

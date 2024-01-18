@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:tastytakeout_user_app/globals.dart';
+import 'package:tastytakeout_user_app/service/auth_service.dart';
 import 'package:tastytakeout_user_app/view_models/ListOrdersViewModel.dart';
 
 class FoodDetailScreenViewModel extends GetxController {
@@ -29,6 +30,9 @@ class FoodDetailScreenViewModel extends GetxController {
 
   FoodDetailScreenViewModel(int id) {
     this.id = id;
+    final AuthService authService = Get.put(AuthService());
+    authService.checkLoginStatus();
+    this.token = authService.token;
   }
 
   @override

@@ -27,7 +27,7 @@ class FavoritesScreenViewModel extends GetxController {
       }
     } catch (e) {
       // Handle errors or exceptions here
-      print('Error in fetchPopularFood in PopularScreenViewModel: $e');
+      print('Error in fetchFavoriteFood in FavoritesScreenViewModel: $e');
     } finally {
       isLoading(false);
     }
