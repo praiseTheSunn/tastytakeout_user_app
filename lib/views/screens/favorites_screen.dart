@@ -12,13 +12,15 @@ import '../widgets/custom_drawer.dart';
 
 class FavoritesScreenBinding extends Bindings {
   @override
-  void dependencies() {}
+  void dependencies() {
+    Get.lazyPut(() => FavoritesScreenViewModel(), fenix: true);
+  }
 }
 
 class FavoritesScreen extends StatelessWidget {
   FavoritesScreen({Key? key});
   FavoritesScreenViewModel _viewModel =
-      Get.put(FavoritesScreenViewModel());
+      Get.find<FavoritesScreenViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,6 @@ class FavoritesScreen extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    _viewModel.fetchFavoriteFood();
     return Container(
       color: Colors.white,
       child: Obx(() {

@@ -111,19 +111,20 @@ class CartItemWidget extends GetWidget {
                         width: 0.0,
                       ),
                     ),
-                    child: Text(
-                      'Tổng tiền' +
-                          ' : ' +
-                          formatMoney(_listOrdersViewModel.cartList[cartIndex]
-                                  .calculatePrice())
-                              .toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                        color: Colors.black87,
+                    child: Obx(() => Text(
+                        'Tổng tiền' +
+                            ' : ' +
+                            formatMoney(_listOrdersViewModel.cartList[cartIndex]
+                                    .calculatePrice())
+                                .toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                          color: Colors.black87,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   InkWell(

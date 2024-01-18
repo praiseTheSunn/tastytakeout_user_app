@@ -170,6 +170,12 @@ class StoreInfomationScreen extends StatelessWidget {
                                     .storeInfo.value.foods[index].imgUrl,
                                 width: 100,
                                 height: 100,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(
+                                    Icons.error,
+                                    size: 100,
+                                  );
+                                },
                               ),
                             ),
                             SizedBox(width: 16.0),

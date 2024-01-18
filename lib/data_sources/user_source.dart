@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/models/DTO/UserModel.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
+import '../data_sources/hardcode.dart' as data;
 
 class UserSource {
   final baseUrl = Uri.http(serverIp, '/users/');
@@ -83,8 +84,8 @@ class UserSource {
       if (response.statusCode == 200) {
         var jsonString = utf8.decode(response.bodyBytes);
         var jsonMap = jsonDecode(jsonString);
-
-        return UserModel.fromJson(jsonMap);
+        data.userModel = UserModel.fromJson(jsonMap);
+        return data.userModel;
       } else {
         print('Request failed with status: ${response.statusCode}');
       }

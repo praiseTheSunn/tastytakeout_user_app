@@ -87,7 +87,6 @@ class FoodDetailScreenViewModel extends GetxController {
         throw Exception('Error adding food to cart');
       } else {
         print(response);
-        Get.find<ListOrdersViewModel>().fetchCart();
         return true;
       }
     } catch (e) {

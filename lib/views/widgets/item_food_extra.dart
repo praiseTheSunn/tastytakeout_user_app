@@ -61,6 +61,14 @@ class FoodCard extends StatelessWidget {
               height: 100,
               width: 100,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'lib/resources/tasty_takeout_icon.png',
+                  height: 100,
+                  width: 100,
+                  fit: BoxFit.cover,
+                );
+              }
             ),
           ),
         ],

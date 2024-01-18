@@ -15,7 +15,7 @@ class FavoritesScreenViewModel extends GetxController {
   final FoodSource foodSource = FoodSource();
   final baseUrl = Uri.http(serverIp, '/foods/');
 
-  RxList<FoodModel> foodList = <FoodModel>[].obs;
+  var foodList = RxList<FoodModel>();
 
   @override
   void onInit() {
@@ -46,7 +46,6 @@ class FavoritesScreenViewModel extends GetxController {
             .map((foodItem) =>
                 FoodModel.fromJson(foodItem))
             .toList();
-
       } else {
         // Error handling for unsuccessful requests
         throw('Request failed with status: ${response.statusCode}');
@@ -64,5 +63,12 @@ class FavoritesScreenViewModel extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    print('onReady');
+    super.onReady();
+    fetchFavoriteFood();
   }
 }

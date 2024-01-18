@@ -82,10 +82,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      appBar: CustomAppBar(
-        title: "Người dùng",
+      appBar: AppBar(
+        title: Text('Người dùng'),
+        automaticallyImplyLeading: true,
+        centerTitle: true,
       ),
-      drawer: CustomDrawer(),
       body: Obx(
         () {
           if (_userInfoController.isLoaded.value == false) {

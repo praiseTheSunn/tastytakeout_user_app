@@ -118,7 +118,7 @@ class HomeController extends GetxController {
   void changePage(int index) {
     if (currentIndex.value == index) return;
     currentIndex.value = index;
-    Get.toNamed(pages[index], id: 1);
+    Get.toNamed(pages[index], id: 1,preventDuplicates: false);
   }
 
   Route? onGenerateRoute(RouteSettings settings) {

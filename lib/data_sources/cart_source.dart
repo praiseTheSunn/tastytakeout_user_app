@@ -186,7 +186,6 @@ class CartSource {
 
         if (response.statusCode == 204) {
           print('Cart deleted');
-          return response;
         } else {
           print('Request failed with status: ${response.statusCode}');
         }

@@ -60,6 +60,14 @@ class FoodDetailScreen extends StatelessWidget {
                                   child: Image.network(
                                     viewModel.foodDetail.value.imageUrl[i],
                                     fit: BoxFit.cover,
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return Icon(
+                                        Icons.error,
+                                        size: 400,
+                                      );
+                                    }
                                   ),
                                 ),
                                 onTap: () {
