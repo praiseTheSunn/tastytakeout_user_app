@@ -22,7 +22,8 @@ class ChatScreenViewModel extends GetxController {
 
   void formatChatListDate() {
     for (int i = 0; i < chatList.value.length; i++) {
-      chatList.value[i].created_at = DateTime.parse(chatList.value[i].newest_message_time);
+      chatList.value[i].created_at =
+          DateTime.parse(chatList.value[i].newest_message_time);
       Date date = DateHelper.getDate(chatList.value[i].created_at!);
       if (date == Date.TODAY) {
         chatListDate.value.add('Today');
@@ -48,17 +49,18 @@ class ChatScreenViewModel extends GetxController {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Charset': 'UTF-8',
-          'Authorization' : 'Bearer {$token}}'
+          'Authorization': 'Bearer ${token}'
         },
       );
-        if (response.statusCode != 200) {
-          throw Exception('Error fetching chat list');
-        } else {
-          List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
-          chatList.value = json.map((e) => ChatModel.fromJson(e)).toList();
-          chatList.value.sort((a, b) => b.newest_message_time.compareTo(a.newest_message_time));
-          formatChatListDate();
-        }
+      if (response.statusCode != 200) {
+        throw Exception('Error fetching chat list');
+      } else {
+        List<dynamic> json = jsonDecode(utf8.decode(response.bodyBytes));
+        chatList.value = json.map((e) => ChatModel.fromJson(e)).toList();
+        chatList.value.sort(
+            (a, b) => b.newest_message_time.compareTo(a.newest_message_time));
+        formatChatListDate();
+      }
     } catch (e) {
       print('Error in fetchChatList ' + e.toString());
       print(chatList.value);
@@ -68,4 +70,3 @@ class ChatScreenViewModel extends GetxController {
     }
   }
 }
-

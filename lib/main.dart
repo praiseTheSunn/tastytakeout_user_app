@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tastytakeout_user_app/data_sources/user_source.dart';
 import 'package:tastytakeout_user_app/firebase_options.dart';
 import 'package:tastytakeout_user_app/globals.dart';
 import 'package:tastytakeout_user_app/service/auth_service.dart';
@@ -19,6 +20,7 @@ import '/views/screens/cart_screen.dart';
 import '/views/screens/chat_screen.dart';
 import '/views/screens/mainhome_screen.dart';
 import '/views/screens/orders_screen.dart';
+import 'data_sources/hardcode.dart';
 
 Future<void> _handelMessage(RemoteMessage message) async {
   String payloadData = jsonEncode(message.data);
@@ -66,6 +68,9 @@ Future<void> main() async {
   await SharedPreferences.getInstance();
 
   String initialRoute = await determineInitialRoute();
+
+  // Get user info
+  updateUserInfoAfterLogin();
 
   runApp(GetMaterialApp(
     title: 'Tasty Takeout',
