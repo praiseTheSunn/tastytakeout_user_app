@@ -10,6 +10,12 @@ class FavoritesScreenViewModel extends GetxController {
 
   RxList<FoodModel> foodList = <FoodModel>[].obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    fetchFavoriteFood();
+  }
+
   Future<void> fetchFavoriteFood() async {
     try {
       isLoading(true);

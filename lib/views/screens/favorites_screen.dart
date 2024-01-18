@@ -21,7 +21,6 @@ class FavoritesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.fetchFavoriteFood();
     return Scaffold(
       backgroundColor: mainColor,
       appBar: CustomAppBar(
@@ -59,6 +58,7 @@ class FavoritesScreen extends StatelessWidget {
       child: Obx(() {
         if (_viewModel.isLoading.value) {
           String notification = 'Đang tải dữ liệu...';
+          _viewModel.fetchFavoriteFood();
           return Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
